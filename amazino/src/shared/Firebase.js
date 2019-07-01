@@ -17,3 +17,42 @@ export const fire = () => {
 
 	database = firebase.database();
 }
+
+export const signIn = (email, password) => {
+  return new Promise((resolve, reject) => {
+    firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+      console.log(firebase.auth().currentUser)
+      return resolve();
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
+  })
+}
+
+export const signUp = (email, password, displayName) => {
+  return new Promise((resolve, reject) => {
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(()=> {
+      console.log('then');
+      var user = firebase.auth().currentUser;
+      var uid = user.uid
+      database.ref("/").child("users/"+uid).set({
+        displayName: 'displayName',
+        email: email,
+      })
+      return resolve();
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
+  })
+  
+}
+
+export const signOut = () => {
+  firebase.auth.signOut().then(function() {
+    console.log("signed out");
+  }).catch(function(err) {
+    console.log(err);
+  })
+}
