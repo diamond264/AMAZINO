@@ -17,13 +17,26 @@ class SignIn extends Component {
         }
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.signInButton(e);
+    }
+
     render() {
         return(
             <div className="container">
-                <h4>SignIn component</h4>
-                email: <input/>
-                password: <input/>
-                <button onClick={this.signInButton}>signin</button>
+                <form onSubmit={this.handleSubmit}>
+                    <h4>Sign In</h4>
+                    <div className="input-field">
+                        <label htmlFor="email">email</label>
+                        <input type="email" className="email" />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="password">password</label>
+                        <input type="password" className="password" />
+                    </div>
+                    <button onClick={this.signInButton} className="btn">sign in</button>
+                </form>
             </div>
         )
     }

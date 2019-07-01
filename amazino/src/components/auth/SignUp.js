@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {signUp} from '../../shared/Firebase'
 
+
+
 class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -18,14 +20,32 @@ class SignUp extends Component {
         }
     }
 
+    handleSubmit = (e) => {
+        // prevent default page refresh action
+        e.preventDefault();
+
+        this.signUpButton(e);
+    }
+
     render() {
         return(
             <div className="container">
-                <h4>SignUp component</h4>
-                display name: <input/>
-                email: <input/>
-                password: <input/>
-                <button onClick={this.signUpButton}>signup</button>
+                <form onSubmit={this.handleSubmit}>
+                    <h4>Sign Up</h4>
+                    <div className="input-field">
+                        <label htmlFor="display-name">display name</label>
+                        <input type="text" className="display-name" />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="email">email</label>
+                        <input type="email" className="email" />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="password">password</label>
+                        <input type="password" className="password" />
+                    </div>
+                    <button onClick={this.signUpButton} className="btn">sign up</button>
+                </form>
             </div>
         )
     }
