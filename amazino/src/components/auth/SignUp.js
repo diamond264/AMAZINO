@@ -4,7 +4,7 @@ class SignUp extends Component {
     render() {
         return(
             <div className="container">
-
+                <h4>SignUp component</h4>
             </div>
         )
     }

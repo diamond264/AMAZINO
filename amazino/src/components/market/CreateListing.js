@@ -4,7 +4,7 @@ class CreateListing extends Component {
     render() {
         return(
             <div className="container">
-
+                <h4>CreateListing component</h4>
             </div>
         )
     }

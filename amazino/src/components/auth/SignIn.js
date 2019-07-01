@@ -4,7 +4,7 @@ class SignIn extends Component {
     render() {
         return(
             <div className="container">
-                
+                <h4>SignIn component</h4>
             </div>
         )
     }
