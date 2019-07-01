@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
+
+import Navbar from './components/navigation/Navbar';
+import Home from './components/Home';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-       <h1>AMAZINO</h1>
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Navbar />
+          <Switch>
+            <Route path='/' component={Home} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }
