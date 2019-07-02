@@ -26,7 +26,7 @@ class App extends Component {
           <Link to='/firebaseTest'>firebase</Link>
           <Switch>
             <Route exact path='/' component={Home}/>
-            <Route path='/project/:id' component={Listing} />
+            <Route path='/item/:id' component={Listing} />
             <Route path='/market' component={Market} />
             <Route path='/create' component={CreateListing} />
             <Route path='/login' component={SignIn} />
