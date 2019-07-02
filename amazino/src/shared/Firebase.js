@@ -17,3 +17,37 @@ export const fire = () => {
 
 	database = firebase.database();
 }
+
+export const uploadItem = (seller, name, price, category, duedate, description) => {
+    var itemData = {
+        seller: seller,
+        name : name,
+        price : price,
+        bets : [],
+        dueDate: duedate,
+        postDate: new Date(),
+        category: category,
+        description: description,
+        itemImg: ""
+    };
+
+    var newItemKey = database.ref().child('items').push().key;
+    var updates = {};
+    updates['/items/' + newItemKey] = itemData;
+
+    return database.ref().update(updates);
+};
+
+export const getAllItems = () => {
+    return database.ref('items/').once('value');
+};
+
+export const getItemFromID = (itemID) => {
+    return database.ref('items/' + itemID).once('value');
+};
+
+export const getItemFromKVPair = (key, value) => {
+    var itemRef = database.ref('items/');
+    var itemQuery = itemRef.orderByChild(key).equalTo(value);
+    return itemQuery.once('value');
+};

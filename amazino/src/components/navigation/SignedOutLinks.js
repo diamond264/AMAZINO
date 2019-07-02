@@ -1,5 +1,7 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Route} from 'react-router-dom';
+
+import JunTest from '../JunTestPlace';
 
 //
 // Links a user sees on the navbar when signed out
