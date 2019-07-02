@@ -4,6 +4,12 @@ import {signUp} from '../../shared/Firebase'
 
 
 class SignUp extends Component {
+    state = {
+        displayName: '',
+        email: '',
+        password: ''
+    }
+
     constructor(props) {
         super(props);
 
@@ -20,11 +26,20 @@ class SignUp extends Component {
         }
     }
 
+    handleChange = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
+
     handleSubmit = (e) => {
         // prevent default page refresh action
         e.preventDefault();
 
         this.signUpButton(e);
+
+        // log state for debug
+        console.log(this.state);
     }
 
     render() {
@@ -33,16 +48,16 @@ class SignUp extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <h4>Sign Up</h4>
                     <div className="input-field">
-                        <label htmlFor="display-name">display name</label>
-                        <input type="text" className="display-name" />
+                        <label htmlFor="displayName">display name</label>
+                        <input type="text" id="displayName" onChange={this.handleChange} />
                     </div>
                     <div className="input-field">
                         <label htmlFor="email">email</label>
-                        <input type="email" className="email" />
+                        <input type="email" id="email" onChange={this.handleChange} />
                     </div>
                     <div className="input-field">
-                        <label htmlFor="password">password</label>
-                        <input type="password" className="password" />
+                        <label htmlFor="password" >password</label>
+                        <input type="password" id="password" onChange={this.handleChange} />
                     </div>
                     <button onClick={this.signUpButton} className="btn">sign up</button>
                 </form>
