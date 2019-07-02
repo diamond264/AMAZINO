@@ -39,19 +39,25 @@ class SignIn extends Component {
 
     render() {
         return(
-            <div className="container">
-                <form onSubmit={this.handleSubmit}>
-                    <h4>Sign In</h4>
-                    <div className="input-field">
-                        <label htmlFor="email">email</label>
-                        <input type="email" id="email" onChange={this.handleChange} />
+            <div className="container section">
+                <div className="row">
+                    <div className="card col s4 offset-s4">
+                        <form className="card-content" onSubmit={this.handleSubmit}>
+                            <h4 className="center">Sign In</h4>
+                            <div className="input-field">
+                                <label htmlFor="email">Email</label>
+                                <input type="email" id="email" onChange={this.handleChange} />
+                            </div>
+                            <div className="input-field">
+                                <label htmlFor="password">Password</label>
+                                <input type="password" id="password" onChange={this.handleChange} />
+                            </div>
+                            <div className="center">
+                                <button onClick={this.signInButton} className="btn z-depth-0 green white-text">sign in</button>
+                            </div>
+                        </form>
                     </div>
-                    <div className="input-field">
-                        <label htmlFor="password">password</label>
-                        <input type="password" id="password" onChange={this.handleChange} />
-                    </div>
-                    <button onClick={this.signInButton} className="btn">sign in</button>
-                </form>
+                </div>
             </div>
         )
     }
