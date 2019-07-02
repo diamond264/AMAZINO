@@ -8,6 +8,7 @@ import CreateListing from './components/market/CreateListing';
 import Market from './components/market/Market';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
+import Listing from './components/market/Listing';
 
 import JunTest from './components/JunTestPlace';
 
@@ -25,6 +26,7 @@ class App extends Component {
           <Link to='/firebaseTest'>firebase</Link>
           <Switch>
             <Route exact path='/' component={Home}/>
+            <Route path='/project/:id' component={Listing} />
             <Route path='/market' component={Market} />
             <Route path='/create' component={CreateListing} />
             <Route path='/login' component={SignIn} />
