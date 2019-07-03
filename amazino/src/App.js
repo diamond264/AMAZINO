@@ -9,6 +9,7 @@ import Market from './components/market/Market';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import Listing from './components/market/Listing';
+import Profile from './components/account/Profile';
 
 import JunTest from './components/JunTestPlace';
 
@@ -31,9 +32,10 @@ class App extends Component {
             <Route path='/create' component={CreateListing} />
             <Route path='/login' component={SignIn} />
             <Route path='/signup' component={SignUp} />
+            <Route path='/firebaseTest' component={JunTest}/>
+            <Route path='/profile' component={Profile} />
             <Route path='/' component={Home} />
 
-            <Route path='/firebaseTest' component={JunTest}/>
           </Switch>
         </div>
       </BrowserRouter>

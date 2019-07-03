@@ -73,6 +73,7 @@ export const signUp = (email, password, displayName) => {
       database.ref("/").child("users/"+uid).set({
         displayName: 'displayName',
         email: email,
+        balance: 10,
       })
       return resolve();
     }).catch((err) => {
@@ -94,4 +95,18 @@ export const signOut = () => {
 export const isSignIn = () => {
   if (firebase.auth.currentUser) return true;
   else return false;
+}
+
+export const getBalance = async () => {
+  return new Promise((resolve, reject) => {
+    database.ref('users/332kxRhgNodHzIzdMNhhsScGIpG2').once('value', (snap) => {
+      return resolve(snap.val().balance);
+    })
+  })
+}
+
+export const updateBalance = (bal) => {
+  database.ref('users/332kxRhgNodHzIzdMNhhsScGIpG2').update({
+    balance: bal
+  })
 }
