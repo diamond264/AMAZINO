@@ -9,5 +9,21 @@
       "**/.*",
       "**/node_modules/**"
     ]
+  },
+  "scripts": {
+    "start": "node ./dist/server",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.11.1",
+    "webpack": "^3.8.1",
+    "webpack-node-externals": "^1.2.0"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }
