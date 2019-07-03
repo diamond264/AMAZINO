@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {uploadItem} from '../../shared/Firebase'
 
 class CreateListing extends Component {
 
@@ -18,10 +19,14 @@ class CreateListing extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        //
-        // log state for debug
-        //
-        console.log(this.state);
+        if (this.state.title.length == 0) alert("Title is empty");
+        else if (this.state.price <= 0) alert("Price is too low");
+        else if (this.state.content.length == 0) alert("Content is empty");
+        else {
+            uploadItem("seller", this.state.title, this.state.price, "furniture", 
+            "0", this.state.content)
+        }
+        //console.log(this.state);
     }
 
     render() {

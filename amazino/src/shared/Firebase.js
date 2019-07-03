@@ -18,24 +18,24 @@ export const fire = () => {
 	database = firebase.database();
 }
 
-export const uploadItem = (seller, name, price, category, duedate, description) => {
-    var itemData = {
-        seller: seller,
-        name : name,
-        price : price,
-        bets : [],
-        dueDate: duedate,
-        postDate: new Date(),
-        category: category,
-        description: description,
-        itemImg: ""
-    };
+export const uploadItem = async (seller, name, price, category, duedate, description) => {
+  var itemData = {
+      seller: seller,
+      name : name,
+      price : price,
+      bets : [],
+      dueDate: duedate,
+      postDate: new Date(),
+      category: category,
+      description: description,
+      itemImg: ""
+  };
 
-    var newItemKey = database.ref().child('items').push().key;
-    var updates = {};
-    updates['/items/' + newItemKey] = itemData;
+  var newItemKey = database.ref().child('items').push().key;
+  var updates = {};
+  updates['/items/' + newItemKey] = itemData;
 
-    return database.ref().update(updates);
+  return database.ref().update(updates);
 };
 
 export const getAllItems = () => {
