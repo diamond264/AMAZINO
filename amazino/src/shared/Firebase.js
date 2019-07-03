@@ -90,3 +90,8 @@ export const signOut = () => {
     console.log(err);
   })
 }
+
+export const isSignIn = () => {
+  if (firebase.auth.currentUser) return true;
+  else return false;
+}
