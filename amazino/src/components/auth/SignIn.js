@@ -15,7 +15,8 @@ class SignIn extends Component {
 
     async signInButton(e) {
         try {
-            await signIn('emaf123il@googl.com', 'passasef');
+            //await signIn('emaf123il@googl.com', 'passasef');
+            await signIn(this.state.email, this.state.password);
         }
         catch (err) {
             console.log(err);
@@ -41,7 +42,7 @@ class SignIn extends Component {
         return(
             <div className="container section">
                 <div className="row">
-                    <div className="card col s4 offset-s4">
+                    <div className="card col s10 offset-s1 m8 offset-m2 l6 offset-l3 xl4 offset-xl4">
                         <form className="card-content" onSubmit={this.handleSubmit}>
                             <h4 className="center">Sign In</h4>
                             <div className="input-field">
