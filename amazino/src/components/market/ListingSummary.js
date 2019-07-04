@@ -15,7 +15,7 @@ class ListingSummary extends Component {
     render() {
 
         return (
-            <NavLink to={'/item/${props.id}'} className="black-text">
+            <NavLink to={'/item/' + this.props.id} className="black-text">
                     <div className="card col s6 m6 market-fade z-depth-0">
                         <div className="card-content">
                             <h5>{this.props.title}</h5>
