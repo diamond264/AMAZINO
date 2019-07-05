@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {signIn} from '../../shared/Firebase'
+import {signIn, isSignIn} from '../../shared/Firebase'
 
 class SignIn extends Component {
     state = {
@@ -16,7 +16,8 @@ class SignIn extends Component {
     async signInButton(e) {
         try {
             //await signIn('emaf123il@googl.com', 'passasef');
-            await signIn(this.state.email, this.state.password);
+            await signIn(this.state.email, this.state.password)
+                .then(console.log(isSignIn()));
         }
         catch (err) {
             console.log(err);
@@ -25,10 +26,8 @@ class SignIn extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.signInButton(e);
-
-        // log state for debug
-        console.log(this.state);
+        this.signInButton(e)
+            .then(console.log(isSignIn()));
     }
 
     handleChange = (e) => {
@@ -53,8 +52,8 @@ class SignIn extends Component {
                                 <label htmlFor="password">Password</label>
                                 <input type="password" id="password" onChange={this.handleChange} />
                             </div>
-                            <div className="center">
-                                <button onClick={this.signInButton} className="btn z-depth-0 green white-text">sign in</button>
+                            <div className="center section">
+                                    <button onClick={this.signInButton} className="btn z-depth-0 green white-text">sign in</button>
                             </div>
                         </form>
                     </div>

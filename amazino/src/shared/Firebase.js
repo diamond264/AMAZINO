@@ -1,4 +1,5 @@
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
+
 
 let database;
 const firebaseConfig = {
@@ -12,10 +13,16 @@ const firebaseConfig = {
 };
 
 export const fire = () => {
-	if(!firebase.apps.length)
-		firebase.initializeApp(firebaseConfig);
+  //
+  // boolean stores whether
+  //
+  let fireBaseInit = false;
+  let database;
 
-	database = firebase.database();
+  firebase.initializeApp(firebaseConfig);
+
+
+	database = firebase.firestore();
 }
 
 export const uploadItem = async (seller, name, price, category, duedate, description) => {
@@ -93,7 +100,7 @@ export const signOut = () => {
 }
 
 export const isSignIn = () => {
-  if (firebase.auth.currentUser) return true;
+  if (firebase.auth().currentUser) return true;
   else return false;
 }
 

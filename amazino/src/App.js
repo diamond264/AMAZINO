@@ -18,6 +18,9 @@ class App extends Component {
     super();
     fire();
   }
+  componentWillMount() {
+    fire();
+  }
 
   render() {
     return (

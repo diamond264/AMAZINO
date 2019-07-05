@@ -62,8 +62,8 @@ class SignUp extends Component {
                                 <label htmlFor="password" >Password</label>
                                 <input type="password" id="password" onChange={this.handleChange} />
                             </div>
-                            <div className="center">
-                                <button onClick={this.signUpButton} className="btn z-depth-0 green white-text">sign up</button>
+                            <div className="center section">
+                                <button onClick={this.handleSubmit} className="btn z-depth-0 green white-text">sign up</button>
                             </div>
                         </form>
                     </div>
