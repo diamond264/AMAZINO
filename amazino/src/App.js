@@ -11,21 +11,45 @@ import SignUp from './components/auth/SignUp';
 import Listing from './components/market/Listing';
 import Profile from './components/account/Profile';
 
+import * as firebase from 'firebase/app';
+
+import { auth } from 'firebase';
 import JunTest from './components/JunTestPlace';
 
 class App extends Component {
-  constructor() {
-    super();
-  }
-  componentWillMount() {
-    fire();
+  state = {
+    currentUid: ''
   }
 
+  constructor() {
+    super();
+    
+    fire();
+
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        this.setState({
+          currentUid: user.uid
+        })
+      } else {
+        this.setState({
+          currentUid: ''
+        })
+      }
+      console.log(this.state.currentUid);
+    })
+  }
+
+  
+  
+
   render() {
+    
+    
     return (
       <BrowserRouter>
         <div className="App">
-          <Navbar />
+          <Navbar user={this.state.currentUid}/>
           <Link to='/firebaseTest'>firebase</Link>
           <Switch>
             <Route exact path='/' component={Home}/>

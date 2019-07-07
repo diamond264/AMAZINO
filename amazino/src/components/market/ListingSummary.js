@@ -7,10 +7,6 @@ import '../../App.css';
 // or in user listing summary
 //
 class ListingSummary extends Component {
-    constructor(props) {
-        super(props);
-        
-    }
 
     render() {
 

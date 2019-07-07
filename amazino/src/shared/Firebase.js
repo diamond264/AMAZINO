@@ -7,22 +7,17 @@ const firebaseConfig = {
   authDomain: "amazino-3b363.firebaseapp.com",
   databaseURL: "https://amazino-3b363.firebaseio.com",
   projectId: "amazino-3b363",
-  storageBucket: "",
+  storageBucket: "amazino-3b363.appspot.com",
   messagingSenderId: "628330225290",
   appId: "1:628330225290:web:47cbe90f36f59743"
 };
 
 export const fire = () => {
-  //
-  // boolean stores whether
-  //
-  let fireBaseInit = false;
-  let database;
 
   firebase.initializeApp(firebaseConfig);
 
 
-	database = firebase.firestore();
+	database = firebase.database();
 }
 
 export const uploadItem = async (seller, name, price, category, duedate, description) => {
@@ -78,9 +73,9 @@ export const signUp = (email, password, displayName) => {
       var user = firebase.auth().currentUser;
       var uid = user.uid
       database.ref("/").child("users/"+uid).set({
-        displayName: 'displayName',
+        displayName,
         email: email,
-        balance: 10,
+        balance: 10
       })
       return resolve();
     }).catch((err) => {
@@ -102,6 +97,8 @@ export const signOut = () => {
 export const isSignIn = () => {
   if (firebase.auth.currentUser) return true;
   else return false;
+
+  
 }
 
 export const getBalance = async () => {

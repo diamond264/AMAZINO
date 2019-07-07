@@ -22,7 +22,6 @@ class SignUp extends Component {
             await signUp(this.state.email, this.state.password, this.state.displayName);
         }
         catch (err) {
-            console.log('error')
             console.log(err);
         }
     }
@@ -38,9 +37,6 @@ class SignUp extends Component {
         e.preventDefault();
 
         this.signUpButton(e);
-
-        // log state for debug
-        console.log(this.state);
     }
 
     render() {

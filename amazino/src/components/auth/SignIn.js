@@ -17,7 +17,7 @@ class SignIn extends Component {
         try {
             //await signIn('emaf123il@googl.com', 'passasef');
             await signIn(this.state.email, this.state.password)
-                .then(console.log(isSignIn()));
+                .then(console.log("done"));
         }
         catch (err) {
             console.log(err);
@@ -26,8 +26,7 @@ class SignIn extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.signInButton(e)
-            .then(console.log(isSignIn()));
+        this.signInButton(e);
     }
 
     handleChange = (e) => {
