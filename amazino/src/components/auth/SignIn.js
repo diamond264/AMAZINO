@@ -1,23 +1,28 @@
 import React, {Component} from 'react';
 import {signIn, isSignIn} from '../../shared/Firebase'
+import {Redirect} from 'react-router-dom'
 
 class SignIn extends Component {
-    state = {
-        email: '',
-        password: ''
-    }
+    
 
     constructor(props) {
         super(props);
 
         this.signInButton = this.signInButton.bind(this);
+        this.state = {
+            email: '',
+            password: '',
+            loginSuccess: false
+        }
     }
 
     async signInButton(e) {
         try {
             //await signIn('emaf123il@googl.com', 'passasef');
             await signIn(this.state.email, this.state.password)
-                .then(console.log("done"));
+                .then(this.setState({
+                    loginSuccess: true
+                }));
         }
         catch (err) {
             console.log(err);
@@ -37,6 +42,8 @@ class SignIn extends Component {
     }
 
     render() {
+        if (this.state.loginSuccess) return <Redirect to='/market' />
+
         return(
             <div className="container section">
                 <div className="row">

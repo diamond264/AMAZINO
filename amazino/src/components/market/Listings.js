@@ -56,7 +56,7 @@ const Listings = () => {
             {
                 testData && testData.map(item => {
                     return (
-                        <ListingSummary {...item} />
+                        <ListingSummary {...item} key={item.id}/>
                     )
                 })
             }
