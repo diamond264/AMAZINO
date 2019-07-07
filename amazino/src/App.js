@@ -16,7 +16,6 @@ import JunTest from './components/JunTestPlace';
 class App extends Component {
   constructor() {
     super();
-    fire();
   }
   componentWillMount() {
     fire();
