@@ -24,7 +24,7 @@ class CreateListing extends Component {
         try{
             await getUserDataFromID(this.state.user.uid)
                 .then(user => {
-                    console.log(user.val());
+                    console.log(user);
                 });
         } catch(err) {
             console.log(err);

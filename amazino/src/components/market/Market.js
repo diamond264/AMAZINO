@@ -2,60 +2,39 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 
 import Listings from './Listings';
-import {isSignIn} from '../../shared/Firebase.js';
+import {isSignIn, getAllItems} from '../../shared/Firebase.js';
 
 //
 // Wrapper component for listings
 //
 class Market extends Component {
-    state={
-        data: [
-            {
-                title: "Bike",
-                displayName: "rsteinwe",
-                price: 20,
-                dueDate: new Date(),
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores commodi vel veritatis voluptates, nemo ratione, illo impedit magni dolor excepturi odit pariatur odio delectus rem labore autem error provident illum!",
-                createdOn: new Date(),
-                id: 1
-            },
-            {
-                title: "Duck",
-                displayName: "rsteinwe",
-                price: 15,
-                dueDate: new Date(),
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores commodi vel veritatis voluptates, nemo ratione, illo impedit magni dolor excepturi odit pariatur odio delectus rem labore autem error provident illum!",
-                createdOn: new Date(),
-                id: 2
-            },
-            {
-                title: "Crocodile",
-                displayName: "rsteinwe",
-                price: 30,
-                dueDate: new Date(),
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores commodi vel veritatis voluptates, nemo ratione, illo impedit magni dolor excepturi odit pariatur odio delectus rem labore autem error provident illum!",
-                createdOn: new Date(),
-                id: 3
-            },
-            {
-                title: "Toast",
-                displayName: "rsteinwe",
-                price: 27,
-                dueDate: new Date(),
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores commodi vel veritatis voluptates, nemo ratione, illo impedit magni dolor excepturi odit pariatur odio delectus rem labore autem error provident illum!",
-                createdOn: new Date(),
-                id: 4
-            },
-            {
-                title: "Apples",
-                displayName: "rsteinwe",
-                price: 250,
-                dueDate: new Date(),
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores commodi vel veritatis voluptates, nemo ratione, illo impedit magni dolor excepturi odit pariatur odio delectus rem labore autem error provident illum!",
-                createdOn: new Date(),
-                id: 5
-            }
-        ]
+    constructor(props) {
+        super(props);
+
+        this.getData = this.getData.bind(this);
+        
+
+        this.state={
+            data: null
+        }
+    }
+
+    
+
+    async getData() {
+        await getAllItems()
+            .then(items => {
+                if(items) {
+                    this.setState({
+                        data: items
+                    });
+                    console.log(items);
+                }
+            })
+    }
+
+    componentWillMount = () => {
+        this.getData();
     }
     
     render() {

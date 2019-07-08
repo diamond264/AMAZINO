@@ -13,10 +13,9 @@ class Listings extends Component {
             <div className="row">
                 {
                     
-                    data && data.map(item => {
-                        return (
-                            <ListingSummary {...item} key={item.id}/>
-                        )
+                    data && Object.keys(data).map(key => {
+                        var item = data[key];
+                        if(item.name) return ( <ListingSummary {...item} id={key} key={key}/> )
                     })
                 }
             </div>

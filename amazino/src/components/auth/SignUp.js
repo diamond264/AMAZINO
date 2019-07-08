@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {signUp} from '../../shared/Firebase'
+import {signUp, isSignIn} from '../../shared/Firebase'
 import {Redirect} from 'react-router-dom'
 
 
@@ -54,6 +54,7 @@ class SignUp extends Component {
 
     render() {
         if (this.state.signupSuccess) return <Redirect to='/market' />
+        if(isSignIn()) return <Redirect to='/market' />
 
         return(
             <div className="container section">

@@ -41,7 +41,14 @@ export const uploadItem = async (seller, name, price, category, duedate, descrip
 };
 
 export const getAllItems = () => {
-    return database.ref('items/').once('value');
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('items').once('value').then(items => {
+      return resolve(items.val());
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
+  })
 };
 
 export const getItemFromID = (itemID) => {
@@ -55,13 +62,14 @@ export const getUserDataFromID = (uid) => {
   //   })
   return new Promise((resolve, reject) => {
     firebase.database().ref('users').child(uid).once('value').then(user => {
-      return resolve(user);
+      return resolve(user.val());
     }).catch((err) => {
       console.log(err);
       return reject(err);
     })
   })
 }
+
 
 export const getItemFromKVPair = (key, value) => {
     var itemRef = database.ref('items/');
