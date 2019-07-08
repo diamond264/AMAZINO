@@ -48,6 +48,21 @@ export const getItemFromID = (itemID) => {
     return database.ref('items/' + itemID).once('value');
 };
 
+export const getUserDataFromID = (uid) => {
+  // firebase.database().ref('users/'+ uid).once('value')
+  //   .then(user => {
+  //     return user;
+  //   })
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('users').child(uid).once('value').then(user => {
+      return resolve(user);
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
+  })
+}
+
 export const getItemFromKVPair = (key, value) => {
     var itemRef = database.ref('items/');
     var itemQuery = itemRef.orderByChild(key).equalTo(value);

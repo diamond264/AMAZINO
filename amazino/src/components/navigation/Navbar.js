@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-import {isSignIn} from '../../shared/Firebase'
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
 
@@ -9,7 +8,7 @@ import SignedOutLinks from './SignedOutLinks';
 
 class Navbar extends Component {
     render() {
-        const currentUser = this.props.user;
+        const {currentUser} = this.props;
         const links = currentUser ? <SignedInLinks /> : <SignedOutLinks />;
         return(
             <nav className="nav-wrapper orange darken-2">

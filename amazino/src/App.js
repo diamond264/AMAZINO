@@ -18,8 +18,7 @@ import JunTest from './components/JunTestPlace';
 
 class App extends Component {
   state = {
-    currentUser: null,
-    currentUid: null
+    currentUser: null
   }
 
   constructor() {
@@ -30,16 +29,14 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
         this.setState({
-          currentUser: user,
-          currentUid: user.uid
+          currentUser: user
         })
       } else {
         this.setState({
-          currentUser: null,
-          currentUid: null
+          currentUser: null
         })
       }
-      console.log(this.state.currentUid);
+      console.log(this.state.currentUser);
     })
   }
 
@@ -47,20 +44,18 @@ class App extends Component {
   
 
   render() {
-    
-    
     return (
       <BrowserRouter>
         <div className="App">
-          <Navbar user={this.state.currentUser} />
+          <Navbar {...this.state} />
           <Link to='/firebaseTest'>firebase</Link>
           <Switch>
             <Route exact path='/' component={Home}/>
             <Route path='/listing/:id' component={Listing} />
             <Route path='/market' component={Market} />
-            <Route path='/create' component={CreateListing} />
-            <Route path='/signin' component={SignIn} {...this.state} />
-            <Route path='/signup' component={SignUp} user={this.state.currentUser} />
+            <Route path='/create' render={(props) => <CreateListing {...this.state} />} />
+            <Route path='/signin' component={SignIn} />
+            <Route path='/signup' component={SignUp} />
             <Route path='/firebaseTest' component={JunTest}/>
             <Route path='/profile' component={Profile} />
             <Route path='/' component={Home} />
