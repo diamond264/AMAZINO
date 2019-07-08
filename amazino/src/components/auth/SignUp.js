@@ -19,6 +19,9 @@ class SignUp extends Component {
         }
     }
 
+    //
+    // Handle async signup
+    //
     async signUpButton(e) {
         try {
             //await signUp('mf1il@googl.com', 'passasef', 'name');
