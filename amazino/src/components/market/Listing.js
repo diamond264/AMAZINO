@@ -1,4 +1,7 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom';
+
+import {isSignIn} from '../../shared/Firebase.js';
 
 const Listing = (props) => {
     var testData = {
@@ -10,6 +13,7 @@ const Listing = (props) => {
         createdOn: new Date()
     }
 
+    if(!isSignIn()) return <Redirect to='/signin' />
     return(
         <div className="container">
         <div className="card col s8 m4">

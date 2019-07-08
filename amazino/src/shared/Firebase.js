@@ -94,7 +94,7 @@ export const signOut = () => {
 }
 
 export const isSignIn = () => {
-  if (firebase.auth.currentUser) return true;
+  if (firebase.auth().currentUser) return true;
   else return false;
 
   

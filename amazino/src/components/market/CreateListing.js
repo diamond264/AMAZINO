@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import {uploadItem} from '../../shared/Firebase'
+import {Redirect} from 'react-router-dom';
+
+import {uploadItem, isSignIn} from '../../shared/Firebase'
 
 class CreateListing extends Component {
 
@@ -30,6 +32,7 @@ class CreateListing extends Component {
     }
 
     render() {
+        if(!isSignIn()) return <Redirect to='/signin' />
         return(
             <div className="container section">
                 <div className="card row">

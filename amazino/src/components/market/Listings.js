@@ -50,7 +50,6 @@ const Listings = () => {
             id: 5
         }
     ]
-
     return(
         <div className="row">
             {
