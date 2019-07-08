@@ -20,7 +20,7 @@ class SignedInLinks extends Component{
         return(
             <ul className="right">
                 <li><NavLink to="/market">Market</NavLink></li>
-                <li><NavLink to="/create">Create listing</NavLink></li>
+                <li><NavLink to="/create">Create</NavLink></li>
                 <li><NavLink to="/" onClick={this.handleSignOut}>Logout</NavLink></li>
             </ul>
         )

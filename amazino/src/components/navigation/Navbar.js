@@ -10,7 +10,7 @@ import SignedOutLinks from './SignedOutLinks';
 class Navbar extends Component {
     render() {
         const currentUser = this.props.user;
-        const links = currentUser !== '' ? <SignedInLinks /> : <SignedOutLinks />;
+        const links = currentUser ? <SignedInLinks /> : <SignedOutLinks />;
         return(
             <nav className="nav-wrapper orange darken-2">
                 <div className="container">

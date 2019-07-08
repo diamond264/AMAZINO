@@ -57,8 +57,7 @@ export const getItemFromKVPair = (key, value) => {
 export const signIn = (email, password) => {
   return new Promise((resolve, reject) => {
     firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-      console.log(firebase.auth().currentUser)
-      return resolve();
+      return resolve(firebase.auth().currentUser);
     }).catch((err) => {
       console.log(err);
       return reject(err);
@@ -77,7 +76,7 @@ export const signUp = (email, password, displayName) => {
         email: email,
         balance: 10
       })
-      return resolve();
+      return resolve(user);
     }).catch((err) => {
       console.log(err);
       return reject(err);

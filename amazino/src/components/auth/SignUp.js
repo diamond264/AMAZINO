@@ -23,9 +23,13 @@ class SignUp extends Component {
         try {
             //await signUp('mf1il@googl.com', 'passasef', 'name');
             await signUp(this.state.email, this.state.password, this.state.displayName)
-                .then(this.setState({
-                    signupSuccess: true
-                }));
+                .then( user => {
+                    if(user){
+                        this.setState({
+                            signupSuccess: true
+                        })
+                    }
+                });
         }
         catch (err) {
             console.log(err);

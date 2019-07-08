@@ -9,6 +9,7 @@ class SignIn extends Component {
         super(props);
 
         this.signInButton = this.signInButton.bind(this);
+
         this.state = {
             email: '',
             password: '',
@@ -16,16 +17,24 @@ class SignIn extends Component {
         }
     }
 
+    //
+    // Perform async authentication
+    //
     async signInButton(e) {
         try {
             //await signIn('emaf123il@googl.com', 'passasef');
             await signIn(this.state.email, this.state.password)
-                .then(this.setState({
-                    loginSuccess: true
-                }));
+                .then( user => {
+                    if(user){
+                        this.setState({
+                            loginSuccess: true
+                        })
+                    }
+                });
         }
         catch (err) {
             console.log(err);
+            
         }
     }
 
