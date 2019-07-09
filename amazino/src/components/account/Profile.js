@@ -32,6 +32,8 @@ class Profile extends Component {
     render() {
         return(
             <div className="container z-depth-1">
+                <h3 className="center">Profile</h3>
+                <div className="divider"></div>
                 <div className="section">
                     <h4>Username:</h4>
                 </div>
@@ -39,7 +41,7 @@ class Profile extends Component {
                 <div className="section">
                     <h4 className="section">Balance:
                         <input type="num" id="balance" value={this.state.balance}
-                               onChange={this.handleChange}/>
+                            onChange={this.handleChange}/>
                         <button onClick={this.updateBalance}>Add Balance</button>
                     </h4>
                 </div>
