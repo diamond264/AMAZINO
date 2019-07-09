@@ -41,7 +41,7 @@ class Profile extends Component {
                 <div className="section">
                     <h4 className="section">Balance:
                         <input type="num" id="balance" value={this.state.balance}
-                                        onChange={this.handleChange}/>
+                            onChange={this.handleChange}/>
                         <button onClick={this.updateBalance}>Add Balance</button>
                     </h4>
                 </div>
