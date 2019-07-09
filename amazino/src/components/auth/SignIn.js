@@ -51,8 +51,8 @@ class SignIn extends Component {
     }
 
     render() {
-        if (this.state.loginSuccess) return <Redirect to='/market' />
-        if(isSignIn()) return <Redirect to='/market' />
+        if (this.state.loginSuccess) return <Redirect to='/' />
+        if(isSignIn()) return <Redirect to='/' />
 
         return(
             <div className="container section">

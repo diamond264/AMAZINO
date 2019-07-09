@@ -56,7 +56,6 @@ class Market extends Component {
     };
     
     render() {
-        if(!isSignIn()) return <Redirect to='/signin' />
         return(
             <div className="container z-depth-1">
                 <div className="section">

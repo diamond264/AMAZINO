@@ -53,8 +53,8 @@ class SignUp extends Component {
     }
 
     render() {
-        if (this.state.signupSuccess) return <Redirect to='/market' />
-        if(isSignIn()) return <Redirect to='/market' />
+        if (this.state.signupSuccess) return <Redirect to='/' />
+        if(isSignIn()) return <Redirect to='/' />
 
         return(
             <div className="container section">
