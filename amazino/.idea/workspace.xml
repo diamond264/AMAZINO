@@ -3,11 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c5d5a421-d203-4ce3-92cf-4c62cda39c54" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" beforeDir="false" afterPath="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/market/ListingSummary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/market/ListingSummary.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/market/Market.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/market/Market.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/Firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/Firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/account/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/account/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/market/CreateListing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/market/CreateListing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/market/Listings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/market/Listings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/navigation/SignedInLinks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navigation/SignedInLinks.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -30,6 +30,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/market/Market.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="267">
@@ -105,6 +114,7 @@
         <option value="$PROJECT_DIR$/src/shared/Firebase.js" />
         <option value="$PROJECT_DIR$/src/components/market/ListingSummary.js" />
         <option value="$PROJECT_DIR$/src/components/market/Market.js" />
+        <option value="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" />
       </list>
     </option>
   </component>
@@ -136,6 +146,11 @@
             <path>
               <item name="amazino" type="b2602c69:ProjectViewProjectNode" />
               <item name="amazino" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="amazino" type="b2602c69:ProjectViewProjectNode" />
+              <item name="amazino" type="462c0819:PsiDirectoryNode" />
+              <item name=".firebase" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="amazino" type="b2602c69:ProjectViewProjectNode" />
@@ -200,18 +215,18 @@
       <updated>1562015607436</updated>
       <workItem from="1562015610647" duration="6666000" />
       <workItem from="1562643137679" duration="1507000" />
-      <workItem from="1562655295068" duration="2815000" />
+      <workItem from="1562655295068" duration="2923000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10988000" />
+    <option name="totallyTimeSpent" value="11096000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2359015" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2359015" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -225,7 +240,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32876712" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32876712" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -268,13 +283,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/shared/Firebase.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="45" column="23" lean-forward="true" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/market/ListingSummary.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
@@ -302,6 +310,20 @@
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/shared/Firebase.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="45" column="23" lean-forward="true" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>

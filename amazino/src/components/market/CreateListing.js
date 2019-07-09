@@ -15,7 +15,8 @@ class CreateListing extends Component {
             images: "",
             content: "",
             category: "",
-            user: ""
+            user: "",
+            itemSubmitted: false
         }
 
     }
@@ -24,8 +25,15 @@ class CreateListing extends Component {
         try{
             await getUserDataFromID(this.state.user.uid)
                 .then(user => {
-                    console.log(user);
-                });
+                    var displayName = user.displayName;
+                    var dueDate = new Date();
+                    dueDate = dueDate.setMonth(dueDate.getMonth()+1);
+                    uploadItem(displayName, this.state.title, this.state.price, this.state.category, dueDate, this.state.content);
+                })
+                // item successfully submitted to database
+                .then(this.setState({
+                    itemSubmitted: true
+                }));
         } catch(err) {
             console.log(err);
         }
@@ -46,24 +54,21 @@ class CreateListing extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        this.postData();
-
         if (this.state.title.length === 0) alert("Title is empty");
         else if (this.state.price <= 0) alert("Price is too low");
         else if (this.state.content.length === 0) alert("Content is empty");
         else {
 
-            //uploadItem("seller", this.state.title, this.state.price, "furniture", 
-            //"0", this.state.content)
+            this.postData();
 
         }
         //console.log(this.state);
     }
 
     render() {
-        console.log(this.state);
 
         if(!isSignIn()) return <Redirect to='/signin' />
+        if(this.state.itemSubmitted) return <Redirect to='/market' />
         return(
             <div className="container section">
                 <div className="card row">

@@ -10,6 +10,8 @@ class Profile extends Component {
         }
     }
 
+
+
     componentDidMount = async () => {
         let bal = await getBalance();
         this.setState({
@@ -29,10 +31,21 @@ class Profile extends Component {
 
     render() {
         return(
-            <div className="container">
-                Balance: <input type="num" id="balance" value={this.state.balance} 
+            <div>
+                <h3>
+                Username:
+                </h3>
+                <div>
+                    <h3>
+                     Listings:
+                    </h3>
+                </div>
+
+                <div className="container">
+                Balance: <input type="num" id="balance" value={this.state.balance}
                             onChange={this.handleChange}/>
                 <button onClick={this.updateBalance}>Add Balance</button>
+                </div>
             </div>
         )
     }
