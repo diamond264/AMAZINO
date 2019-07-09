@@ -22,7 +22,7 @@ class Market extends Component {
     
 
     async getData() {
-        await getAllItems()
+        await getAllItems(10)
             .then(items => {
                 if(items) {
                     this.setState({
@@ -35,7 +35,7 @@ class Market extends Component {
 
     componentWillMount = () => {
         this.getData();
-    }
+    };
     
     render() {
         if(!isSignIn()) return <Redirect to='/signin' />
