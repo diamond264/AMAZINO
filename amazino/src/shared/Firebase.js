@@ -18,7 +18,10 @@ export const fire = () => {
 }
 
 export const uploadItem = async (seller, name, price, category, duedate, description) => {
-  var itemData = {
+  
+
+  return new Promise((resolve, reject) => {
+    var itemData = {
       seller: seller,
       name : name,
       price : price,
@@ -28,13 +31,21 @@ export const uploadItem = async (seller, name, price, category, duedate, descrip
       category: category,
       description: description,
       itemImg: ""
-  };
+    };
 
-  var newItemKey = database.ref().child('items').push().key;
-  var updates = {};
-  updates['/items/' + newItemKey] = itemData;
+    var newItemKey = database.ref().child('items').push().key;
+    var updates = {};
+    updates['/items/' + newItemKey] = itemData;
 
-  return database.ref().update(updates);
+    database.ref().update(updates).then(() => {
+      return resolve();
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
+  })
+
+  //return database.ref().update(updates);
 };
 
 export const getAllItems = (limit) => {

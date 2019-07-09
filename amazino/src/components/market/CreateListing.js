@@ -28,12 +28,11 @@ class CreateListing extends Component {
                     var displayName = user.displayName;
                     var dueDate = new Date();
                     dueDate = dueDate.setMonth(dueDate.getMonth()+1);
-                    uploadItem(displayName, this.state.title, this.state.price, this.state.category, dueDate, this.state.content);
+                    uploadItem(displayName, this.state.title, this.state.price, this.state.category, dueDate, this.state.content)
+                        .then(this.setState({
+                            itemSubmitted: true
+                        }));
                 })
-                // item successfully submitted to database
-                .then(this.setState({
-                    itemSubmitted: true
-                }));
         } catch(err) {
             console.log(err);
         }
