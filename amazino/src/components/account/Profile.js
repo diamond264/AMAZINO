@@ -36,15 +36,12 @@ class Profile extends Component {
                     <h4>Username:</h4>
                 </div>
                 <div className="divider"></div>
-                <div>
-
-                    <div className="section">
-                        <h4 className="section">Balance:
-                            <input type="num" id="balance" value={this.state.balance}
-                                            onChange={this.handleChange}/>
-                            <button onClick={this.updateBalance}>Add Balance</button>
-                        </h4>
-                    </div>
+                <div className="section">
+                    <h4 className="section">Balance:
+                        <input type="num" id="balance" value={this.state.balance}
+                               onChange={this.handleChange}/>
+                        <button onClick={this.updateBalance}>Add Balance</button>
+                    </h4>
                 </div>
                 <div className="divider"></div>
                 <div className="section">
