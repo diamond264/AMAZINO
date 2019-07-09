@@ -48,7 +48,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Navbar {...this.state} />
-          <Link to='/firebaseTest'>firebase</Link>
+          {/*<Link to='/firebaseTest'>firebase</Link>*/}
           <Switch>
             <Route exact path='/' component={Home}/>
             <Route path='/listing/:id' component={Listing} />
@@ -56,7 +56,6 @@ class App extends Component {
             <Route path='/create' render={(props) => <CreateListing {...this.state} />} />
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
-            <Route path='/firebaseTest' component={JunTest}/>
             <Route path='/profile' component={Profile} />
             <Route path='/' component={Home} />
 

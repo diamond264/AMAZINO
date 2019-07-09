@@ -13,11 +13,8 @@ const firebaseConfig = {
 };
 
 export const fire = () => {
-
   firebase.initializeApp(firebaseConfig);
-
-
-	database = firebase.database();
+  database = firebase.database();
 }
 
 export const uploadItem = async (seller, name, price, category, duedate, description) => {
@@ -40,9 +37,10 @@ export const uploadItem = async (seller, name, price, category, duedate, descrip
   return database.ref().update(updates);
 };
 
-export const getAllItems = () => {
+export const getAllItems = (limit) => {
   return new Promise((resolve, reject) => {
-    firebase.database().ref('items').once('value').then(items => {
+    firebase.database().ref('items').orderByChild('postDate').limitToLast(limit)
+        .once('value').then(items => {
       return resolve(items.val());
     }).catch((err) => {
       console.log(err);
@@ -52,7 +50,14 @@ export const getAllItems = () => {
 };
 
 export const getItemFromID = (itemID) => {
-    return database.ref('items/' + itemID).once('value');
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('items').child(itemID).once('value').then(items => {
+      return resolve(items.val());
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
+  })
 };
 
 export const getUserDataFromID = (uid) => {
@@ -74,7 +79,15 @@ export const getUserDataFromID = (uid) => {
 export const getItemFromKVPair = (key, value) => {
     var itemRef = database.ref('items/');
     var itemQuery = itemRef.orderByChild(key).equalTo(value);
-    return itemQuery.once('value');
+
+    return new Promise((resolve, reject) => {
+      itemQuery.once('value').then(item => {
+        return resolve(item.val());
+      }).catch((err) => {
+        console.log(err);
+        return reject(err);
+      })
+    })
 };
 
 export const signIn = (email, password) => {

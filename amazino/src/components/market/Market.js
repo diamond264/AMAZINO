@@ -22,20 +22,38 @@ class Market extends Component {
     
 
     async getData() {
-        await getAllItems()
+        var tempItems;
+        var sortedItems = [];
+
+        await getAllItems(10)
             .then(items => {
                 if(items) {
-                    this.setState({
-                        data: items
-                    });
-                    console.log(items);
+                    // this.setState({
+                    //     data: items
+                    // });
+                    // console.log(items);
+                    tempItems = items;
                 }
-            })
+            });
+
+        tempItems && Object.keys(tempItems).map(key => {
+            var item = tempItems[key];
+            item['itemID'] = key;
+            sortedItems.push(item);
+        });
+
+        sortedItems.sort((a, b) =>
+            new Date(b['postDate']) - new Date(a['postDate']));
+
+        console.log(sortedItems);
+        this.setState({
+            data: sortedItems
+        });
     }
 
     componentWillMount = () => {
         this.getData();
-    }
+    };
     
     render() {
         if(!isSignIn()) return <Redirect to='/signin' />

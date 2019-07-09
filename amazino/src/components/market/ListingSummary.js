@@ -25,7 +25,7 @@ class ListingSummary extends Component {
     }
 
     render() {
-        console.log(this.props);
+        // console.log(this.props);
         return (
             <NavLink to={'/listing/' + this.props.id} className="black-text">
                     <div className="card col s6 m6 market-fade z-depth-0">
@@ -35,7 +35,7 @@ class ListingSummary extends Component {
                             <p className="truncate">{this.props.description}</p>
                             <div className="section">
                                 <div className="divider"></div>
-                                <p className="grey-text">by {this.props.seller} on {this.state.postDate.getMonth()}/{this.state.postDate.getDay()}/{this.state.postDate.getFullYear()}</p>
+                                <p className="grey-text">by {this.props.seller} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
                             </div>
                         </div>
                     </div>
