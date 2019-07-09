@@ -21,6 +21,7 @@ class SignedInLinks extends Component{
             <ul className="right">
                 <li><NavLink to="/market">Market</NavLink></li>
                 <li><NavLink to="/create">Create</NavLink></li>
+                <li><NavLink to="/profile">Profile</NavLink></li>
                 <li><NavLink to="/" onClick={this.handleSignOut}>Logout</NavLink></li>
             </ul>
         )
