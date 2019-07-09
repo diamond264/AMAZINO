@@ -31,20 +31,25 @@ class Profile extends Component {
 
     render() {
         return(
-            <div>
-                <h3>
-                Username:
-                </h3>
-                <div>
-                    <h3>
-                     Listings:
-                    </h3>
+            <div className="container z-depth-1">
+                <div className="section">
+                    <h4>Username:</h4>
                 </div>
+                <div className="divider"></div>
+                <div>
 
-                <div className="container">
-                Balance: <input type="num" id="balance" value={this.state.balance}
-                            onChange={this.handleChange}/>
-                <button onClick={this.updateBalance}>Add Balance</button>
+                    <div className="section">
+                        <h4 className="section">Balance:
+                            <input type="num" id="balance" value={this.state.balance}
+                                            onChange={this.handleChange}/>
+                            <button onClick={this.updateBalance}>Add Balance</button>
+                        </h4>
+                    </div>
+                </div>
+                <div className="divider"></div>
+                <div className="section">
+                    <h4>Listings:</h4>
+                    <div className="container z-depth-1">Insert Users Listings Here</div>
                 </div>
             </div>
         )
