@@ -1,5 +1,6 @@
 {
   "name": "amazino",
+  "homepage": "https://amazino-3b363.firebaseapp.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
