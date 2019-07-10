@@ -16,3 +16,12 @@
 .market-fade:hover {
   background: #e0e0e0;
 }
+
+.dropdown {
+  text-transform: none;
+  display: inline-flex;
+  line-height: middle;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(138, 138, 138);
+}

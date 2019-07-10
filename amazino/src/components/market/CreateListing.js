@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
+import M from 'materialize-css';
 
 import {uploadItem, isSignIn, getUserDataFromID} from '../../shared/Firebase'
+import '../../App.css';
 
 class CreateListing extends Component {
 
@@ -9,16 +11,19 @@ class CreateListing extends Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.postData = this.postData.bind(this);
+        this.updateCategory = this.updateCategory.bind(this);
         this.state = {
             title: "",
             price: -1,
             images: "",
             content: "",
-            category: "",
+            category: "Select One",
             user: "",
-            itemSubmitted: false
+            itemSubmitted: false,
+            betPeriodLength: "30",
+            categories: ["Animals","Cars", "Electronics", "Tools", "Sports", "Other"]
         }
-
+        
     }
 
     async postData() {
@@ -28,7 +33,10 @@ class CreateListing extends Component {
                     var uid = this.state.user.uid;
                     var displayName = user.displayName;
                     var dueDate = new Date();
-                    dueDate = dueDate.setMonth(dueDate.getMonth()+1);
+
+                    // Add days to duedate specified by user
+                    dueDate = dueDate.setDate(dueDate.getDate() + parseInt(this.state.betPeriodLength, 10));
+
                     uploadItem(uid, displayName, this.state.title, this.state.price, this.state.category, dueDate, this.state.content)
                         .then(this.setState({
                             itemSubmitted: true
@@ -39,11 +47,13 @@ class CreateListing extends Component {
         }
     }
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         this.setState({
             user: this.props.currentUser
-        })
+        });
+        M.AutoInit();
     }
+
 
     handleChange = (e) => {
         this.setState({
@@ -57,12 +67,24 @@ class CreateListing extends Component {
         if (this.state.title.length === 0) alert("Title is empty");
         else if (this.state.price <= 0) alert("Price is too low");
         else if (this.state.content.length === 0) alert("Content is empty");
+        else if (this.state.category === "Select One") alert("Select a category");
         else {
 
             this.postData();
 
         }
         //console.log(this.state);
+    }
+
+    updateCategory = (category) => {
+        this.setState({
+            category
+        })
+    }
+
+    handleDropdown = (e) => {
+        e.preventDefault();
+        
     }
 
     render() {
@@ -93,12 +115,31 @@ class CreateListing extends Component {
                                     <input type="url" id="images" placeholder="(Optional URL)" onChange={this.handleChange} />
                                 </div>
                             </div>
+
                             <div className="row">
-                                <div className="col s12">
-                                    <label htmlFor="category">Category</label>
-                                    <input type="text" id="category" placeholder="Listing category" onChange={this.handleChange} />
+                                    <div className="col s4 m3 l2 dropdown-trigger" data-target="date-dropdown">
+                                        <a onClick={this.handleDropdown}  className="btn white grey-text z-depth-0 dropdown">{this.state.category}<i className="material-icons right">expand_more</i></a>
+                                    </div>
+                            </div>
+                            <ul className="dropdown-content" id="date-dropdown">
+                                {
+                                    //
+                                    // Map categories in state to dropdown
+                                    //
+                                    this.state.categories && this.state.categories.map(category => {
+                                        return(
+                                            <li key={category} onClick={() => this.updateCategory(category)}><a onClick={this.handleDropdown}>{category}</a></li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                            <div className="row">
+                                <div className="col s8 m6 l4">
+                                    <label htmlFor="betPeriodLength">Bet period length: {this.state.betPeriodLength} days</label>
+                                    <p className="range-field"><input type="range" id="betPeriodLength" min="1" max="30" onChange={this.handleChange}/></p>
                                 </div>
                             </div>
+
                             <div className="row">
                                 <div className="col s12">
                                     <label htmlFor="content">Content</label>

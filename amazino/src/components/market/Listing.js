@@ -55,10 +55,10 @@ class Listing extends Component {
                     <div className="section row">
                         <div className="divider"></div>
                         <div className="col s6 left">
-                            <p className="grey-text">by {this.state.item.displayName} on {this.state.createdOn.getMonth()}/{this.state.createdOn.getDay()}/{this.state.createdOn.getFullYear()}</p>
+                            <p className="grey-text">by {this.state.item.displayName} on {this.state.createdOn.getMonth()+1}/{this.state.createdOn.getDate()}/{this.state.createdOn.getFullYear()}</p>
                         </div>
                         <div className="col s6 right">
-                            <p className="right grey-text">ends on {this.state.dueDate.getMonth()}/{this.state.dueDate.getDay()}/{this.state.dueDate.getFullYear()}</p>
+                            <p className="right grey-text">ends on {this.state.dueDate.getMonth()+1}/{this.state.dueDate.getDate()}/{this.state.dueDate.getFullYear()}</p>
                         </div>
                     </div>
                 </div>
