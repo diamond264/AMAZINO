@@ -25,3 +25,15 @@
   border-width: 1px;
   border-color: rgb(138, 138, 138);
 }
+
+.error-toast {
+  background-color: rgb(175, 0, 0);
+}
+
+#toast-container {
+  top: auto !important;
+  right: auto !important;
+  bottom: 20px; 
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}

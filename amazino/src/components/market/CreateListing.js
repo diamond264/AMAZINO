@@ -64,16 +64,25 @@ class CreateListing extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        if (this.state.title.length === 0) alert("Title is empty");
-        else if (this.state.price <= 0) alert("Price is too low");
-        else if (this.state.content.length === 0) alert("Content is empty");
-        else if (this.state.category === "Select One") alert("Select a category");
+        if (this.state.title.length === 0) this.handleError("Title is empty");
+        else if (this.state.price <= 0) this.handleError("Price is too low");
+        else if (this.state.content.length <= 5) this.handleError("Description too short");
+        else if (this.state.category === "Select One") this.handleError("Select a category");
         else {
 
             this.postData();
 
         }
         //console.log(this.state);
+    }
+
+    handleError = (errorText) => {
+        var options = {
+            html: errorText,
+            classes: 'error-toast'
+        }
+
+        M.toast(options);
     }
 
     updateCategory = (category) => {
@@ -117,7 +126,7 @@ class CreateListing extends Component {
                             </div>
 
                             <div className="row">
-                                    <div className="col s4 m3 l2 dropdown-trigger" data-target="date-dropdown">
+                                    <div className="col s8 m6 l4 dropdown-trigger" data-target="date-dropdown">
                                         <a onClick={this.handleDropdown}  className="btn white grey-text z-depth-0 dropdown">{this.state.category}<i className="material-icons right">expand_more</i></a>
                                     </div>
                             </div>
@@ -134,7 +143,7 @@ class CreateListing extends Component {
                                 }
                             </ul>
                             <div className="row">
-                                <div className="col s8 m6 l4">
+                                <div className="col s10 m8 l6">
                                     <label htmlFor="betPeriodLength">Bet period length: {this.state.betPeriodLength} days</label>
                                     <p className="range-field"><input type="range" id="betPeriodLength" min="1" max="30" onChange={this.handleChange}/></p>
                                 </div>
