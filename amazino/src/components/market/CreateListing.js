@@ -25,10 +25,11 @@ class CreateListing extends Component {
         try{
             await getUserDataFromID(this.state.user.uid)
                 .then(user => {
+                    var uid = this.state.user.uid;
                     var displayName = user.displayName;
                     var dueDate = new Date();
                     dueDate = dueDate.setMonth(dueDate.getMonth()+1);
-                    uploadItem(displayName, this.state.title, this.state.price, this.state.category, dueDate, this.state.content)
+                    uploadItem(uid, displayName, this.state.title, this.state.price, this.state.category, dueDate, this.state.content)
                         .then(this.setState({
                             itemSubmitted: true
                         }));

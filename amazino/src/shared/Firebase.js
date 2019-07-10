@@ -15,11 +15,24 @@ const firebaseConfig = {
 export const fire = () => {
   firebase.initializeApp(firebaseConfig);
   database = firebase.database();
-}
+};
 
-export const uploadItem = async (seller, name, price, category, duedate, description) => {
-  
+const updateUserItems = (uid, item) => {
+  return new Promise((resolve, reject) => {
+    var newItemKey = database.ref('users/'+uid+'/itemIDs').push().key;
+    var updates = {};
+    updates['users/'+uid+'/itemIDs/'+newItemKey] = item;
 
+    database.ref().update(updates).then(() => {
+      return resolve();
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+};
+
+export const uploadItem = async (uid, seller, name, price, category, duedate, description) => {
   return new Promise((resolve, reject) => {
     var itemData = {
       seller: seller,
@@ -38,14 +51,17 @@ export const uploadItem = async (seller, name, price, category, duedate, descrip
     updates['/items/' + newItemKey] = itemData;
 
     database.ref().update(updates).then(() => {
-      return resolve();
+      updateUserItems(uid, newItemKey).then(() => {
+        return resolve();
+      }).catch((err) => {
+        console.log(err);
+        return reject(err);
+      });
     }).catch((err) => {
       console.log(err);
       return reject(err);
     })
   })
-
-  //return database.ref().update(updates);
 };
 
 export const getAllItems = (limit) => {
