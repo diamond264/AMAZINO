@@ -33,11 +33,11 @@ class CreateListing extends Component {
                     var uid = this.state.user.uid;
                     var displayName = user.displayName;
                     var dueDate = new Date();
-
                     // Add days to duedate specified by user
                     dueDate = dueDate.setDate(dueDate.getDate() + parseInt(this.state.betPeriodLength, 10));
 
-                    uploadItem(uid, displayName, this.state.title, this.state.price, this.state.category, dueDate, this.state.content)
+                    uploadItem(uid, displayName, this.state.title, this.state.price, this.state.category, 
+                        dueDate, this.state.content, this.state.images)
                         .then(this.setState({
                             itemSubmitted: true
                         }))
@@ -60,6 +60,12 @@ class CreateListing extends Component {
             [e.target.id]: e.target.value
         })
     };
+
+    handleFile = (e) => {
+        this.setState({
+            images: e.target.files[0]
+        })
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -113,18 +119,24 @@ class CreateListing extends Component {
                                 </div>
                             </div>
                             <div className="row">
+                                <div className="col s12">
+                                    <label htmlFor="content">Content</label>
+                                    <textarea placeholder="A description of your item" className="materialize-textarea" type="text" id="content" onChange={this.handleChange}></textarea>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col s12">
+                                    <label htmlFor="images">Images</label><br/>
+                                    <input type="file" id="images" placeholder="(Optional URL)" className="materialize-textarea"
+                                    accept=".jpg, .jpeg, .png" onChange={this.handleFile} />
+                                </div>
+                            </div>
+                            <div className="row">
                                 <div className="col s2">
                                     <label htmlFor="price">Price</label>
                                     <input type="number" id="price" placeholder="USD" onChange={this.handleChange} />
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className="col s12">
-                                    <label htmlFor="images">Images</label>
-                                    <input type="url" id="images" placeholder="(Optional URL)" onChange={this.handleChange} />
-                                </div>
-                            </div>
-
                             <div className="row">
                                     <div className="col s8 m6 l4 dropdown-trigger" data-target="date-dropdown">
                                         <a onClick={this.handleDropdown}  className="btn white grey-text z-depth-0 dropdown">{this.state.category}<i className="material-icons right">expand_more</i></a>
@@ -149,12 +161,6 @@ class CreateListing extends Component {
                                 </div>
                             </div>
 
-                            <div className="row">
-                                <div className="col s12">
-                                    <label htmlFor="content">Content</label>
-                                    <textarea placeholder="A description of your item" className="materialize-textarea" type="text" id="content" onChange={this.handleChange}></textarea>
-                                </div>
-                            </div>
                             <div className="center">
                                 <button type="submit" onClick={e => this.handleSubmit(e)} className="btn z-depth-0 green white-text">Create Listing</button>
                             </div>

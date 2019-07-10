@@ -2,6 +2,7 @@ import * as firebase from 'firebase';
 
 
 let database;
+let storage;
 const firebaseConfig = {
   apiKey: "AIzaSyB7VteczvWn6nq2IZkgu8LFHNcURcmsq-0",
   authDomain: "amazino-3b363.firebaseapp.com",
@@ -15,6 +16,7 @@ const firebaseConfig = {
 export const fire = () => {
   firebase.initializeApp(firebaseConfig);
   database = firebase.database();
+  storage = firebase.storage();
 };
 
 const updateUserItems = (uid, item) => {
@@ -32,7 +34,7 @@ const updateUserItems = (uid, item) => {
   });
 };
 
-export const uploadItem = async (uid, seller, name, price, category, duedate, description) => {
+export const uploadItem = async (uid, seller, name, price, category, duedate, description, images) => {
   return new Promise((resolve, reject) => {
     var itemData = {
       seller: seller,
@@ -43,10 +45,14 @@ export const uploadItem = async (uid, seller, name, price, category, duedate, de
       postDate: new Date(),
       category: category,
       description: description,
-      itemImg: ""
+      itemImg: "",
     };
 
     var newItemKey = database.ref().child('items').push().key;
+    storage.ref().child('images/'+newItemKey).put(images).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
     var updates = {};
     updates['/items/' + newItemKey] = itemData;
 
@@ -88,12 +94,9 @@ export const getItemFromID = (itemID) => {
 };
 
 export const getUserDataFromID = (uid) => {
-  // firebase.database().ref('users/'+ uid).once('value')
-  //   .then(user => {
-  //     return user;
-  //   })
   return new Promise((resolve, reject) => {
     firebase.database().ref('users').child(uid).once('value').then(user => {
+      console.log(user)
       return resolve(user.val());
     }).catch((err) => {
       console.log(err);
