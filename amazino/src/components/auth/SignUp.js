@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {signUp, isSignIn} from '../../shared/Firebase'
 import {Redirect} from 'react-router-dom'
+import M from 'materialize-css';
 
 
 
@@ -15,6 +16,7 @@ class SignUp extends Component {
             displayName: '',
             email: '',
             password: '',
+            confirmPassword: '',
             signupSuccess: false
         }
     }
@@ -31,11 +33,13 @@ class SignUp extends Component {
                         this.setState({
                             signupSuccess: true
                         })
+                        M.toast({html: 'Success!', classes: 'green'});
                     }
                 });
         }
         catch (err) {
             console.log(err);
+            this.handleError(err);
         }
     }
 
@@ -49,7 +53,22 @@ class SignUp extends Component {
         // prevent default page refresh action
         e.preventDefault();
 
-        this.signUpButton(e);
+        if(this.state.password !== this.state.confirmPassword) this.handleError({message: "Passwords do no match"});
+        if(this.state.displayName.length <= 5) this.handleError({message: "Display name too short"});
+        else this.signUpButton(e);
+    }
+
+    handleError = (err) => {
+        var errorText = err.message;
+
+        if(err.code === "auth/invalid-email") errorText = "Invalid email";
+
+        var options = {
+            html: errorText,
+            classes: 'error-toast'
+        }
+
+        M.toast(options);
     }
 
     render() {
@@ -73,6 +92,10 @@ class SignUp extends Component {
                             <div className="input-field">
                                 <label htmlFor="password" >Password</label>
                                 <input type="password" id="password" onChange={this.handleChange} />
+                            </div>
+                            <div className="input-field">
+                                <label htmlFor="confirmPassword" >Confirm Password</label>
+                                <input type="password" id="confirmPassword" onChange={this.handleChange} />
                             </div>
                             <div className="center section">
                                 <button onClick={this.handleSubmit} className="btn z-depth-0 green white-text">sign up</button>

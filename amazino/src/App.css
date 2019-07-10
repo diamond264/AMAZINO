@@ -32,8 +32,6 @@
 
 #toast-container {
   top: auto !important;
-  right: auto !important;
   bottom: 20px; 
-  left: 50%;
   transform: translateX(-50%) translateY(-50%);
 }

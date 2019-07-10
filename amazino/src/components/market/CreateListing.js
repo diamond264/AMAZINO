@@ -40,7 +40,8 @@ class CreateListing extends Component {
                     uploadItem(uid, displayName, this.state.title, this.state.price, this.state.category, dueDate, this.state.content)
                         .then(this.setState({
                             itemSubmitted: true
-                        }));
+                        }))
+                        .then(M.toast({html: 'Success!', classes: 'green'}));
                 })
         } catch(err) {
             console.log(err);
