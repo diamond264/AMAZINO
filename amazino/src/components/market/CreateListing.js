@@ -43,13 +43,13 @@ class CreateListing extends Component {
         this.setState({
             user: this.props.currentUser
         })
-    }
+    };
 
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         })
-    }
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -63,7 +63,7 @@ class CreateListing extends Component {
 
         }
         //console.log(this.state);
-    }
+    };
 
     render() {
 
