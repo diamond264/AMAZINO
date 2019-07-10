@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {signIn, isSignIn} from '../../shared/Firebase'
-import {Redirect} from 'react-router-dom'
+import {signIn, isSignIn} from '../../shared/Firebase';
+import {Redirect} from 'react-router-dom';
+
+import M from 'materialize-css';
 
 class SignIn extends Component {
     
@@ -29,13 +31,30 @@ class SignIn extends Component {
                         this.setState({
                             loginSuccess: true
                         })
+                        M.toast({html: 'Success!', classes: 'green'});
                     }
                 });
         }
         catch (err) {
             console.log(err);
+            this.handleError(err);
             
         }
+    }
+
+    handleError = (err) => {
+        var errorText = err.message;
+
+        if(err.code === "auth/user-not-found") errorText = "User not found";
+        else if(err.code === "auth/invalid-email") errorText = "Invalid email";
+        else if(err.code === "auth/wrong-password") errorText = "Incorrect password";
+
+        var options = {
+            html: errorText,
+            classes: 'error-toast'
+        }
+
+        M.toast(options);
     }
 
     handleSubmit = (e) => {
@@ -69,7 +88,7 @@ class SignIn extends Component {
                                 <input type="password" id="password" onChange={this.handleChange} />
                             </div>
                             <div className="center section">
-                                    <button onClick={this.signInButton} className="btn z-depth-0 green white-text">sign in</button>
+                                    <button onClick={this.handleSubmit} className="btn z-depth-0 green white-text">sign in</button>
                             </div>
                         </form>
                     </div>
