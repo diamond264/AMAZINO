@@ -125,10 +125,15 @@ class CreateListing extends Component {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col s12">
-                                    <label htmlFor="images">Images</label><br/>
-                                    <input type="file" id="images" placeholder="(Optional URL)" className="materialize-textarea"
-                                    accept=".jpg, .jpeg, .png" onChange={this.handleFile} />
+                                <div className="col s12 l6 file-field input-field">
+                                    <div className="btn">
+                                        <span>File</span>
+                                        <input type="file" id="images"
+                                        accept=".jpg, .jpeg, .png" onChange={this.handleFile} />
+                                    </div>
+                                    <div className="file-path-wrapper">
+                                        <input type="text" className="file-path validate"/>
+                                    </div>
                                 </div>
                             </div>
                             <div className="row">
