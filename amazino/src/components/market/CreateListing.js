@@ -21,6 +21,7 @@ class CreateListing extends Component {
             user: "",
             itemSubmitted: false,
             betPeriodLength: "15",
+            pluralModifier: "s",
             categories: ["Animals","Cars", "Electronics", "Tools", "Sports", "Other"]
         }
         M.AutoInit();
@@ -52,8 +53,17 @@ class CreateListing extends Component {
     }
 
     handleChange = (e) => {
+        //
+        // If bet slider at 1 day, remove pluralModifier "s" at end of days
+        //
+        var pluralModifier = "s";
+        if(e.target.id === "betPeriodLength" && parseInt(e.target.value) === 1){
+            pluralModifier = "";
+        }
+
         this.setState({
-            [e.target.id]: e.target.value
+            [e.target.id]: e.target.value,
+            pluralModifier
         })
     }
 
@@ -76,7 +86,7 @@ class CreateListing extends Component {
 
         }
         //console.log(this.state);
-    };
+    }
 
     handleError = (errorText) => {
         var options = {
@@ -157,7 +167,7 @@ class CreateListing extends Component {
                             </ul>
                             <div className="row">
                                 <div className="col s6 m5 l4">
-                                    <label htmlFor="betPeriodLength">Bet period length: {this.state.betPeriodLength} days</label>
+                                    <label htmlFor="betPeriodLength">Bet period length: {this.state.betPeriodLength} day{this.state.pluralModifier}</label>
                                     <p className="range-field"><input type="range" id="betPeriodLength" min="1" max="30" onChange={this.handleChange}/></p>
                                 </div>
                             </div>
