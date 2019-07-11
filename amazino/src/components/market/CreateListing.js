@@ -126,8 +126,8 @@ class CreateListing extends Component {
                             </div>
                             <div className="row">
                                 <div className="col s12 l6 file-field input-field">
-                                    <div className="btn">
-                                        <span>File</span>
+                                    <div className="btn green darken-3 z-depth-0 white-text">
+                                        <span>Images</span>
                                         <input type="file" id="images"
                                         accept=".jpg, .jpeg, .png" onChange={this.handleFile} />
                                     </div>
@@ -167,7 +167,7 @@ class CreateListing extends Component {
                             </div>
 
                             <div className="center">
-                                <button type="submit" onClick={e => this.handleSubmit(e)} className="btn z-depth-0 green white-text">Create Listing</button>
+                                <button type="submit" onClick={e => this.handleSubmit(e)} className="btn z-depth-1 green white-text">Create Listing</button>
                             </div>
                         </form>
                     </div>

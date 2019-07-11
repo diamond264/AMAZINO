@@ -30,6 +30,10 @@
   background-color: rgb(175, 0, 0);
 }
 
+.item-image {
+  max-width: 100%;
+}
+
 #toast-container {
   top: auto !important;
   bottom: 20px; 

@@ -34,6 +34,22 @@ const updateUserItems = (uid, item) => {
   });
 };
 
+export const getImageByID = (itemId) => {
+  return new Promise((resolve, reject) => {
+
+    try {
+      firebase.storage().ref().child('images/'+itemId).getDownloadURL().then(url => {
+        if(url) {
+          resolve(url);
+        }
+      })
+    } catch(err) {
+      console.log(err);
+      reject(err);
+    }
+  })
+}
+
 export const uploadItem = async (uid, seller, name, price, category, duedate, description, images) => {
   return new Promise((resolve, reject) => {
     var itemData = {

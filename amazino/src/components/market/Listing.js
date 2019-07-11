@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
+import M from 'materialize-css';
 
-import {isSignIn, getItemFromID} from '../../shared/Firebase.js';
+import {isSignIn, getItemFromID, getImageByID} from '../../shared/Firebase.js';
+
+import '../../App.css';
 
 class Listing extends Component {
     constructor(props) {
@@ -20,10 +23,9 @@ class Listing extends Component {
             betPercent: 0,
             betPrice: 0
         }
-        console.log(this.state.itemID);
     }
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         this.getData();
     }
 
@@ -54,8 +56,20 @@ class Listing extends Component {
                         createdOn,
                         dueDate
                     })
-                    console.log(item);
-                })
+                    this.loadImage();
+                });
+            
+    }
+
+    async loadImage() {
+        await getImageByID(this.state.itemID)
+            .then(url => {
+                console.log(url);
+                var img = document.getElementById('item-image');
+                if(img) {
+                    img.src = url;
+                }
+            });
     }
 
     render() {
@@ -67,7 +81,13 @@ class Listing extends Component {
                 <div className="card-content">
                     <h5>{this.state.item.name}</h5>
                     <p className="grey-text text-darken-1">Price: ${this.state.item.price}</p>
+                    
+                    <div className="row center">
+                        <img id="item-image" className="item-image" alt="Image"/>
+                    </div>
+
                     <p className="section">{this.state.item.description}</p>
+
                     <div className="divider"></div>
                     <div className="section"></div>
                     <div className="row center">
