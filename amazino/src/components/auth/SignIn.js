@@ -3,6 +3,7 @@ import {signIn, isSignIn} from '../../shared/Firebase';
 import {Redirect} from 'react-router-dom';
 
 import M from 'materialize-css';
+import '../../App.css';
 
 class SignIn extends Component {
     
