@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import M from 'materialize-css';
 
 import {isSignIn, getItemFromID, getImageByID, getUserDataFromID} from '../../shared/Firebase.js';
 
@@ -31,7 +30,7 @@ class Listing extends Component {
     }
 
     handleBetSlider = (e) => {
-        var betPercent = e.target.value / 100;
+        var betPercent = parseInt(e.target.value, 10) / 100;
         var betPrice = parseInt(this.state.item.price, 10) * betPercent;
         // round to two decimal places
         betPrice = Math.round(betPrice * 100) / 100;
@@ -95,7 +94,8 @@ class Listing extends Component {
                 <div className="card-content">
                     <h5>{this.state.item.name}</h5>
                     <p className="grey-text text-darken-1">Price: ${this.state.item.price}</p>
-                    
+                    <label>Category: {this.state.item.category}</label>
+
                     <div className="row center">
                         <img id="item-image" className="item-image" alt="Image"/>
                     </div>

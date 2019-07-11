@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import M from 'materialize-css';
 
-import {uploadItem, isSignIn, getUserDataFromID} from '../../shared/Firebase'
+import {uploadItem, isSignIn} from '../../shared/Firebase'
 import '../../App.css';
 
 class CreateListing extends Component {
@@ -20,7 +20,8 @@ class CreateListing extends Component {
             category: "Category",
             user: "",
             itemSubmitted: false,
-            betPeriodLength: "15",
+            betPeriodLength: 30,
+            pluralModifier: "s",
             categories: ["Animals","Cars", "Electronics", "Tools", "Sports", "Other"]
         }
         M.AutoInit();
@@ -31,7 +32,7 @@ class CreateListing extends Component {
             var uid = this.state.user.uid;
             var dueDate = new Date();
             // Add days to duedate specified by user
-            dueDate = dueDate.setDate(dueDate.getDate() + parseInt(this.state.betPeriodLength, 10));
+            dueDate = dueDate.setDate(dueDate.getDate() + this.state.betPeriodLength);
 
             await uploadItem(uid, this.state.title, this.state.price, this.state.category, 
                 dueDate, this.state.content, this.state.images)
@@ -63,6 +64,23 @@ class CreateListing extends Component {
         })
     }
 
+    handleBetPeriod = (e) => {
+
+        //
+        // If bet slider at 1 day, remove pluralModifier "s" at end of days
+        //
+        var pluralModifier = "s";
+        var betPeriodLength = parseInt(e.target.value, 10);
+        if(betPeriodLength === 1){
+            pluralModifier = "";
+        }
+
+        this.setState({
+            betPeriodLength,
+            pluralModifier
+        })
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -76,7 +94,7 @@ class CreateListing extends Component {
 
         }
         //console.log(this.state);
-    };
+    }
 
     handleError = (errorText) => {
         var options = {
@@ -157,8 +175,8 @@ class CreateListing extends Component {
                             </ul>
                             <div className="row">
                                 <div className="col s6 m5 l4">
-                                    <label htmlFor="betPeriodLength">Bet period length: {this.state.betPeriodLength} days</label>
-                                    <p className="range-field"><input type="range" id="betPeriodLength" min="1" max="30" onChange={this.handleChange}/></p>
+                                    <label htmlFor="betPeriodLength">Bet period length: {this.state.betPeriodLength} day{this.state.pluralModifier}</label>
+                                    <p className="range-field"><input type="range" id="betPeriodLength" min="1" max="30" onChange={this.handleBetPeriod}/></p>
                                 </div>
                             </div>
 
