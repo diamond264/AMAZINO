@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import M from 'materialize-css';
 
-import {isSignIn, getItemFromID, getImageByID} from '../../shared/Firebase.js';
+import {isSignIn, getItemFromID, getImageByID, getUserDataFromID} from '../../shared/Firebase.js';
 
 import '../../App.css';
 
@@ -21,7 +21,8 @@ class Listing extends Component {
             sellerPercent: null,
             maxPercent: 0.5,
             betPercent: 0,
-            betPrice: 0
+            betPrice: 0,
+            displayName: null
         }
     }
 
@@ -57,6 +58,19 @@ class Listing extends Component {
                         dueDate
                     })
                     this.loadImage();
+
+                    //
+                    // Get seller's username data
+                    //
+                    if(item) {
+                        getUserDataFromID(item.seller).then(user => {
+                            if(user) {
+                                this.setState({
+                                    displayName: user.displayName
+                                })
+                            }
+                        })
+                    }
                 });
             
     }
@@ -106,7 +120,7 @@ class Listing extends Component {
                     <div className="section row">
                         <div className="divider"></div>
                         <div className="col s6 left">
-                            <p className="grey-text">by {this.state.item.seller} on {this.state.createdOn.getMonth()+1}/{this.state.createdOn.getDate()}/{this.state.createdOn.getFullYear()}</p>
+                            <p className="grey-text">by {this.state.displayName} on {this.state.createdOn.getMonth()+1}/{this.state.createdOn.getDate()}/{this.state.createdOn.getFullYear()}</p>
                         </div>
                         <div className="col s6 right">
                             <p className="right grey-text">ends on {this.state.dueDate.getMonth()+1}/{this.state.dueDate.getDate()}/{this.state.dueDate.getFullYear()}</p>

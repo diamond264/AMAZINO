@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import '../../App.css';
 
+import {getUserDataFromID} from '../../shared/Firebase';
+
 //
 // Summarize a listing, to be viewed as a card within the Market
 // or in user listing summary
@@ -11,7 +13,8 @@ class ListingSummary extends Component {
         super(props);
         this.state = {
             postDate: null,
-            dueDate: null
+            dueDate: null,
+            displayName: null
         }
     }
 
@@ -21,6 +24,15 @@ class ListingSummary extends Component {
         this.setState({
             postDate,
             dueDate
+        })
+        this.getUserData();
+    }
+
+    async getUserData() {
+        await getUserDataFromID(this.props.seller).then(user => {
+            this.setState({
+                displayName: user.displayName
+            })
         })
     }
 
@@ -35,7 +47,7 @@ class ListingSummary extends Component {
                             <p className="truncate">{this.props.description}</p>
                             <div className="section">
                                 <div className="divider"></div>
-                                <p className="grey-text">by {this.props.seller} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
+                                <p className="grey-text">by {this.state.displayName} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
                             </div>
                         </div>
                     </div>
