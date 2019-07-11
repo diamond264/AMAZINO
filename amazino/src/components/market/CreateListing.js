@@ -27,21 +27,18 @@ class CreateListing extends Component {
     }
 
     async postData() {
-        try{
-            await getUserDataFromID(this.state.user.uid)
-                .then(user => {
-                    var uid = this.state.user.uid;
-                    var dueDate = new Date();
-                    // Add days to duedate specified by user
-                    dueDate = dueDate.setDate(dueDate.getDate() + parseInt(this.state.betPeriodLength, 10));
+        try {
+            var uid = this.state.user.uid;
+            var dueDate = new Date();
+            // Add days to duedate specified by user
+            dueDate = dueDate.setDate(dueDate.getDate() + parseInt(this.state.betPeriodLength, 10));
 
-                    uploadItem(uid, this.state.title, this.state.price, this.state.category, 
-                        dueDate, this.state.content, this.state.images)
-                        .then(this.setState({
-                            itemSubmitted: true
-                        }))
-                        .then(M.toast({html: 'Success!', classes: 'green'}));
-                })
+            await uploadItem(uid, this.state.title, this.state.price, this.state.category, 
+                dueDate, this.state.content, this.state.images)
+                .then(this.setState({
+                    itemSubmitted: true
+                }))
+                .then(M.toast({html: 'Success!', classes: 'green'}));
         } catch(err) {
             console.log(err);
         }
@@ -58,7 +55,7 @@ class CreateListing extends Component {
         this.setState({
             [e.target.id]: e.target.value
         })
-    };
+    }
 
     handleFile = (e) => {
         this.setState({
