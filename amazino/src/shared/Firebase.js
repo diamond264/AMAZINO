@@ -166,10 +166,10 @@ export const getImageByID = (itemId) => {
   })
 };
 
-export const uploadItem = async (uid, seller, name, price, category, duedate, description, images) => {
+export const uploadItem = async (uid, name, price, category, duedate, description, images) => {
   return new Promise((resolve, reject) => {
     var itemData = {
-      seller: seller,
+      seller: uid,
       name : name,
       price : price,
       bets : [],
@@ -184,7 +184,7 @@ export const uploadItem = async (uid, seller, name, price, category, duedate, de
     storage.ref().child('images/'+newItemKey).put(images).catch((err) => {
       console.log(err);
       return reject(err);
-    });
+    })
     var updates = {};
     updates['/items/'+newItemKey] = itemData;
 
