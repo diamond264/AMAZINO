@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 
 import Listings from './Listings';
-import {isSignIn, getAllItems} from '../../shared/Firebase.js';
+import {isSignIn, getAllItems, createBet} from '../../shared/Firebase.js';
 
 //
 // Wrapper component for listings
@@ -52,6 +52,12 @@ class Market extends Component {
     }
 
     componentWillMount = () => {
+        console.log("TEST IS AVAILABLE");
+        createBet('-LjNqf3BHiWl2w4a4j_i','tJjZ01wjFYaGdvwElEG1dzyMuga2',1).then(() => {
+
+        }).catch((err) => {
+            console.log(err);
+        })
         this.getData();
     };
     

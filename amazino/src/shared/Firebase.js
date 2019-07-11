@@ -32,6 +32,124 @@ const updateUserItems = (uid, item) => {
   });
 };
 
+const updateUserBalance = (user, charge) => {
+  return new Promise((resolve, reject) => {
+    var userBalance;
+    getUserBalance(user).then((balance) => {
+      userBalance = balance;
+      if(userBalance+charge < 0) {
+        throw new Error('Not enough balance for payment');
+      }
+
+      database.ref('/users/'+user).update({balance: userBalance+charge}).then(() => {
+        console.log("this!!!");
+        return resolve();
+      }).catch((err) => {
+        console.log("no, this..");
+        console.log(err);
+        return reject(err);
+      });
+    }).catch((err) => {
+      return reject(err);
+    });
+  });
+};
+
+const getPrevPayment = (item, user) => {
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('bets/'+item+user+'/payment').once('value').then(prevPay => {
+      return resolve(prevPay.val());
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+};
+
+const cancelBet = (item, user, payment) => {
+  return new Promise((resolve, reject) => {
+    var prevPayment;
+    getPrevPayment(item, user).then((prevPay) => {
+      prevPayment = prevPay;
+      if(prevPayment < payment) {
+        throw new Error('Error on canceling the betting');
+      } else if(prevPayment === payment) {
+        firebase.database().ref('bets/'+item+user).remove().then(()=>{}).catch((err) => {
+          console.log(err);
+          return reject(err);
+        });
+        firebase.database().ref('users/'+user+'/betIDs/'+item+user).remove().then(()=>{}).catch((err) => {
+          console.log(err);
+          return reject(err);
+        });
+        firebase.database().ref('items/'+item+'/betIDs/'+item+user).remove().then(()=>{}).catch((err) => {
+          console.log(err);
+          return reject(err);
+        });
+
+        return resolve();
+      }
+
+      var betData = {
+        item: item,
+        user: user,
+        payment: prevPayment-payment
+      };
+
+      var updates = {};
+      updates['/bets/'+item+user] = betData;
+      firebase.database().ref().update(updates).then(() => {
+        return resolve();
+      }).catch((err) => {
+        return reject(err);
+      });
+    }).catch((err) => {
+      return reject(err);
+    });
+  })
+};
+
+export const createBet = (item, user, payment) => {
+  return new Promise((resolve, reject) => {
+    var prevPayment = 0;
+    getPrevPayment(item, user).then((prevPay) => {
+      prevPayment = prevPay;
+
+      var betData = {
+        item: item,
+        user: user,
+        payment: payment+prevPayment
+      };
+
+      var updates = {};
+      updates['/users/'+user+'/betIDs/'+item+user] = item+user;
+      updates['/items/'+item+'/betIDs/'+item+user] = item+user;
+      updates['/bets/'+item+user] = betData;
+
+      database.ref().update(updates).then(() => {
+        updateUserBalance(user, -payment).then(() => {
+
+        }).catch((err) => {
+          console.log(err);
+          cancelBet(item, user, payment).then(() => {
+
+          }).catch((err) => {
+            console.log(err);
+            return reject(err);
+          });
+          return reject(err);
+        });
+      }).catch((err) => {
+        console.log(err);
+        return reject(err);
+      });
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+};
+
 export const uploadItem = async (uid, seller, name, price, category, duedate, description) => {
   return new Promise((resolve, reject) => {
     var itemData = {
@@ -48,7 +166,7 @@ export const uploadItem = async (uid, seller, name, price, category, duedate, de
 
     var newItemKey = database.ref().child('items').push().key;
     var updates = {};
-    updates['/items/' + newItemKey] = itemData;
+    updates['/items/'+newItemKey] = itemData;
 
     database.ref().update(updates).then(() => {
       updateUserItems(uid, newItemKey).then(() => {
@@ -60,8 +178,8 @@ export const uploadItem = async (uid, seller, name, price, category, duedate, de
     }).catch((err) => {
       console.log(err);
       return reject(err);
-    })
-  })
+    });
+  });
 };
 
 export const getAllItems = (limit) => {
@@ -72,8 +190,8 @@ export const getAllItems = (limit) => {
     }).catch((err) => {
       console.log(err);
       return reject(err);
-    })
-  })
+    });
+  });
 };
 
 export const getItemFromID = (itemID) => {
@@ -83,8 +201,19 @@ export const getItemFromID = (itemID) => {
     }).catch((err) => {
       console.log(err);
       return reject(err);
-    })
-  })
+    });
+  });
+};
+
+export const getUserBalance = (uid) => {
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('users/'+uid+'/balance').once('value').then(user => {
+      return resolve(user.val());
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
 };
 
 export const getUserDataFromID = (uid) => {
@@ -100,7 +229,7 @@ export const getUserDataFromID = (uid) => {
       return reject(err);
     })
   })
-}
+};
 
 
 export const getItemFromKVPair = (key, value) => {
