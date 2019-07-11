@@ -55,7 +55,7 @@ const updateUserBalance = (user, charge) => {
   });
 };
 
-const getPrevPayment = (item, user) => {
+const getPayment = (item, user) => {
   return new Promise((resolve, reject) => {
     firebase.database().ref('bets/'+item+'/'+user+'/payment').once('value').then(prevPay => {
       return resolve(prevPay.val());
@@ -68,9 +68,7 @@ const getPrevPayment = (item, user) => {
 
 const cancelBet = (item, user, payment) => {
   return new Promise((resolve, reject) => {
-    var prevPayment;
-    getPrevPayment(item, user).then((prevPay) => {
-      prevPayment = prevPay;
+    getPayment(item, user).then((prevPayment) => {
       if(prevPayment < payment) {
         throw new Error('Error on canceling the betting');
       } else if(prevPayment === payment) {
@@ -101,43 +99,89 @@ const cancelBet = (item, user, payment) => {
   })
 };
 
-const processBet = (item) => {
-  return new Promise((resolve, rejct) => {
-    return resolve();
+const getBetsOfItem = (item) => {
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('bets/'+item).once('value').then(bets => {
+      return resolve(bets.val());
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+};
+
+const processBet = (item, price) => {
+  return new Promise((resolve, reject) => {
+    getBetsOfItem(item).then((bets) => {
+      var totalPayment = 0;
+      Object.values(bets).map((bet) => {
+        totalPayment += bet['payment'];
+      });
+
+      console.log("hahaha");
+      console.log(totalPayment);
+      if(totalPayment > price) {
+        throw new Error('Payment overed total price');
+      } else if(totalPayment === price) {
+        database.ref('/items/'+item).update({status: "readyToRaffle"}).then(() => {}).catch((err) => {
+          console.log(err);
+          return reject(err);
+        });
+      } else {
+        database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {}).catch((err) => {
+          console.log(err);
+          return reject(err);
+        });
+      }
+
+      return resolve();
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
   });
 };
 
 export const createBet = (item, user, payment) => {
   return new Promise((resolve, reject) => {
-    var prevPayment = 0;
-    getPrevPayment(item, user).then((prevPay) => {
-      prevPayment = prevPay;
-      var betData = {payment: payment+prevPayment};
-      var updates = {};
-      updates['/users/'+user+'/betIDs/'+item] = item;
-      updates['/bets/'+item+'/'+user] = betData;
+    getPayment(item, user).then((prevPayment) => {
+      getItemPrice(item).then((price) => {
+        if(payment+prevPayment > price/2) {
+          throw new Error("Payment cannot over half of price");
+        }
 
-      database.ref().update(updates).then(() => {
-        updateUserBalance(user, -payment).then(() => {
-          processBet(item, user).then(() => {}).catch((err) => {
-            cancelBet(item, user, payment).then(() => {
-              updateUserBalance(user, payment).then(() => {
-                console.log("Bet Canceled and Payment Refunded");
+        var betData = {payment: payment+prevPayment};
+        var updates = {};
+        updates['/users/'+user+'/betIDs/'+item] = item;
+        updates['/bets/'+item+'/'+user] = betData;
+
+        database.ref().update(updates).then(() => {
+          updateUserBalance(user, -payment).then(() => {
+            processBet(item, price).then(() => {
+              return resolve();
+            }).catch((err) => {
+              cancelBet(item, user, payment).then(() => {
+                updateUserBalance(user, payment).then(() => {
+                  console.log("Bet Canceled and Payment Refunded");
+                }).catch((err) => {
+                  console.log(err);
+                  return reject(err);
+                })
               }).catch((err) => {
                 console.log(err);
                 return reject(err);
-              })
-            }).catch((err) => {
+              });
+            })
+          }).catch((err) => {
+            console.log(err);
+            cancelBet(item, user, payment).then(() => {}).catch((err) => {
               console.log(err);
               return reject(err);
             });
-          })
-        }).catch((err) => {
-          console.log(err);
-          cancelBet(item, user, payment).then(() => {}).catch((err) => {
-            console.log(err);
             return reject(err);
           });
+        }).catch((err) => {
+          console.log(err);
           return reject(err);
         });
       }).catch((err) => {
@@ -225,6 +269,17 @@ export const getItemFromID = (itemID) => {
   });
 };
 
+export const getItemPrice = (item) => {
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('items/'+item+'/price').once('value').then(user => {
+      return resolve(user.val());
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+};
+
 export const getUserBalance = (uid) => {
   return new Promise((resolve, reject) => {
     firebase.database().ref('users/'+uid+'/balance').once('value').then(user => {
@@ -239,7 +294,6 @@ export const getUserBalance = (uid) => {
 export const getUserDataFromID = (uid) => {
   return new Promise((resolve, reject) => {
     firebase.database().ref('users').child(uid).once('value').then(user => {
-      console.log(user);
       return resolve(user.val());
     }).catch((err) => {
       console.log(err);
