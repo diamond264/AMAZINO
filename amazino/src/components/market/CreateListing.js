@@ -23,7 +23,7 @@ class CreateListing extends Component {
             betPeriodLength: "15",
             categories: ["Animals","Cars", "Electronics", "Tools", "Sports", "Other"]
         }
-        
+        M.AutoInit();
     }
 
     async postData() {
@@ -155,7 +155,7 @@ class CreateListing extends Component {
                                 }
                             </ul>
                             <div className="row">
-                                <div className="col s10 m8 l6">
+                                <div className="col s6 m5 l4">
                                     <label htmlFor="betPeriodLength">Bet period length: {this.state.betPeriodLength} days</label>
                                     <p className="range-field"><input type="range" id="betPeriodLength" min="1" max="30" onChange={this.handleChange}/></p>
                                 </div>

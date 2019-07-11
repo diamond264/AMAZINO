@@ -17,7 +17,8 @@ class Listing extends Component {
             dueDate: null,
             sellerPercent: null,
             maxPercent: 0.5,
-            betPercent: 0
+            betPercent: 0,
+            betPrice: 0
         }
         console.log(this.state.itemID);
     }
@@ -28,8 +29,13 @@ class Listing extends Component {
 
     handleBetSlider = (e) => {
         var betPercent = e.target.value / 100;
+        var betPrice = parseInt(this.state.item.price, 10) * betPercent;
+        // round to two decimal places
+        betPrice = Math.round(betPrice * 100) / 100;
+
         this.setState({
-            betPercent
+            betPercent,
+            betPrice
         })
     }
 
@@ -64,16 +70,17 @@ class Listing extends Component {
                     <p className="section">{this.state.item.description}</p>
                     <div className="divider"></div>
                     <div className="section"></div>
-                    <div className="row">
-                        <div className="col s6 m5 l4">
+                    <div className="row center">
+                        <div className="col s8 m6 l4 offset-s2 offset-m3 offset-l4">
                             <p>Chance to win: {this.state.betPercent * 100}%</p>
+                            <p className="grey-text text-darken-1">Price: ${this.state.betPrice.toFixed(2)}</p>
                             <p className="range-field"><input onChange={this.handleBetSlider} step="5" type="range" id="betPercent" min="0" max={this.state.maxPercent * 100}/></p>
                             <label>Max bet: {this.state.maxPercent * 100}%</label>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col s4 m3 l2">
-                            <button className="btn" onClick={this.handleBet}>bet</button>
+                    <div className="row center">
+                        <div className="col s6 m4 l2 offset-s3 offset-m4 offset-l5">
+                            <button className="btn green white-text" onClick={this.handleBet}>bet</button>
                         </div>
                     </div>
                     <div className="section row">
