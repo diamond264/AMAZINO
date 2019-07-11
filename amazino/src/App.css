@@ -18,7 +18,6 @@
 }
 
 .dropdown {
-  text-transform: none;
   display: inline-flex;
   line-height: middle;
   border-style: solid;
@@ -27,6 +26,7 @@
 }
 
 .error-toast {
+  -webkit-text-fill-color: white;
   background-color: rgb(175, 0, 0);
 }
 

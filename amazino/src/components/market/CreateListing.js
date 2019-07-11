@@ -17,10 +17,10 @@ class CreateListing extends Component {
             price: -1,
             images: "",
             content: "",
-            category: "Select One",
+            category: "Category",
             user: "",
             itemSubmitted: false,
-            betPeriodLength: "30",
+            betPeriodLength: "15",
             categories: ["Animals","Cars", "Electronics", "Tools", "Sports", "Other"]
         }
         
@@ -73,7 +73,7 @@ class CreateListing extends Component {
         if (this.state.title.length === 0) this.handleError("Title is empty");
         else if (this.state.price <= 0) this.handleError("Price is too low");
         else if (this.state.content.length <= 5) this.handleError("Description too short");
-        else if (this.state.category === "Select One") this.handleError("Select a category");
+        else if (this.state.category === "Category") this.handleError("Select a category");
         else {
 
             this.postData();
