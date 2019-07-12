@@ -69,20 +69,21 @@ const getPayment = (item, user) => {
 const cancelBet = (item, user, payment) => {
   return new Promise((resolve, reject) => {
     getPayment(item, user).then((prevPayment) => {
-      if(prevPayment < payment) {
-        throw new Error('Error on canceling the betting');
-      } else if(prevPayment === payment) {
-        firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{})
-            .catch((err) => {
+      if(prevPayment === payment) {
+        firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
+          firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{
+            database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {}).catch((err) => {
+              console.log(err);
+              return reject(err);
+            });
+          }).catch((err) => {
+                console.log(err);
+                return reject(err);
+              });
+        }).catch((err) => {
           console.log(err);
           return reject(err);
         });
-        firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{})
-            .catch((err) => {
-          console.log(err);
-          return reject(err);
-        });
-
         return resolve();
       }
 
@@ -121,7 +122,7 @@ const processBet = (item, price) => {
       });
 
       if(totalPayment > price) {
-        throw new Error('Payment overed total price');
+        throw new Error('Payment over total price');
       } else if(totalPayment === price) {
         database.ref('/items/'+item).update({status: "readyToRaffle"}).then(() => {}).catch((err) => {
           console.log(err);
@@ -147,7 +148,25 @@ export const createBet = (item, user, payment) => {
     getPayment(item, user).then((prevPayment) => {
       getItemPrice(item).then((price) => {
         if(payment+prevPayment > price/2) {
-          throw new Error("Payment cannot over half of price");
+          throw new Error("Payment over half of price");
+        } else if(payment+prevPayment === 0) {
+          throw new Error("Payment less than 0");
+        } else if(payment+prevPayment < 0) {
+          firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
+            firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{
+              database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {}).catch((err) => {
+                console.log(err);
+                return reject(err);
+              });
+            }).catch((err) => {
+              console.log(err);
+              return reject(err);
+            });
+          }).catch((err) => {
+            console.log(err);
+            return reject(err);
+          });
+          return resolve();
         }
 
         var betData = {payment: payment+prevPayment};
