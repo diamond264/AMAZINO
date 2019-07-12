@@ -70,29 +70,37 @@ class Profile extends Component {
     render() {
         if(!isSignIn()) return <Redirect to="/"/>
         return(
-            <div className="container z-depth-1">
-                <h3 className="center">Profile</h3>
-                <div className="divider"></div>
-                <div className="row">
-                    <div className="col s12">
-                        <h5>Username: {this.state.displayName}</h5>
-                        <p>Balance: ${this.state.balance.toFixed(2)}</p>
-                    </div>
-                </div>
-                <div className="row">
-                    <form onSubmit={this.handleBalanceUpdate}>
-                        <div className="col s6 m5 l4 input-field">
-                            <input type="number" id="balanceToAdd" value={this.state.balanceToAdd}
-                                onChange={this.handleBalanceToAddChange}/>
-                            <button className="btn" onClick={this.handleBalanceUpdate}>Add Balance</button>
+            <div className="container section">
+                <div className="card z-depth-1">
+                    <div className="card-content">
+                        <div className="row">
+                            <div className="col s12 center">
+                                <h4>Profile</h4>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div className="divider"></div>
-                <div className="row section center">
-                    <div className="col s12">
-                        <h5 className="grey-text text-darken-2">Listings</h5>
-                        <div className="container z-depth-1">Insert Users Listings Here</div>
+                        <div className="divider"></div>
+                        <div className="row">
+                            <div className="col s12">
+                                <h5>Username: {this.state.displayName}</h5>
+                                <p>Balance: ${this.state.balance.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <form onSubmit={this.handleBalanceUpdate}>
+                                <div className="col s6 m5 l4 input-field">
+                                    <input type="number" id="balanceToAdd" value={this.state.balanceToAdd}
+                                        onChange={this.handleBalanceToAddChange}/>
+                                    <button className="btn" onClick={this.handleBalanceUpdate}>Add Balance</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div className="divider"></div>
+                        <div className="row section center">
+                            <div className="col s12">
+                                <h5 className="grey-text text-darken-2">Listings</h5>
+                                <div className="container z-depth-1">Insert Users Listings Here</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

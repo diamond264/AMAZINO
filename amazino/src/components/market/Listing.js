@@ -37,7 +37,7 @@ class Listing extends Component {
 
     handleBetSlider = (e) => {
         var betPercent = parseInt(e.target.value, 10) / 100;
-        var betPrice = parseInt(this.state.item.price, 10) * betPercent;
+        var betPrice = this.state.item.price * betPercent;
         // round to two decimal places
         betPrice = Math.round(betPrice * 100) / 100;
 

@@ -63,13 +63,17 @@ class Market extends Component {
     
     render() {
         return(
-            <div className="container z-depth-1">
-                <div className="section">
-                    <h4 className="center">Market</h4>
-                </div>
-                <div className="divider"></div>
-                <div className="section">
-                    <Listings {...this.state}/>
+            <div className="container section">
+                <div className="card z-depth-1">
+                    <div className="card-content">
+                        <div className="section">
+                            <h4 className="center">Market</h4>
+                        </div>
+                        <div className="divider"></div>
+                        <div className="section">
+                            <Listings {...this.state}/>
+                        </div>
+                    </div>
                 </div>
             </div>
         )
