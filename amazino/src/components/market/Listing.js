@@ -130,7 +130,7 @@ class Listing extends Component {
         if(!this.state.item) return <div></div>
         
         return(
-            <div className="container">
+            <div className="container section">
             <div className="card col s8 m4">
                 <div className="card-content">
                     <h5>{this.state.item.name}</h5>
@@ -160,7 +160,7 @@ class Listing extends Component {
                     </div>
 
                     <div className="row">
-                        <label htmlFor="progressBar">Progress</label>
+                        <label htmlFor="progressBar">Progress: {this.state.percentPurchased * 100}%</label>
                         <div className="progress section">
                             <div className="determinate" style={{width: (this.state.percentPurchased * 100) +"%"}}></div>
                         </div>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import {isSignIn, updateUserBalance, getUserDataFromID} from '../../shared/Firebase';
+import {updateUserBalance, getUserDataFromID} from '../../shared/Firebase';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 
 class Profile extends Component {
@@ -60,7 +60,11 @@ class Profile extends Component {
                 if(balance) {
                     balance = Math.round(balance * 100) / 100;
                     this.setState({balance});
+                    handleSuccess();
+                } else {
+                    handleError({message: "User balance not found"})
                 }
+
             })
         } catch(err) {
             handleError(err);
@@ -68,7 +72,7 @@ class Profile extends Component {
     }
 
     render() {
-        if(!isSignIn()) return <Redirect to="/"/>
+        if(!this.props.currentUser) return <Redirect to="/"/>
         return(
             <div className="container section">
                 <div className="card z-depth-1">
@@ -81,7 +85,7 @@ class Profile extends Component {
                         <div className="divider"></div>
                         <div className="row">
                             <div className="col s12">
-                                <h5>Username: {this.state.displayName}</h5>
+                                <h5>{this.state.displayName}</h5>
                                 <p>Balance: ${this.state.balance.toFixed(2)}</p>
                             </div>
                         </div>

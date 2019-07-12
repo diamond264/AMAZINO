@@ -27,12 +27,12 @@
 
 .error-toast {
   -webkit-text-fill-color: white;
-  background-color: rgb(175, 0, 0);
+  background-color: #af0000;
 }
 
 .success-toast {
   -webkit-text-fill-color: white;
-  background-color: rgb(57, 201, 0);
+  background-color: #34b600;
 }
 
 .item-image {

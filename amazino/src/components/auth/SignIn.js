@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {signIn, isSignIn} from '../../shared/Firebase';
-import {handleError} from '../../shared/ErrorHandling';
+import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 import {Redirect} from 'react-router-dom';
 
 import M from 'materialize-css';
@@ -33,7 +33,7 @@ class SignIn extends Component {
                         this.setState({
                             loginSuccess: true
                         })
-                        M.toast({html: 'Success!', classes: 'green'});
+                        handleSuccess();
                     }
                 });
         }
