@@ -40,7 +40,7 @@ const updateUserBalance = (user, charge) => {
     getUserBalance(user).then((balance) => {
       userBalance = balance;
       if(userBalance+charge < 0) {
-        throw new Error('Not enough balance for payment');
+        reject({message: 'Not enough balance for payment'});
       }
 
       database.ref('/users/'+user).update({balance: userBalance+charge}).then(() => {
@@ -102,9 +102,9 @@ const cancelBet = (item, user, payment) => {
   })
 };
 
-const getBetsOfItem = (item) => {
+export const getBetsOfItem = (itemId) => {
   return new Promise((resolve, reject) => {
-    firebase.database().ref('bets/'+item).once('value').then(bets => {
+    firebase.database().ref('bets/'+itemId).once('value').then(bets => {
       return resolve(bets.val());
     }).catch((err) => {
       console.log(err);
@@ -112,6 +112,35 @@ const getBetsOfItem = (item) => {
     });
   });
 };
+
+//
+// Returns percentage of listing already bought
+//
+export const getPercentPurchased = (itemId) => {
+  return new Promise((resolve, reject) => {
+    getBetsOfItem(itemId).then(bets => {
+      var totalBetted = 0;
+      if(bets) {
+        for(var bet in bets) {
+          if(bets.hasOwnProperty(bet)) {
+            totalBetted += bets[bet].payment;
+          }
+        }
+      }
+      getItemFromID(itemId).then(item => {
+        if(item) {
+          var price = item.price;
+          var percentPurchased = Math.round((totalBetted / price) * 100) / 100;
+
+          resolve(percentPurchased);
+        } else {
+          reject({message: "Could not find item"});
+        }
+
+      })
+    })
+  })
+}
 
 const processBet = (item, price) => {
   return new Promise((resolve, reject) => {
@@ -143,14 +172,17 @@ const processBet = (item, price) => {
   });
 };
 
+//
+// Expects itemID
+//
 export const createBet = (item, user, payment) => {
   return new Promise((resolve, reject) => {
     getPayment(item, user).then((prevPayment) => {
       getItemPrice(item).then((price) => {
         if(payment+prevPayment > price/2) {
-          throw new Error("Payment over half of price");
+          reject({message: "Payment over half of price"});
         } else if(payment+prevPayment === 0) {
-          throw new Error("Payment less than 0");
+          reject({message: "Payment less than 0"});
         } else if(payment+prevPayment < 0) {
           firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
             firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{
@@ -166,7 +198,7 @@ export const createBet = (item, user, payment) => {
             console.log(err);
             return reject(err);
           });
-          return resolve();
+          //return resolve();
         }
 
         var betData = {payment: payment+prevPayment};
@@ -177,7 +209,7 @@ export const createBet = (item, user, payment) => {
         database.ref().update(updates).then(() => {
           updateUserBalance(user, -payment).then(() => {
             processBet(item, price).then(() => {
-              return resolve();
+              return resolve(betData);
             }).catch((err) => {
               cancelBet(item, user, payment).then(() => {
                 updateUserBalance(user, payment).then(() => {

@@ -27,6 +27,9 @@ class CreateListing extends Component {
         M.AutoInit();
     }
 
+    //
+    // Post data to database
+    //
     async postData() {
         try {
             var uid = this.state.user.uid;
@@ -133,15 +136,15 @@ class CreateListing extends Component {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col s12">
-                                    <label htmlFor="content">Content</label>
+                                <div className="col s12 create-textarea">
+                                    <label htmlFor="content">Description</label>
                                     <textarea placeholder="A description of your item" className="materialize-textarea" type="text" id="content" onChange={this.handleChange}></textarea>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col s12 l6 file-field input-field">
                                     <div className="btn green darken-3 z-depth-0 white-text">
-                                        <span>Images</span>
+                                        <span>Image</span>
                                         <input type="file" id="images"
                                         accept=".jpg, .jpeg, .png" onChange={this.handleFile} />
                                     </div>

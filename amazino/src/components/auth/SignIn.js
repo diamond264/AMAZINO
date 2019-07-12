@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {signIn, isSignIn} from '../../shared/Firebase';
+import {handleError} from '../../shared/ErrorHandling';
 import {Redirect} from 'react-router-dom';
 
 import M from 'materialize-css';
@@ -38,24 +39,9 @@ class SignIn extends Component {
         }
         catch (err) {
             console.log(err);
-            this.handleError(err);
+            handleError(err);
             
         }
-    }
-
-    handleError = (err) => {
-        var errorText = err.message;
-
-        if(err.code === "auth/user-not-found") errorText = "User not found";
-        else if(err.code === "auth/invalid-email") errorText = "Invalid email";
-        else if(err.code === "auth/wrong-password") errorText = "Incorrect password";
-
-        var options = {
-            html: errorText,
-            classes: 'error-toast'
-        }
-
-        M.toast(options);
     }
 
     handleSubmit = (e) => {

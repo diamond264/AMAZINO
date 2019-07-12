@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cron": "^1.7.1",
     "firebase": "^6.2.4",
     "firebase-tools": "^7.0.2",
     "materialize-css": "^1.0.0",

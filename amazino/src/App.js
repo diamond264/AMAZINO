@@ -51,9 +51,9 @@ class App extends Component {
           {/*<Link to='/firebaseTest'>firebase</Link>*/}
           <Switch>
             <Route exact path='/' component={Market}/>
-            <Route path='/listing/:id' component={Listing} />
+            <Route path='/listing/:id'  render={(props) => <Listing {...props} {...this.state}/>} />
             <Route path='/market' component={Market} />
-            <Route path='/create' render={(props) => <CreateListing {...this.state} />} />
+            <Route path='/create' render={(props) => <CreateListing {...props} {...this.state} />} />
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
             <Route path='/profile' component={Profile} />

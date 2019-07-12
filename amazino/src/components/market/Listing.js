@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 
-import {isSignIn, getItemFromID, getImageByID, getUserDataFromID} from '../../shared/Firebase.js';
+import {isSignIn, getItemFromID, getImageByID, getUserDataFromID, getPercentPurchased, createBet} from '../../shared/Firebase.js';
+import {handleError, handleSuccess} from '../../shared/ErrorHandling.js';
 
 import '../../App.css';
 
@@ -12,8 +13,12 @@ class Listing extends Component {
         //
         // TODO: Set maxPercent from database
         //
+
+        var {currentUser} = this.props;
+        console.log(props);
         this.state = {
             itemID: this.props.match.params.id,
+            currentUser,
             item: null,
             createdOn: null,
             dueDate: null,
@@ -21,7 +26,9 @@ class Listing extends Component {
             maxPercent: 0.5,
             betPercent: 0,
             betPrice: 0,
-            displayName: null
+            displayName: null,
+            percentPurchased: null,
+            betPlaced: false
         }
     }
 
@@ -42,7 +49,11 @@ class Listing extends Component {
     }
 
     handleBet = () => {
-        console.log(this.state.betPercent);
+        if(this.state.betPrice === 0) {
+            handleError({message: "Please enter a bet"})
+        } else {
+            this.postBet();
+        }
     }
 
     
@@ -69,15 +80,47 @@ class Listing extends Component {
                                 })
                             }
                         })
+                        this.getPercentPurchased();
                     }
                 });
             
     }
 
+    async getPercentPurchased() {
+        try {
+            await getPercentPurchased(this.state.itemID).then(percentPurchased => {
+                this.setState({
+                    percentPurchased
+                })
+            })
+        } catch (err) {
+            handleError(err);
+        }
+    }
+
+    async postBet() {
+        try {
+            await createBet(this.state.itemID, this.state.currentUser.uid, this.state.betPrice)
+                .then((betData) => {
+                    if(betData){
+                        this.setState({
+                            betPlaced: true
+                        })
+                    }
+                })
+                .catch((err) => {
+                    handleError(err)
+                });
+
+
+        } catch(err) {
+            handleError(err);
+        }
+    }
+
     async loadImage() {
         await getImageByID(this.state.itemID)
             .then(url => {
-                console.log(url);
                 var img = document.getElementById('item-image');
                 if(img) {
                     img.src = url;
@@ -86,8 +129,10 @@ class Listing extends Component {
     }
 
     render() {
-        if(!isSignIn()) return <Redirect to='/signin' />
+        if(!isSignIn()) return <Redirect to="/signin" />
+        if(this.state.betPlaced) return <Redirect to="/"/>
         if(!this.state.item) return <div></div>
+        
         return(
             <div className="container">
             <div className="card col s8 m4">
@@ -117,6 +162,14 @@ class Listing extends Component {
                             <button className="btn green white-text" onClick={this.handleBet}>bet</button>
                         </div>
                     </div>
+
+                    <div className="row">
+                        <label htmlFor="progressBar">Progress</label>
+                        <div className="progress section">
+                            <div className="determinate" style={{width: (this.state.percentPurchased * 100) +"%"}}></div>
+                        </div>
+                    </div>
+
                     <div className="section row">
                         <div className="divider"></div>
                         <div className="col s6 left">

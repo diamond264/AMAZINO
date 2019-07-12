@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {signUp, isSignIn} from '../../shared/Firebase'
+import {signUp, isSignIn} from '../../shared/Firebase';
+import {handleError} from '../../shared/ErrorHandling';
 import {Redirect} from 'react-router-dom'
 import M from 'materialize-css';
 import '../../App.css';
@@ -40,7 +41,7 @@ class SignUp extends Component {
         }
         catch (err) {
             console.log(err);
-            this.handleError(err);
+            handleError(err);
         }
     }
 
@@ -54,22 +55,9 @@ class SignUp extends Component {
         // prevent default page refresh action
         e.preventDefault();
 
-        if(this.state.password !== this.state.confirmPassword) this.handleError({message: "Passwords do no match"});
-        if(this.state.displayName.length <= 5) this.handleError({message: "Display name too short"});
+        if(this.state.password !== this.state.confirmPassword) handleError({message: "Passwords do not match"});
+        if(this.state.displayName.length <= 5) handleError({message: "Display name too short"});
         else this.signUpButton(e);
-    }
-
-    handleError = (err) => {
-        var errorText = err.message;
-
-        if(err.code === "auth/invalid-email") errorText = "Invalid email";
-
-        var options = {
-            html: errorText,
-            classes: 'error-toast'
-        }
-
-        M.toast(options);
     }
 
     render() {
