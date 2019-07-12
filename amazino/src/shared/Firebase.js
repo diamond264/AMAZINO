@@ -151,7 +151,7 @@ const processBet = (item, price) => {
       });
 
       if(totalPayment > price) {
-        throw new Error('Payment over total price');
+        return reject({message: 'Payment over total price'});
       } else if(totalPayment === price) {
         database.ref('/items/'+item).update({status: "readyToRaffle"}).then(() => {}).catch((err) => {
           console.log(err);
@@ -180,7 +180,7 @@ export const createBet = (item, user, payment) => {
     getPayment(item, user).then((prevPayment) => {
       getItemPrice(item).then((price) => {
         if(payment+prevPayment > price/2) {
-          reject({message: "Payment over half of price"});
+          reject({message: "Your bets cannot total over 50%"});
         } else if(payment+prevPayment === 0) {
           reject({message: "Payment less than 0"});
         } else if(payment+prevPayment < 0) {
@@ -214,6 +214,7 @@ export const createBet = (item, user, payment) => {
               cancelBet(item, user, payment).then(() => {
                 updateUserBalance(user, payment).then(() => {
                   console.log("Bet Canceled and Payment Refunded");
+                  return reject(err);
                 }).catch((err) => {
                   console.log(err);
                   return reject(err);
