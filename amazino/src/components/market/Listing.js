@@ -27,8 +27,7 @@ class Listing extends Component {
             betPercent: 0,
             betPrice: 0,
             displayName: null,
-            percentPurchased: null,
-            betPlaced: false
+            percentPurchased: null
         }
     }
 
@@ -103,9 +102,7 @@ class Listing extends Component {
             await createBet(this.state.itemID, this.state.currentUser.uid, this.state.betPrice)
                 .then((betData) => {
                     if(betData){
-                        this.setState({
-                            betPlaced: true
-                        })
+                        this.getPercentPurchased();
                     }
                 })
                 .catch((err) => {
@@ -130,7 +127,6 @@ class Listing extends Component {
 
     render() {
         if(!isSignIn()) return <Redirect to="/signin" />
-        if(this.state.betPlaced) return <Redirect to="/"/>
         if(!this.state.item) return <div></div>
         
         return(
