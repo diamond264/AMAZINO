@@ -61,6 +61,13 @@ class CreateListing extends Component {
         })
     }
 
+    handlePrice = (e) => {
+        var price = parseInt(e.target.value, 10);
+        this.setState({
+            price
+        })
+    }
+
     handleFile = (e) => {
         this.setState({
             images: e.target.files[0]
@@ -156,7 +163,7 @@ class CreateListing extends Component {
                             <div className="row">
                                 <div className="col s2">
                                     <label htmlFor="price">Price</label>
-                                    <input type="number" id="price" placeholder="USD" onChange={this.handleChange} />
+                                    <input type="number" id="price" placeholder="USD" onChange={this.handlePrice} />
                                 </div>
                             </div>
                             <div className="row">
