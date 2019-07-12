@@ -34,17 +34,16 @@ const updateUserItems = (uid, item) => {
   });
 };
 
-const updateUserBalance = (user, charge) => {
+export const updateUserBalance = (user, charge) => {
   return new Promise((resolve, reject) => {
-    var userBalance;
     getUserBalance(user).then((balance) => {
-      userBalance = balance;
-      if(userBalance+charge < 0) {
+      var newBalance = balance + charge;
+      if(newBalance < 0) {
         reject({message: 'Not enough balance for payment'});
       }
 
-      database.ref('/users/'+user).update({balance: userBalance+charge}).then(() => {
-        return resolve();
+      database.ref('users/'+user).update({balance: newBalance}).then(() => {
+        return resolve(newBalance);
       }).catch((err) => {
         console.log(err);
         return reject(err);
@@ -412,10 +411,14 @@ export const isSignIn = () => {
   else return false;
 };
 
-export const getBalance = async () => {
+export const getBalance = async (uid) => {
   return new Promise((resolve, reject) => {
-    database.ref('users/332kxRhgNodHzIzdMNhhsScGIpG2').once('value', (snap) => {
-      return resolve(snap.val().balance);
+    database.ref('users/'+uid).once('value', (snap) => {
+      if(snap) {
+        return resolve(snap.val().balance);
+      } else {
+        return reject({message: 'User not found'});
+      }
     })
   })
 };

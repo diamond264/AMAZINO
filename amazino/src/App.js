@@ -56,7 +56,7 @@ class App extends Component {
             <Route path='/create' render={(props) => <CreateListing {...props} {...this.state} />} />
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
-            <Route path='/profile' component={Profile} />
+            <Route path='/profile' render={(props) => <Profile {...props} {...this.state} />} />
             <Route path='/' component={Market} />
 
           </Switch>
