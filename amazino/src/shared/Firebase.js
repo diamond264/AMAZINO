@@ -72,11 +72,13 @@ const cancelBet = (item, user, payment) => {
       if(prevPayment < payment) {
         throw new Error('Error on canceling the betting');
       } else if(prevPayment === payment) {
-        firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{}).catch((err) => {
+        firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{})
+            .catch((err) => {
           console.log(err);
           return reject(err);
         });
-        firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{}).catch((err) => {
+        firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{})
+            .catch((err) => {
           console.log(err);
           return reject(err);
         });
@@ -118,8 +120,6 @@ const processBet = (item, price) => {
         totalPayment += bet['payment'];
       });
 
-      console.log("hahaha");
-      console.log(totalPayment);
       if(totalPayment > price) {
         throw new Error('Payment overed total price');
       } else if(totalPayment === price) {

@@ -52,12 +52,12 @@ class Market extends Component {
     }
 
     componentWillMount = () => {
-        console.log("TEST IS AVAILABLE");
-        createBet('-LjNqf3BHiWl2w4a4j_i','Ku6eNuqHcKSLyKFjPJjpGNNftib2',51).then(() => {
-
-        }).catch((err) => {
-            console.log(err);
-        });
+        // console.log("TEST IS AVAILABLE");
+        // createBet('-LjNqf3BHiWl2w4a4j_i','Ku6eNuqHcKSLyKFjPJjpGNNftib2',51).then(() => {
+        //
+        // }).catch((err) => {
+        //     console.log(err);
+        // });
         this.getData();
     };
     
