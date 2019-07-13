@@ -9,10 +9,12 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [ {
-      "source": "**",
-      "destination": "/index.html"
-    } ]
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   },
   "scripts": {
     "start": "node ./dist/server",
@@ -29,5 +31,10 @@
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint"
+    ]
   }
 }

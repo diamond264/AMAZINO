@@ -8,6 +8,7 @@
     "firebase": "^6.2.4",
     "firebase-tools": "^7.0.2",
     "materialize-css": "^1.0.0",
+    "node-cron": "^2.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-materialize": "^3.3.3",
