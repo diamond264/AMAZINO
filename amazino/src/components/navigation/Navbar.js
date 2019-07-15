@@ -34,7 +34,7 @@ class Navbar extends Component {
     }
 
     render() {
-        const links = this.state.user ? <SignedInLinks {...this.state} /> : <SignedOutLinks />;
+        const links = this.props.currentUser && this.state.user ? <SignedInLinks {...this.state} /> : <SignedOutLinks />;
         return(
             <div>
                 <nav className="nav-wrapper z-depth-1">
