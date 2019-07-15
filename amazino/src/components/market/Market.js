@@ -58,7 +58,11 @@ class Market extends Component {
         // }).catch((err) => {
         //     console.log(err);
         // });
-        doRaffle('-LjUgvnVweh4v5w4t9nA');
+        // doRaffle('-LjUgvnVweh4v5w4t9nA').then((id) => {
+        //     console.log(id);
+        // }).catch((err) => {
+        //     console.log(err);
+        // });
         this.getData();
     };
     
