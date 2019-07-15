@@ -39,6 +39,25 @@
   max-width: 100%;
 }
 
+.hamburger {
+  color: white;
+  padding-top: 5%;
+  padding-bottom: 20%;
+}
+
+.nav-wrapper {
+  overflow: hidden;
+  background-color: #ec7e00;
+}
+
+.sidenav li p{
+  color: #353535;
+}
+
+.sidenav li h5 {
+  color: black;
+}
+
 #content {
   box-sizing: border-box;
   height: 100%;
