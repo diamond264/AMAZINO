@@ -290,16 +290,13 @@ export const doRaffle = (itemID) => {
 
 export const getImageByID = (itemId) => {
   return new Promise((resolve, reject) => {
-    try {
       firebase.storage().ref().child('images/'+itemId).getDownloadURL().then(url => {
         if(url) {
           resolve(url);
         }
+      }).catch( err => {
+        reject(err);
       })
-    } catch(err) {
-      console.log(err);
-      reject(err);
-    }
   })
 };
 
