@@ -313,12 +313,13 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
       description: description,
       itemImg: "",
     };
+    console.log(duedate);
 
     var newItemKey = database.ref().child('items').push().key;
     storage.ref().child('images/'+newItemKey).put(images).catch((err) => {
       console.log(err);
       return reject(err);
-    })
+    });
     var updates = {};
     updates['/items/'+newItemKey] = itemData;
 

@@ -35,13 +35,14 @@ class CreateListing extends Component {
             var uid = this.state.user.uid;
             var dueDate = new Date();
             // Add days to duedate specified by user
-            dueDate = dueDate.setDate(dueDate.getDate() + this.state.betPeriodLength);
+            // dueDate = dueDate.setDate(dueDate.getDate() + this.state.betPeriodLength);
+            dueDate = new Date(dueDate.getDate() + this.state.betPeriodLength);
 
             await uploadItem(uid, this.state.title, this.state.price, this.state.category, 
                 dueDate, this.state.content, this.state.images)
-                .then(this.setState({
+                .then(() => {this.setState({
                     itemSubmitted: true
-                }))
+                })})
                 .then(M.toast({html: 'Success!', classes: 'green'}));
         } catch(err) {
             console.log(err);
