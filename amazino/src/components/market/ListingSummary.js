@@ -39,8 +39,8 @@ class ListingSummary extends Component {
     render() {
         // console.log(this.props);
         return (
-            <NavLink to={'/listing/' + this.props.id} className="black-text">
-                    <div className="card col s6 m6 market-fade z-depth-0">
+            <div className="card col s6 m6 market-fade z-depth-0">
+                <NavLink to={'/listing/' + this.props.id} className="black-text">
                         <div className="card-content">
                             <h5>{this.props.name}</h5>
                             <p className="grey-text text-darken-1">Price: ${this.props.price}</p>
@@ -50,8 +50,8 @@ class ListingSummary extends Component {
                                 <p className="grey-text">by {this.state.displayName} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
                             </div>
                         </div>
-                    </div>
-            </NavLink>
+                </NavLink>
+            </div>
         )
     }
 }
