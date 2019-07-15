@@ -139,7 +139,7 @@ export const getPercentPurchased = (itemId) => {
       })
     })
   })
-}
+};
 
 const processBet = (item, price) => {
   return new Promise((resolve, reject) => {
@@ -179,11 +179,12 @@ export const createBet = (item, user, payment) => {
     getPayment(item, user).then((prevPayment) => {
       getItemPrice(item).then((price) => {
         if(payment+prevPayment > price/2) {
-          reject({message: "Your bets cannot total over 50%"});
-        } else if(payment+prevPayment === 0) {
-          reject({message: "Payment less than 0"});
+          return reject({message: "Your bets cannot total over 50%"});
         } else if(payment+prevPayment < 0) {
-          firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
+          return reject({message: "Payment less than 0"});
+        } else if(payment+prevPayment === 0) {
+          console.log("324");
+          return firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
             firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{
               database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {}).catch((err) => {
                 console.log(err);
@@ -197,7 +198,6 @@ export const createBet = (item, user, payment) => {
             console.log(err);
             return reject(err);
           });
-          //return resolve();
         }
 
         var betData = {payment: payment+prevPayment};
@@ -241,6 +241,48 @@ export const createBet = (item, user, payment) => {
       });
     }).catch((err) => {
       console.log(err);
+      return reject(err);
+    });
+  });
+};
+
+const shuffle = (array) => {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+};
+
+export const doRaffle = (itemID) => {
+  return new Promise((resolve, reject) => {
+    getItemFromID(itemID).then((item) => {
+      if(item.status !== "readyToRaffle") {
+        throw new Error("Item not ready to start raffle");
+      }
+
+      getBetsOfItem(itemID).then((bets) => {
+        var chunkList = [];
+        Object.keys(bets).map((userID) => {
+          var bet = bets[userID];
+          for(var i=0; i<20*bet['payment']/item['price']; i++) {
+            chunkList.push(userID);
+          }
+        });
+
+        shuffle(chunkList);
+        return resolve(chunkList[0]);
+      }).catch((err) => {
+        return reject(err);
+      })
+    }).catch((err) => {
       return reject(err);
     });
   });
