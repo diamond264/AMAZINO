@@ -39,6 +39,8 @@ class ListingSummary extends Component {
             this.setState({
                 displayName: user.displayName
             })
+        }).catch(err => {
+            console.log(err);
         })
     }
 
@@ -58,13 +60,13 @@ class ListingSummary extends Component {
     render() {
         // console.log(this.props);
         return (
-            <div className="card col s6 m4 l3 market-fade z-depth-0">
+            <div className="card col s12 m6 l4 xl3 market-fade z-depth-0">
                 <NavLink to={'/listing/' + this.props.id} className="black-text">
                         <div className="card-content">
-                            <h5>{this.props.name}</h5>
-                            <div className="card-image" style={{height: "200px"}}>
+                            <h5 className="truncate">{this.props.name}</h5>
+                            <div className="card-image" style={{height: "200px", overflow: "hidden"}}>
                                 {this.state.img_src==""? <p className="grey-text">No Image</p> :
-                                <img id="item-image" className="item-image" style={{height: "200px"}} alt="Image" src={this.state.img_src}
+                                <img id="item-image" className="item-image" alt="Image" src={this.state.img_src}
                                     />}
                             </div>
                             <p className="grey-text text-darken-1">Price: ${this.props.price}</p>

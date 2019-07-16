@@ -53,15 +53,18 @@ class Profile extends Component {
     }
     async getData() {
 
-
-        await getItemsBySeller(this.state.currentUser.uid, 20, 1)
-            .then(items => {
-                if(items) {
-                    this.setState({
-                        data: items
-                    });
-                }
-            });
+        if(this.state.currentUser) {
+            await getItemsBySeller(this.state.currentUser.uid, 20, 1)
+                .then(items => {
+                    if(items) {
+                        this.setState({
+                            data: items
+                        });
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+        }
     }
 
     handleChange = (e) => {
@@ -128,10 +131,11 @@ class Profile extends Component {
                         </div>
                         <div className="divider"></div>
                         <div className="row section center">
-                            <div className="col s12">
+                            <div className="col s12 card z-depth-0">
+                                <div className="section"></div>
                                 <h5 className="grey-text text-darken-2">Listings</h5>
-                                <div className="container z-depth-1">
-                                    <Listings {...this.state}/>
+                                <div className="card-content">
+                                    <Listings data={this.state.data}/>
                                 </div>
                             </div>
                         </div>
