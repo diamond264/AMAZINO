@@ -9,6 +9,7 @@ class Listings extends Component {
     
     render() {
         const {data} = this.props;
+        let index = 0;
         return(
             <div className="row">
                 {
@@ -19,7 +20,7 @@ class Listings extends Component {
                     // })
 
                     data && data.map(item => {
-                        return ( <ListingSummary {...item} id={item['itemID']} key={item['itemID']}/> )
+                        return (<ListingSummary {...item} id={item['itemID']} key={item['itemID']}/>)
                     })
                 }
             </div>
