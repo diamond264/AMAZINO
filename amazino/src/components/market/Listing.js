@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 
-import {isSignIn, getItemFromID, getImageByID, getUserDataFromID, getPercentPurchased, createBet} from '../../shared/Firebase.js';
+import {isSignIn, getItemFromID, getImageByID, getUserDataFromID, getPercentPurchased, createBet, 
+    removeItem, getBetsOfItem} from '../../shared/Firebase.js';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling.js';
 
 import '../../App.css';
@@ -27,7 +28,8 @@ class Listing extends Component {
             betPercent: 0,
             betPrice: 0,
             displayName: null,
-            percentPurchased: null
+            percentPurchased: null,
+            betPosted: false
         }
     }
 
@@ -47,12 +49,26 @@ class Listing extends Component {
         })
     }
 
-    handleBet = () => {
+    handleBet = (e) => {
+        e.preventDefault();
         if(this.state.betPrice === 0) {
             handleError({message: "Please enter a bet"})
         } else {
             this.postBet();
         }
+    }
+
+    handleRefund = (e) => {
+        e.preventDefault();
+
+        getBetsOfItem(this.state.itemID).then(bets => {
+            console.log(bets);
+            var amount = bets[this.state.currentUser.uid].payment;
+            this.refundBet(amount);
+        }).catch(err => {
+            console.log(err);
+            handleError(err);
+        })
     }
 
     
@@ -104,6 +120,9 @@ class Listing extends Component {
                     if(betData){
                         this.getPercentPurchased();
                         handleSuccess();
+                        this.setState({
+                            betPosted: true
+                        })
                     }
                 })
                 .catch((err) => {
@@ -130,9 +149,46 @@ class Listing extends Component {
         }
     }
 
+    async refundBet(amount) {
+        try {
+            await createBet(this.state.itemID, this.state.currentUser.uid, -amount)
+                .then((betData) => {
+                    handleSuccess();
+                    this.getPercentPurchased();
+                    this.setState({
+                        betPosted: false
+                    })
+                })
+                .catch((err) => {
+                    handleError(err);
+                    console.log(err);
+                })
+        } catch(err) {
+            handleError(err);
+            console.log(err);
+        }
+    }
+
+    async deleteItem() {
+        try {
+            await removeItem(this.state.itemID)
+            .then(() => {
+                handleSuccess();
+            })
+            .catch(err => {
+                console.log(err);
+                handleError(err);
+            }); 
+        } catch(err) {
+            console.log(err);
+            handleError(err);
+        }
+    }
+
     render() {
         if(!isSignIn()) return <Redirect to="/signin" />
         if(!this.state.item) return <div></div>
+        var refundLink = this.state.betPosted ? <button className="btn red white-text" style={{marginLeft: "5px"}} onClick={this.handleRefund}>refund</button> : null
         
         return(
             <div className="container section">
@@ -161,6 +217,7 @@ class Listing extends Component {
                     <div className="row center">
                         <div className="col s6 m4 l2 offset-s3 offset-m4 offset-l5">
                             <button className="btn green white-text" onClick={this.handleBet}>bet</button>
+                            {refundLink}    
                         </div>
                     </div>
 
