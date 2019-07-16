@@ -30,7 +30,8 @@ class Listing extends Component {
             displayName: null,
             percentPurchased: null,
             betPosted: false,
-            itemDeleted: false
+            itemDeleted: false,
+            payedThisSession: 0
         }
     }
 
@@ -62,14 +63,7 @@ class Listing extends Component {
     handleRefund = (e) => {
         e.preventDefault();
 
-        getBetsOfItem(this.state.itemID).then(bets => {
-            console.log(bets);
-            var amount = bets[this.state.currentUser.uid].payment;
-            this.refundBet(amount);
-        }).catch(err => {
-            console.log(err);
-            handleError(err);
-        })
+        this.refundBet(this.state.payedThisSession);
     }
 
     handleDelete = (e) => {
@@ -128,7 +122,8 @@ class Listing extends Component {
                         this.getPercentPurchased();
                         handleSuccess();
                         this.setState({
-                            betPosted: true
+                            betPosted: true,
+                            payedThisSession: this.state.betPrice
                         })
                     }
                 })
@@ -163,7 +158,8 @@ class Listing extends Component {
                     handleSuccess();
                     this.getPercentPurchased();
                     this.setState({
-                        betPosted: false
+                        betPosted: false,
+                        payedThisSession: 0
                     })
                 })
                 .catch((err) => {
@@ -221,7 +217,7 @@ class Listing extends Component {
                     </div>
                 </div>
                 <div className="row center">
-                    <div className="col s6 m4 l2 offset-s3 offset-m4 offset-l5">
+                    <div className="col s6 offset-s3">
                         <button className="btn green white-text" onClick={this.handleBet}>bet</button>
                         {refundLink}    
                     </div>
