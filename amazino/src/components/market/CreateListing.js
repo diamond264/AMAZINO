@@ -22,7 +22,8 @@ class CreateListing extends Component {
             itemSubmitted: false,
             betPeriodLength: 30,
             pluralModifier: "s",
-            categories: ["Animals","Cars", "Electronics", "Tools", "Sports", "Other"]
+            categories: ["Animals","Cars", "Electronics", "Tools", "Sports", "Other"],
+            msPerDay: 86400000
         }
         M.AutoInit();
     }
@@ -36,7 +37,7 @@ class CreateListing extends Component {
             var dueDate = new Date();
             // Add days to duedate specified by user
             // dueDate = dueDate.setDate(dueDate.getDate() + this.state.betPeriodLength);
-            dueDate = new Date(dueDate.getDate() + this.state.betPeriodLength);
+            dueDate = new Date(dueDate.getTime() + this.state.betPeriodLength * this.state.msPerDay);
 
             await uploadItem(uid, this.state.title, this.state.price, this.state.category, 
                 dueDate, this.state.content, this.state.images)
