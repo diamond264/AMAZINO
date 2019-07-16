@@ -39,7 +39,7 @@ export const updateUserBalance = (user, charge) => {
     getUserBalance(user).then((balance) => {
       var newBalance = balance + charge;
       if(newBalance < 0) {
-        reject({message: 'Not enough balance for payment'});
+        return reject({message: 'Not enough balance for payment'});
       }
 
       database.ref('users/'+user).update({balance: newBalance}).then(() => {
@@ -147,6 +147,7 @@ const processBet = (item, price) => {
       var totalPayment = 0;
       Object.values(bets).map((bet) => {
         totalPayment += bet['payment'];
+        return null;
       });
 
       if(totalPayment > price) {
@@ -183,10 +184,18 @@ export const createBet = (item, user, payment) => {
         } else if(payment+prevPayment < 0) {
           return reject({message: "Payment less than 0"});
         } else if(payment+prevPayment === 0) {
-          console.log("324");
-          return firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
-            firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{
-              database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {}).catch((err) => {
+          console.log("refund all payment");
+          return updateUserBalance(user, -payment).then(() => {
+            console.log("Bet Canceled and Payment Refunded");
+            return firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
+              return firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{
+                return database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {
+                  return resolve();
+                }).catch((err) => {
+                  console.log(err);
+                  return reject(err);
+                });
+              }).catch((err) => {
                 console.log(err);
                 return reject(err);
               });
@@ -206,18 +215,18 @@ export const createBet = (item, user, payment) => {
         updates['/bets/'+item+'/'+user] = betData;
 
         database.ref().update(updates).then(() => {
-          updateUserBalance(user, -payment).then(() => {
-            processBet(item, price).then(() => {
+          return updateUserBalance(user, -payment).then(() => {
+            return processBet(item, price).then(() => {
               return resolve(betData);
             }).catch((err) => {
-              cancelBet(item, user, payment).then(() => {
-                updateUserBalance(user, payment).then(() => {
+              return cancelBet(item, user, payment).then(() => {
+                return updateUserBalance(user, payment).then(() => {
                   console.log("Bet Canceled and Payment Refunded");
                   return reject(err);
                 }).catch((err) => {
                   console.log(err);
                   return reject(err);
-                })
+                });
               }).catch((err) => {
                 console.log(err);
                 return reject(err);
@@ -225,11 +234,12 @@ export const createBet = (item, user, payment) => {
             })
           }).catch((err) => {
             console.log(err);
-            cancelBet(item, user, payment).then(() => {}).catch((err) => {
+            return cancelBet(item, user, payment).then(() => {
+              return reject(err);
+            }).catch((err) => {
               console.log(err);
               return reject(err);
             });
-            return reject(err);
           });
         }).catch((err) => {
           console.log(err);
@@ -275,6 +285,7 @@ export const doRaffle = (itemID) => {
           for(var i=0; i<20*bet['payment']/item['price']; i++) {
             chunkList.push(userID);
           }
+          return null;
         });
 
         shuffle(chunkList);
@@ -298,6 +309,48 @@ export const getImageByID = (itemId) => {
         reject(err);
       })
   })
+};
+
+export const removeItem = (itemId) => {
+  return new Promise((resolve, reject) => {
+    getBetsOfItem(itemId).then((bets) => {
+      if(bets) {
+        var betRemoved = Object.keys(bets).map(async (userId) => {
+          var bet = bets[userId];
+          await createBet(itemId, userId, -bet['payment']).then(() => {}).catch((err) => {
+            return reject(err);
+          });
+          return null;
+        });
+
+        Promise.all(betRemoved).then(() => {
+          firebase.database().ref('items/'+itemId).remove().then(() => {
+            console.log("item deleted");
+            firebase.database().ref('bets/'+itemId).remove().then(() => {
+              console.log("bet deleted");
+              return resolve();
+            }).catch((err) => {
+              return reject(err);
+            })
+          }).catch((err) => {
+            return reject(err);
+          })
+        }).catch((err) => {
+          return reject(err);
+        });
+      } else {
+        firebase.database().ref('items/'+itemId).remove().then(() => {
+          console.log("item deleted");
+          return resolve();
+        }).catch((err) => {
+          console.log(err);
+          return reject(err);
+        })
+      }
+    }).catch((err) => {
+      return reject(err);
+    });
+  });
 };
 
 export const uploadItem = async (uid, name, price, category, duedate, description, images) => {

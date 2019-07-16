@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 
 import Listings from './Listings';
-import {isSignIn, getAllItems, createBet, doRaffle} from '../../shared/Firebase.js';
+import {getAllItems, createBet, removeItem} from '../../shared/Firebase.js';
 
 //
 // Wrapper component for listings
@@ -40,6 +39,7 @@ class Market extends Component {
             var item = tempItems[key];
             item['itemID'] = key;
             sortedItems.push(item);
+            return null;
         });
 
         sortedItems.sort((a, b) =>
@@ -53,16 +53,22 @@ class Market extends Component {
 
     componentWillMount = () => {
         console.log("TEST IS AVAILABLE");
-        // createBet('-LjNqf3BHiWl2w4a4j_i','Ku6eNuqHcKSLyKFjPJjpGNNftib2',-40).then(() => {
+        // createBet('-LjNqf3BHiWl2w4a4j_i','Ku6eNuqHcKSLyKFjPJjpGNNftib2',140).then(() => {
         //
         // }).catch((err) => {
         //     console.log(err);
         // });
+        removeItem('-LjUgvnVweh4v5w4t9nA').then(() => {
+            console.log("item removed");
+        }).catch((err) => {
+            console.log(err);
+        });
         // doRaffle('-LjUgvnVweh4v5w4t9nA').then((id) => {
         //     console.log(id);
         // }).catch((err) => {
         //     console.log(err);
         // });
+
         this.getData();
     };
     

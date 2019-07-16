@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { fire } from './shared/Firebase';
-import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
 import Navbar from './components/navigation/Navbar';
-import Home from './components/Home';
 import CreateListing from './components/market/CreateListing';
 import Market from './components/market/Market';
 import SignIn from './components/auth/SignIn';
@@ -12,9 +11,6 @@ import Listing from './components/market/Listing';
 import Profile from './components/account/Profile';
 
 import * as firebase from 'firebase/app';
-
-import { auth } from 'firebase';
-import JunTest from './components/JunTestPlace';
 
 class App extends Component {
   state = {
