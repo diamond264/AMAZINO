@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
 import Listings from './Listings';
-import {getAllItems, createBet, removeItem} from '../../shared/Firebase.js';
+import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
+import {getItemsByStatus} from "../../shared/Firebase";
 
 //
 // Wrapper component for listings
@@ -24,31 +25,14 @@ class Market extends Component {
         var tempItems;
         var sortedItems = [];
 
-        await getAllItems(20)
+        await getItemsByStatus("waitForBet", 20, 1)
             .then(items => {
                 if(items) {
-                    // this.setState({
-                    //     data: items
-                    // });
-                    // console.log(items);
-                    tempItems = items;
+                    this.setState({
+                        data: items
+                    });
                 }
             });
-
-        tempItems && Object.keys(tempItems).map(key => {
-            var item = tempItems[key];
-            item['itemID'] = key;
-            sortedItems.push(item);
-            return null;
-        });
-
-        sortedItems.sort((a, b) =>
-            new Date(b['postDate']) - new Date(a['postDate']));
-
-        console.log(sortedItems);
-        this.setState({
-            data: sortedItems
-        });
     }
 
     componentWillMount = () => {
@@ -63,7 +47,7 @@ class Market extends Component {
         // }).catch((err) => {
         //     console.log(err);
         // });
-        // doRaffle('-LjUgvnVweh4v5w4t9nA').then((id) => {
+        // doRaffle('-LjXvjwHf29vE-42lWH-').then((id) => {
         //     console.log(id);
         // }).catch((err) => {
         //     console.log(err);

@@ -25,7 +25,7 @@ const updateUserItems = (uid, item) => {
     var updates = {};
     updates['users/'+uid+'/itemIDs/'+newItemKey] = item;
 
-    database.ref().update(updates).then(() => {
+    return database.ref().update(updates).then(() => {
       return resolve();
     }).catch((err) => {
       console.log(err);
@@ -36,13 +36,11 @@ const updateUserItems = (uid, item) => {
 
 export const updateUserBalance = (user, charge) => {
   return new Promise((resolve, reject) => {
-    getUserBalance(user).then((balance) => {
+    return getUserBalance(user).then((balance) => {
       var newBalance = balance + charge;
-      if(newBalance < 0) {
-        return reject({message: 'Not enough balance for payment'});
-      }
+      if(newBalance < 0) return reject({message: 'Not enough balance for payment'});
 
-      database.ref('users/'+user).update({balance: newBalance}).then(() => {
+      return database.ref('users/'+user).update({balance: newBalance}).then(() => {
         return resolve(newBalance);
       }).catch((err) => {
         console.log(err);
@@ -56,7 +54,7 @@ export const updateUserBalance = (user, charge) => {
 
 const getPayment = (item, user) => {
   return new Promise((resolve, reject) => {
-    firebase.database().ref('bets/'+item+'/'+user+'/payment').once('value').then(prevPay => {
+    return firebase.database().ref('bets/'+item+'/'+user+'/payment').once('value').then(prevPay => {
       return resolve(prevPay.val());
     }).catch((err) => {
       console.log(err);
@@ -67,30 +65,29 @@ const getPayment = (item, user) => {
 
 const cancelBet = (item, user, payment) => {
   return new Promise((resolve, reject) => {
-    getPayment(item, user).then((prevPayment) => {
+    return getPayment(item, user).then((prevPayment) => {
       if(prevPayment === payment) {
-        firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
-          firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{
-            database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {}).catch((err) => {
+        return firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
+          return firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{
+            return database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {}).catch((err) => {
               console.log(err);
               return reject(err);
             });
           }).catch((err) => {
-                console.log(err);
-                return reject(err);
-              });
+            console.log(err);
+            return reject(err);
+          });
         }).catch((err) => {
           console.log(err);
           return reject(err);
         });
-        return resolve();
       }
 
       var betData = {payment: prevPayment-payment};
 
       var updates = {};
       updates['/bets/'+item+'/'+user] = betData;
-      firebase.database().ref().update(updates).then(() => {
+      return firebase.database().ref().update(updates).then(() => {
         return resolve();
       }).catch((err) => {
         return reject(err);
@@ -103,7 +100,7 @@ const cancelBet = (item, user, payment) => {
 
 export const getBetsOfItem = (itemId) => {
   return new Promise((resolve, reject) => {
-    firebase.database().ref('bets/'+itemId).once('value').then(bets => {
+    return firebase.database().ref('bets/'+itemId).once('value').then(bets => {
       return resolve(bets.val());
     }).catch((err) => {
       console.log(err);
@@ -117,33 +114,30 @@ export const getBetsOfItem = (itemId) => {
 //
 export const getPercentPurchased = (itemId) => {
   return new Promise((resolve, reject) => {
-    getBetsOfItem(itemId).then(bets => {
+    return getBetsOfItem(itemId).then(bets => {
       var totalBetted = 0;
       if(bets) {
         for(var bet in bets) {
-          if(bets.hasOwnProperty(bet)) {
-            totalBetted += bets[bet].payment;
-          }
+          if(bets.hasOwnProperty(bet)) totalBetted += bets[bet].payment;
         }
       }
-      getItemFromID(itemId).then(item => {
+      return getItemFromID(itemId).then(item => {
         if(item) {
           var price = item.price;
           var percentPurchased = Math.round((totalBetted / price) * 100) / 100;
 
-          resolve(percentPurchased);
+          return resolve(percentPurchased);
         } else {
-          reject({message: "Could not find item"});
+          return reject({message: "Could not find item"});
         }
-
-      })
-    })
-  })
+      });
+    });
+  });
 };
 
 const processBet = (item, price) => {
   return new Promise((resolve, reject) => {
-    getBetsOfItem(item).then((bets) => {
+    return getBetsOfItem(item).then((bets) => {
       var totalPayment = 0;
       Object.values(bets).map((bet) => {
         totalPayment += bet['payment'];
@@ -153,18 +147,20 @@ const processBet = (item, price) => {
       if(totalPayment > price) {
         return reject({message: 'Payment over total price'});
       } else if(totalPayment === price) {
-        database.ref('/items/'+item).update({status: "readyToRaffle"}).then(() => {}).catch((err) => {
+        return database.ref('/items/'+item).update({status: "readyToRaffle"}).then(() => {
+          return resolve();
+        }).catch((err) => {
           console.log(err);
           return reject(err);
         });
       } else {
-        database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {}).catch((err) => {
+        return database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {
+          return resolve();
+        }).catch((err) => {
           console.log(err);
           return reject(err);
         });
       }
-
-      return resolve();
     }).catch((err) => {
       console.log(err);
       return reject(err);
@@ -177,8 +173,8 @@ const processBet = (item, price) => {
 //
 export const createBet = (item, user, payment) => {
   return new Promise((resolve, reject) => {
-    getPayment(item, user).then((prevPayment) => {
-      getItemPrice(item).then((price) => {
+    return getPayment(item, user).then((prevPayment) => {
+      return getItemPrice(item).then((price) => {
         if(payment+prevPayment > price/2) {
           return reject({message: "Your bets cannot total over 50%"});
         } else if(payment+prevPayment < 0) {
@@ -214,7 +210,7 @@ export const createBet = (item, user, payment) => {
         updates['/users/'+user+'/betIDs/'+item] = item;
         updates['/bets/'+item+'/'+user] = betData;
 
-        database.ref().update(updates).then(() => {
+        return database.ref().update(updates).then(() => {
           return updateUserBalance(user, -payment).then(() => {
             return processBet(item, price).then(() => {
               return resolve(betData);
@@ -273,12 +269,10 @@ const shuffle = (array) => {
 
 export const doRaffle = (itemID) => {
   return new Promise((resolve, reject) => {
-    getItemFromID(itemID).then((item) => {
-      if(item.status !== "readyToRaffle") {
-        throw new Error("Item not ready to start raffle");
-      }
+    return getItemFromID(itemID).then((item) => {
+      if(item.status !== "readyToRaffle") throw new Error("Item not ready to start raffle");
 
-      getBetsOfItem(itemID).then((bets) => {
+      return getBetsOfItem(itemID).then((bets) => {
         var chunkList = [];
         Object.keys(bets).map((userID) => {
           var bet = bets[userID];
@@ -301,19 +295,17 @@ export const doRaffle = (itemID) => {
 
 export const getImageByID = (itemId) => {
   return new Promise((resolve, reject) => {
-      firebase.storage().ref().child('images/'+itemId).getDownloadURL().then(url => {
-        if(url) {
-          resolve(url);
-        }
-      }).catch( err => {
-        reject(err);
-      })
+    return firebase.storage().ref().child('images/'+itemId).getDownloadURL().then(url => {
+      if(url) return resolve(url);
+    }).catch( err => {
+      return reject(err);
+    })
   })
 };
 
 export const removeItem = (itemId) => {
   return new Promise((resolve, reject) => {
-    getBetsOfItem(itemId).then((bets) => {
+    return getBetsOfItem(itemId).then((bets) => {
       if(bets) {
         var betRemoved = Object.keys(bets).map(async (userId) => {
           var bet = bets[userId];
@@ -323,8 +315,8 @@ export const removeItem = (itemId) => {
           return null;
         });
 
-        Promise.all(betRemoved).then(() => {
-          firebase.database().ref('items/'+itemId).remove().then(() => {
+        return Promise.all(betRemoved).then(() => {
+          return firebase.database().ref('items/'+itemId).remove().then(() => {
             console.log("item deleted");
             firebase.database().ref('bets/'+itemId).remove().then(() => {
               console.log("bet deleted");
@@ -339,13 +331,13 @@ export const removeItem = (itemId) => {
           return reject(err);
         });
       } else {
-        firebase.database().ref('items/'+itemId).remove().then(() => {
+        return firebase.database().ref('items/'+itemId).remove().then(() => {
           console.log("item deleted");
           return resolve();
         }).catch((err) => {
           console.log(err);
           return reject(err);
-        })
+        });
       }
     }).catch((err) => {
       return reject(err);
@@ -365,6 +357,7 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
       category: category,
       description: description,
       itemImg: "",
+      status: "waitForBet",
     };
     console.log(duedate);
 
@@ -376,8 +369,8 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
     var updates = {};
     updates['/items/'+newItemKey] = itemData;
 
-    database.ref().update(updates).then(() => {
-      updateUserItems(uid, newItemKey).then(() => {
+    return database.ref().update(updates).then(() => {
+      return updateUserItems(uid, newItemKey).then(() => {
         return resolve();
       }).catch((err) => {
         console.log(err);
@@ -390,21 +383,31 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
   });
 };
 
-export const getAllItems = (limit) => {
-  return new Promise((resolve, reject) => {
-    firebase.database().ref('items').orderByChild('postDate').limitToLast(limit)
-        .once('value').then(items => {
-      return resolve(items.val());
+export const getAllItems = (limit, pageNum) => {return new Promise((resolve, reject) => {
+    var returnItems = [];
+    return firebase.database().ref('items').then((itemVal) => {
+      var items = itemVal.val();
+      if(!items) return resolve(returnItems);
+
+      Object.keys(items).map(key => {
+        var item = items[key];
+        item['itemID'] = key;
+        returnItems.push(item);
+        return null;
+      });
+
+      returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
+      return resolve(returnItems.slice((pageNum-1)*limit, pageNum*limit));
     }).catch((err) => {
       console.log(err);
       return reject(err);
-    });
+    })
   });
 };
 
 export const getItemFromID = (itemID) => {
   return new Promise((resolve, reject) => {
-    firebase.database().ref('items').child(itemID).once('value').then(items => {
+    return firebase.database().ref('items').child(itemID).once('value').then(items => {
       return resolve(items.val());
     }).catch((err) => {
       console.log(err);
@@ -415,7 +418,7 @@ export const getItemFromID = (itemID) => {
 
 export const getItemPrice = (item) => {
   return new Promise((resolve, reject) => {
-    firebase.database().ref('items/'+item+'/price').once('value').then(user => {
+    return firebase.database().ref('items/'+item+'/price').once('value').then(user => {
       return resolve(user.val());
     }).catch((err) => {
       console.log(err);
@@ -426,7 +429,7 @@ export const getItemPrice = (item) => {
 
 export const getUserBalance = (uid) => {
   return new Promise((resolve, reject) => {
-    firebase.database().ref('users/'+uid+'/balance').once('value').then(user => {
+    return firebase.database().ref('users/'+uid+'/balance').once('value').then(user => {
       return resolve(user.val());
     }).catch((err) => {
       console.log(err);
@@ -437,7 +440,7 @@ export const getUserBalance = (uid) => {
 
 export const getUserDataFromID = (uid) => {
   return new Promise((resolve, reject) => {
-    firebase.database().ref('users').child(uid).once('value').then(user => {
+    return firebase.database().ref('users').child(uid).once('value').then(user => {
       return resolve(user.val());
     }).catch((err) => {
       console.log(err);
@@ -446,13 +449,62 @@ export const getUserDataFromID = (uid) => {
   })
 };
 
+export const getMyBettings = (userId) => {
+  return new Promise((resolve, reject) => {
+
+  });
+};
+
+export const getItemsBySeller = (sellerId, limit, pageNum) => {
+  return new Promise((resolve, reject) => {
+    var returnItems = [];
+    return getItemFromKVPair("seller", sellerId).then((items) => {
+      if(!items) return resolve(returnItems);
+
+      Object.keys(items).map(key => {
+        var item = items[key];
+        item['itemID'] = key;
+        returnItems.push(item);
+        return null;
+      });
+
+      returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
+      return resolve(returnItems.slice((pageNum-1)*limit, pageNum*limit));
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
+  });
+};
+
+export const getItemsByStatus = (status, limit, pageNum) => {
+  return new Promise((resolve, reject) => {
+    var returnItems = [];
+    return getItemFromKVPair("status", status).then((items) => {
+      if(!items) return resolve(returnItems);
+
+      Object.keys(items).map(key => {
+        var item = items[key];
+        item['itemID'] = key;
+        returnItems.push(item);
+        return null;
+      });
+
+      returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
+      return resolve(returnItems.slice((pageNum-1)*limit, pageNum*limit));
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+};
 
 export const getItemFromKVPair = (key, value) => {
   var itemRef = database.ref('items/');
   var itemQuery = itemRef.orderByChild(key).equalTo(value);
 
   return new Promise((resolve, reject) => {
-    itemQuery.once('value').then(item => {
+    return itemQuery.once('value').then(item => {
       return resolve(item.val());
     }).catch((err) => {
       console.log(err);
@@ -463,7 +515,7 @@ export const getItemFromKVPair = (key, value) => {
 
 export const signIn = (email, password) => {
   return new Promise((resolve, reject) => {
-    firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+    return firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
       return resolve(firebase.auth().currentUser);
     }).catch((err) => {
       console.log(err);
@@ -474,7 +526,7 @@ export const signIn = (email, password) => {
 
 export const signUp = (email, password, displayName) => {
   return new Promise((resolve, reject) => {
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(()=> {
+    return firebase.auth().createUserWithEmailAndPassword(email, password).then(()=> {
       console.log('then');
       var user = firebase.auth().currentUser;
       var uid = user.uid;
@@ -492,7 +544,7 @@ export const signUp = (email, password, displayName) => {
 };
 
 export const signOut = () => {
-  firebase.auth.signOut().then(function() {
+  return firebase.auth.signOut().then(function() {
     console.log("signed out");
   }).catch(function(err) {
     console.log(err);
@@ -506,7 +558,7 @@ export const isSignIn = () => {
 
 export const getBalance = async (uid) => {
   return new Promise((resolve, reject) => {
-    database.ref('users/'+uid).once('value', (snap) => {
+    return database.ref('users/'+uid).once('value', (snap) => {
       if(snap) {
         return resolve(snap.val().balance);
       } else {
@@ -517,7 +569,7 @@ export const getBalance = async (uid) => {
 };
 
 export const updateBalance = (bal) => {
-  database.ref('users/332kxRhgNodHzIzdMNhhsScGIpG2').update({
+  return database.ref('users/332kxRhgNodHzIzdMNhhsScGIpG2').update({
     balance: bal
   })
 };
