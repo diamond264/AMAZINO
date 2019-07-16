@@ -48,6 +48,10 @@ exports.dailyCleanup = functions.pubsub.schedule('59 23 * * *').onRun(async (con
                                     // add balance back to user's balance
                                     balance += bets[bet].payment;
                                     admin.database().ref('users/'+bet).update({balance})
+                                    .then(() => {
+                                        // Remove bet from buyer's record
+                                        return admin.database().ref('users/'+bet+"/betIDs/"+item).remove();
+                                    })
                                     .catch(err => {
                                         return err;
                                     });
@@ -63,7 +67,7 @@ exports.dailyCleanup = functions.pubsub.schedule('59 23 * * *').onRun(async (con
                 })
                 .then(() => {
                     // Remove listing from seller's account
-                    return admin.database().ref('users/'+uid+"/betIDs/"+item);
+                    return admin.database().ref('users/'+uid+"/itemIDs/"+item).remove();
                 })
                 .then(() => {
                     // Remove account after bets have been removed and refunded
