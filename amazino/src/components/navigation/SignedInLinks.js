@@ -40,7 +40,7 @@ class SignedInLinks extends Component{
             <div>
                 <ul className="right sidenav-trigger" data-target="slide-out">
                     <li>
-                        <NavLink className="hamburger"><i className="material-icons">menu</i></NavLink>
+                        <a className="hamburger"><i className="material-icons">menu</i></a>
                     </li>
                 </ul>
                 <ul className="sidenav grey lighten-3" id="slide-out">
@@ -48,7 +48,7 @@ class SignedInLinks extends Component{
                     <li>
                         <div className="user-view">
                             <span><h5>{this.state.user.displayName}</h5></span>
-                            <span class="grey-text email">Balance: ${this.state.user.balance.toFixed(2)}</span>
+                            <span className="grey-text email">Balance: ${this.state.user.balance.toFixed(2)}</span>
                         </div>
                     </li>
 

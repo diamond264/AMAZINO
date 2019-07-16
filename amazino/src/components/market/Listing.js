@@ -103,6 +103,7 @@ class Listing extends Component {
                 .then((betData) => {
                     if(betData){
                         this.getPercentPurchased();
+                        handleSuccess();
                     }
                 })
                 .catch((err) => {
@@ -116,13 +117,17 @@ class Listing extends Component {
     }
 
     async loadImage() {
-        await getImageByID(this.state.itemID)
-            .then(url => {
-                var img = document.getElementById('item-image');
-                if(img) {
-                    img.src = url;
-                }
-            });
+        try {
+            await getImageByID(this.state.itemID)
+                .then(url => {
+                    var img = document.getElementById('item-image');
+                    if(img) {
+                        img.src = url;
+                    }
+                });
+        } catch(err) {
+            handleError({message: "Image not found"});
+        }
     }
 
     render() {
@@ -160,7 +165,7 @@ class Listing extends Component {
                     </div>
 
                     <div className="row">
-                        <label htmlFor="progressBar">Progress: {this.state.percentPurchased * 100}%</label>
+                        <label htmlFor="progressBar">Progress: {Math.round(this.state.percentPurchased * 100)}%</label>
                         <div className="progress section">
                             <div className="determinate" style={{width: (this.state.percentPurchased * 100) +"%"}}></div>
                         </div>
