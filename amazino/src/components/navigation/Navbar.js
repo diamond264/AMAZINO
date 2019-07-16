@@ -19,7 +19,7 @@ class Navbar extends Component {
     }
 
     componentDidUpdate = () => {
-        if(this.props.currentUser && !this.state.user) {
+        if(this.props.currentUser) {
             this.getUserData(this.props.currentUser.uid);
         }
     }
