@@ -24,7 +24,8 @@ exports.dailyCleanup = functions.pubsub.schedule('59 23 * * *').onRun(async (con
             console.log(item);
             var currentDate = new Date();
             currentDate = currentDate.getTime();
-            var dueDate = items[item].dueDate;
+            var dueDate = new Date(items[item].dueDate);
+            dueDate = dueDate.getTime();
             var uid = items[item].seller;
 
             // Delete items past due date
