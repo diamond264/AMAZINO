@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import {updateUserBalance, getUserDataFromID} from '../../shared/Firebase';
+import {updateUserBalance, getUserDataFromID, getItemsBySeller, getItemsByStatus} from '../../shared/Firebase';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling';
+import Listings from '../market/Listings';
 
 class Profile extends Component {
     constructor(props) {
@@ -11,9 +12,11 @@ class Profile extends Component {
             currentUser: this.props.currentUser,
             user: null,
             displayName: null,
-            balanceToAdd: 0
+            balanceToAdd: 0,
+            data: null
         }
-        
+
+
         this.updateBalance = this.updateBalance.bind(this);
     }
 
@@ -21,7 +24,8 @@ class Profile extends Component {
 
     componentDidMount = () => {
         this.getUserData();
-        
+        this.getData();
+
     }
 
     async getUserData() {
@@ -33,7 +37,31 @@ class Profile extends Component {
                     displayName: user.displayName
                 })
             });
+
         }
+
+        //       if(this.state.currentUser) {
+        //    await getItemsBySeller(this.state.currentUser.uid)
+        //        .then( items => {
+        //            if(items) {
+        //                this.setState( {
+        //                    data: items
+        //                });
+        //            }
+        //        });
+        //}
+    }
+    async getData() {
+
+
+        await getItemsBySeller(this.state.currentUser.uid, 20, 1)
+            .then(items => {
+                if(items) {
+                    this.setState({
+                        data: items
+                    });
+                }
+            });
     }
 
     handleChange = (e) => {
@@ -93,7 +121,7 @@ class Profile extends Component {
                             <form onSubmit={this.handleBalanceUpdate}>
                                 <div className="col s6 m5 l4 input-field">
                                     <input type="number" id="balanceToAdd" value={this.state.balanceToAdd}
-                                        onChange={this.handleBalanceToAddChange}/>
+                                           onChange={this.handleBalanceToAddChange}/>
                                     <button className="btn" onClick={this.handleBalanceUpdate}>Add Balance</button>
                                 </div>
                             </form>
@@ -102,7 +130,9 @@ class Profile extends Component {
                         <div className="row section center">
                             <div className="col s12">
                                 <h5 className="grey-text text-darken-2">Listings</h5>
-                                <div className="container z-depth-1">Insert Users Listings Here</div>
+                                <div className="container z-depth-1">
+                                    <Listings {...this.state}/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -111,5 +141,4 @@ class Profile extends Component {
         )
     }
 }
-
 export default Profile;
