@@ -29,7 +29,8 @@ class Listing extends Component {
             betPrice: 0,
             displayName: null,
             percentPurchased: null,
-            betPosted: false
+            betPosted: false,
+            itemDeleted: false
         }
     }
 
@@ -69,6 +70,12 @@ class Listing extends Component {
             console.log(err);
             handleError(err);
         })
+    }
+
+    handleDelete = (e) => {
+        e.preventDefault();
+
+        this.deleteItem();
     }
 
     
@@ -174,6 +181,9 @@ class Listing extends Component {
             await removeItem(this.state.itemID)
             .then(() => {
                 handleSuccess();
+                this.setState({
+                    itemDeleted: true
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -187,9 +197,38 @@ class Listing extends Component {
 
     render() {
         if(!isSignIn()) return <Redirect to="/signin" />
+        if(this.state.itemDeleted) return <Redirect to="/" />
         if(!this.state.item) return <div></div>
+        
         var refundLink = this.state.betPosted ? <button className="btn red white-text" style={{marginLeft: "5px"}} onClick={this.handleRefund}>refund</button> : null
         
+        var deleteLink = this.state.item.seller === this.state.currentUser.uid ? (
+            <div className="row center">
+                <div className="col s6 m4 l2 offset-s3 offset-m4 offset-l5">
+                    <button className="btn red white-text" onClick={this.handleDelete}>delete</button> 
+                </div>
+            </div>
+        ) : null
+
+        var betForm = this.state.item.seller != this.state.currentUser.uid ? (
+            <div>
+                <div className="row center">
+                    <div className="col s8 m6 l4 offset-s2 offset-m3 offset-l4">
+                        <p>Chance to win: {this.state.betPercent * 100}%</p>
+                        <p className="grey-text text-darken-1">Price: ${this.state.betPrice.toFixed(2)}</p>
+                        <p className="range-field"><input onChange={this.handleBetSlider} step="5" type="range" id="betPercent" min="0" max={this.state.maxPercent * 100}/></p>
+                        <label>Max bet: {this.state.maxPercent * 100}%</label>
+                    </div>
+                </div>
+                <div className="row center">
+                    <div className="col s6 m4 l2 offset-s3 offset-m4 offset-l5">
+                        <button className="btn green white-text" onClick={this.handleBet}>bet</button>
+                        {refundLink}    
+                    </div>
+                </div>
+            </div>
+        ) : null
+
         return(
             <div className="container section">
             <div className="card col s8 m4">
@@ -206,20 +245,6 @@ class Listing extends Component {
 
                     <div className="divider"></div>
                     <div className="section"></div>
-                    <div className="row center">
-                        <div className="col s8 m6 l4 offset-s2 offset-m3 offset-l4">
-                            <p>Chance to win: {this.state.betPercent * 100}%</p>
-                            <p className="grey-text text-darken-1">Price: ${this.state.betPrice.toFixed(2)}</p>
-                            <p className="range-field"><input onChange={this.handleBetSlider} step="5" type="range" id="betPercent" min="0" max={this.state.maxPercent * 100}/></p>
-                            <label>Max bet: {this.state.maxPercent * 100}%</label>
-                        </div>
-                    </div>
-                    <div className="row center">
-                        <div className="col s6 m4 l2 offset-s3 offset-m4 offset-l5">
-                            <button className="btn green white-text" onClick={this.handleBet}>bet</button>
-                            {refundLink}    
-                        </div>
-                    </div>
 
                     <div className="row">
                         <label htmlFor="progressBar">Progress: {Math.round(this.state.percentPurchased * 100)}%</label>
@@ -227,6 +252,10 @@ class Listing extends Component {
                             <div className="determinate" style={{width: (this.state.percentPurchased * 100) +"%"}}></div>
                         </div>
                     </div>
+
+                    {betForm}
+
+                    {deleteLink}
 
                     <div className="section row">
                         <div className="divider"></div>

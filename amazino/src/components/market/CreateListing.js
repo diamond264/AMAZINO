@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import M from 'materialize-css';
 
-import {uploadItem, isSignIn} from '../../shared/Firebase'
+import {uploadItem, isSignIn, getUserDataFromID} from '../../shared/Firebase';
+import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 import '../../App.css';
 
 class CreateListing extends Component {
@@ -18,7 +19,7 @@ class CreateListing extends Component {
             images: "",
             content: "",
             category: "Category",
-            user: "",
+            user: null,
             itemSubmitted: false,
             betPeriodLength: 30,
             pluralModifier: "s",
@@ -33,7 +34,7 @@ class CreateListing extends Component {
     //
     async postData() {
         try {
-            var uid = this.state.user.uid;
+            var uid = this.props.currentUser.uid;
             var dueDate = new Date();
             // Add days to duedate specified by user
             // dueDate = dueDate.setDate(dueDate.getDate() + this.state.betPeriodLength);
@@ -41,19 +42,24 @@ class CreateListing extends Component {
 
             await uploadItem(uid, this.state.title, this.state.price, this.state.category, 
                 dueDate, this.state.content, this.state.images)
-                .then(() => {this.setState({
-                    itemSubmitted: true
-                })})
-                .then(M.toast({html: 'Success!', classes: 'green'}));
+                .then(() => {
+                    this.setState({
+                        itemSubmitted: true
+                    })
+                    handleSuccess();
+                })
         } catch(err) {
             console.log(err);
+            handleError(err);
         }
     }
 
     componentDidMount = () => {
-        this.setState({
-            user: this.props.currentUser
-        });
+        getUserDataFromID(this.props.currentUser.uid).then(user => {
+            this.setState({
+                user
+            })
+        })
         M.AutoInit();
     }
 
@@ -96,25 +102,16 @@ class CreateListing extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        if (this.state.title.length === 0) this.handleError("Title is empty");
-        else if (this.state.price <= 0) this.handleError("Price is too low");
-        else if (this.state.content.length <= 5) this.handleError("Description too short");
-        else if (this.state.category === "Category") this.handleError("Select a category");
+        if (this.state.title.length === 0) handleError({message: "Title is empty"});
+        else if (this.state.price <= 0) handleError({message: "Price is too low"});
+        else if (this.state.content.length <= 5) handleError({message: "Description too short"});
+        else if (this.state.category === "Category") handleError({message: "Select a category"});
         else {
 
             this.postData();
 
         }
         //console.log(this.state);
-    }
-
-    handleError = (errorText) => {
-        var options = {
-            html: errorText,
-            classes: 'error-toast'
-        }
-
-        M.toast(options);
     }
 
     updateCategory = (category) => {

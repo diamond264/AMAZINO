@@ -17,6 +17,7 @@ export const handleError = (err) => {
     else if(err.code === "auth/wrong-password") errorText = "Incorrect password";
     else if(err.code === "auth/invalid-email") errorText = "Invalid email";
     else if(err.code === "storage/object-not-found") errorText = "Item not found";
+    else if(err.code === "storage/invalid-argument") errorText = "Invalid file";
 
     var options = {
         html: errorText,
