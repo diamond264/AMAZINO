@@ -493,6 +493,28 @@ export const getMyBettings = (userId) => {
   });
 };
 
+export const getItemsByWinner = (winnerId, limit, pageNum) => {
+  return new Promise((resolve, reject) => {
+    var returnItems = [];
+    return getItemFromKVPair("winner", winnerId).then((items) => {
+      if(!items) return resolve(returnItems);
+
+      Object.keys(items).map(key => {
+        var item = items[key];
+        item['itemID'] = key;
+        returnItems.push(item);
+        return null;
+      });
+
+      returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
+      return resolve(returnItems.slice((pageNum-1)*limit, pageNum*limit));
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
+  });
+};
+
 export const getItemsBySeller = (sellerId, limit, pageNum) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
@@ -590,7 +612,7 @@ export const signOut = () => {
 };
 
 export const isSignIn = () => {
-  if (firebase.auth().currentUser) return true;
+  if(firebase.auth().currentUser) return true;
   else return false;
 };
 
