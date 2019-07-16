@@ -24,7 +24,7 @@ class Market extends Component {
         var tempItems;
         var sortedItems = [];
 
-        await getAllItems(10)
+        await getAllItems(20)
             .then(items => {
                 if(items) {
                     // this.setState({

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import '../../App.css';
 
-import {getUserDataFromID} from '../../shared/Firebase';
+import {getUserDataFromID, getImageByID} from '../../shared/Firebase';
 
 //
 // Summarize a listing, to be viewed as a card within the Market
@@ -14,7 +14,8 @@ class ListingSummary extends Component {
         this.state = {
             postDate: null,
             dueDate: null,
-            displayName: null
+            displayName: null,
+            img_src: "",
         }
     }
 
@@ -26,6 +27,11 @@ class ListingSummary extends Component {
             dueDate
         })
         this.getUserData();
+        // this.loadImage();
+    }
+
+    componentDidMount = () => {
+        this.loadImage();
     }
 
     async getUserData() {
@@ -36,13 +42,31 @@ class ListingSummary extends Component {
         })
     }
 
+    async loadImage() {
+        await getImageByID(this.props.id)
+            .then(url => {
+                this.setState({
+                    img_src: url,
+                })
+            }).catch((err) => {
+                this.setState({
+                    img_src: ""
+                })
+            });
+    }
+
     render() {
         // console.log(this.props);
         return (
-            <div className="card col s6 m6 market-fade z-depth-0">
+            <div className="card col s3 m3 market-fade z-depth-0">
                 <NavLink to={'/listing/' + this.props.id} className="black-text">
                         <div className="card-content">
                             <h5>{this.props.name}</h5>
+                            <div className="card-image" style={{height: "200px"}}>
+                                {this.state.img_src==""? <h5>NO Image</h5> :
+                                <img id="item-image" className="item-image circle" alt="Image" src={this.state.img_src}
+                                    />}
+                            </div>
                             <p className="grey-text text-darken-1">Price: ${this.props.price}</p>
                             <p className="truncate">{this.props.description}</p>
                             <div className="section">
