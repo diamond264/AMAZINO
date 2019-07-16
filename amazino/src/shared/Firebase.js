@@ -267,6 +267,38 @@ const shuffle = (array) => {
   return array;
 };
 
+const blockBets = (itemId, winnerId) => {
+  return new Promise((resolve, reject) => {
+    return database.ref('/items/'+itemId).update({status: "SoldOut", winner: winnerId}).then(() => {
+      return getBetsOfItem(itemId).then(async (bets) => {
+        var removeFromUsers = Object.keys(bets).map(async (userId) => {
+          await firebase.database().ref('users/'+userId+'/betIDs/'+itemId).remove().then(() => {
+            return resolve();
+          }).catch((err) => {
+            return reject(err);
+          });
+          return null;
+        });
+
+        return await Promise.all(removeFromUsers).then(() => {
+          return firebase.database().ref('bets/'+itemId).remove().then(() => {
+            console.log("bet deleted");
+            return resolve();
+          }).catch((err) => {
+            return reject(err);
+          });
+        }).catch((err) => {
+          return reject(err);
+        });
+      }).catch((err) => {
+        return reject(err);
+      })
+    }).catch((err) => {
+      return reject(err);
+    });
+  });
+};
+
 export const doRaffle = (itemID) => {
   return new Promise((resolve, reject) => {
     return getItemFromID(itemID).then((item) => {
@@ -281,9 +313,15 @@ export const doRaffle = (itemID) => {
           }
           return null;
         });
-
         shuffle(chunkList);
-        return resolve(chunkList[0]);
+
+        var winnerId = chunkList[0];
+        return blockBets(itemID, winnerId).then(() => {
+          return resolve(winnerId);
+        }).catch((err) => {
+          console.log(err);
+          return reject(err);
+        });
       }).catch((err) => {
         return reject(err);
       })
@@ -305,7 +343,7 @@ export const getImageByID = (itemId) => {
 
 export const removeItem = (itemId) => {
   return new Promise((resolve, reject) => {
-    return getBetsOfItem(itemId).then((bets) => {
+    return getBetsOfItem(itemId).then(async (bets) => {
       if(bets) {
         var betRemoved = Object.keys(bets).map(async (userId) => {
           var bet = bets[userId];
@@ -315,7 +353,7 @@ export const removeItem = (itemId) => {
           return null;
         });
 
-        return Promise.all(betRemoved).then(() => {
+        return await Promise.all(betRemoved).then(() => {
           return firebase.database().ref('items/'+itemId).remove().then(() => {
             console.log("item deleted");
             firebase.database().ref('bets/'+itemId).remove().then(() => {
@@ -323,10 +361,10 @@ export const removeItem = (itemId) => {
               return resolve();
             }).catch((err) => {
               return reject(err);
-            })
+            });
           }).catch((err) => {
             return reject(err);
-          })
+          });
         }).catch((err) => {
           return reject(err);
         });

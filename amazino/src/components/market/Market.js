@@ -42,12 +42,12 @@ class Market extends Component {
         // }).catch((err) => {
         //     console.log(err);
         // });
-        // removeItem('-LjUgvnVweh4v5w4t9nA').then(() => {
+        // removeItem('-LjsdlnXkcG0NXAHqJvD').then(() => {
         //     console.log("item removed");
         // }).catch((err) => {
         //     console.log(err);
         // });
-        // doRaffle('-LjXvjwHf29vE-42lWH-').then((id) => {
+        // doRaffle('-LjXnZjO75iHw6toC8dp').then((id) => {
         //     console.log(id);
         // }).catch((err) => {
         //     console.log(err);
