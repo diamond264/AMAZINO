@@ -15,7 +15,7 @@ class ListingSummary extends Component {
             postDate: null,
             dueDate: null,
             displayName: null,
-            img_src: "",
+            img_src: ""
         }
     }
 
@@ -73,7 +73,7 @@ class ListingSummary extends Component {
                             <p className="truncate">{this.props.description}</p>
                             <div className="section">
                                 <div className="divider"></div>
-                                <p className="grey-text">by {this.state.displayName} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
+                                <p className="grey-text truncate">by {this.state.displayName} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
                             </div>
                         </div>
                 </NavLink>

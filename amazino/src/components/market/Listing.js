@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {Redirect, Link} from 'react-router-dom';
 
 import {isSignIn, getItemFromID, getImageByID, getUserDataFromID, getPercentPurchased, createBet, 
-    removeItem, getBetsOfItem} from '../../shared/Firebase.js';
-import {handleError, handleSuccess} from '../../shared/ErrorHandling.js';
+    removeItem, getBetsOfItem} from '../../shared/Firebase';
+import {handleError, handleSuccess} from '../../shared/ErrorHandling';
+
+import ProgressBar from '../../shared/ProgressBar';
 
 import '../../App.css';
 
@@ -29,6 +31,7 @@ class Listing extends Component {
             betPrice: 0,
             displayName: null,
             percentPurchased: null,
+            percentUserPurchased: null,
             betPosted: false,
             itemDeleted: false,
             payedThisSession: 0
@@ -72,7 +75,9 @@ class Listing extends Component {
         this.deleteItem();
     }
 
-    
+    //
+    // Get necessary data for about item and user for listing page
+    //
     async getData() {
             await getItemFromID(this.state.itemID)
                 .then(item => {
@@ -102,18 +107,41 @@ class Listing extends Component {
             
     }
 
+    //
+    // Get percent of item already purchased, and percent user has purchased
+    //
     async getPercentPurchased() {
         try {
             await getPercentPurchased(this.state.itemID).then(percentPurchased => {
-                this.setState({
-                    percentPurchased
+                var percentUserPurchased = 0;
+
+                getBetsOfItem(this.state.itemID).then(bets => {
+                    if(bets) {
+                        if(bets[this.state.currentUser.uid]) {
+                            // do calculation for percent of total price user purchased
+                            percentUserPurchased = Math.round(100 * (bets[this.state.currentUser.uid].payment / this.state.item.price)) / 100;
+                        }
+                    }
+                }).then(() => {
+                    // update state
+                    this.setState({
+                        percentPurchased,
+                        percentUserPurchased
+                    })
+                }).catch(err => {
+                    handleError(err);
                 })
+
+                
             })
         } catch (err) {
             handleError(err);
         }
     }
 
+    //
+    // Posts bet with current values in state
+    //
     async postBet() {
         try {
             await createBet(this.state.itemID, this.state.currentUser.uid, this.state.betPrice)
@@ -137,6 +165,7 @@ class Listing extends Component {
         }
     }
 
+    // load image and update img html element
     async loadImage() {
         try {
             await getImageByID(this.state.itemID)
@@ -151,6 +180,7 @@ class Listing extends Component {
         }
     }
 
+    // Refund bet to this user
     async refundBet(amount) {
         try {
             await createBet(this.state.itemID, this.state.currentUser.uid, -amount)
@@ -172,6 +202,7 @@ class Listing extends Component {
         }
     }
 
+    // Delete this listing, update state accordingly
     async deleteItem() {
         try {
             await removeItem(this.state.itemID)
@@ -243,10 +274,7 @@ class Listing extends Component {
                     <div className="section"></div>
 
                     <div className="row">
-                        <label htmlFor="progressBar">Progress: {Math.round(this.state.percentPurchased * 100)}%</label>
-                        <div className="progress section">
-                            <div className="determinate" style={{width: (this.state.percentPurchased * 100) +"%"}}></div>
-                        </div>
+                        <ProgressBar label={true} percentMap={[this.state.percentPurchased-this.state.percentUserPurchased, this.state.percentUserPurchased]}/>
                     </div>
 
                     {betForm}
