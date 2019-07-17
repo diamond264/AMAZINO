@@ -75,6 +75,22 @@ class Listing extends Component {
         this.deleteItem();
     }
 
+    // Determine max percent user can bet based on items in state
+    setMaxPercent = (e) => {
+        var percentCap = .5;
+        var maxPercent = .5;
+        if(this.state.percentPurchased > percentCap) {
+            maxPercent = 1-this.state.percentPurchased;
+        }
+        if(percentCap - this.state.percentUserPurchased < maxPercent) {
+            maxPercent = percentCap - this.state.percentUserPurchased;
+        }
+        this.setState({
+            maxPercent: Math.round(maxPercent * 100) / 100
+        });
+
+    }
+
     //
     // Get necessary data for about item and user for listing page
     //
@@ -127,7 +143,8 @@ class Listing extends Component {
                     this.setState({
                         percentPurchased,
                         percentUserPurchased
-                    })
+                    });
+                    this.setMaxPercent();
                 }).catch(err => {
                     handleError(err);
                 })
@@ -229,6 +246,7 @@ class Listing extends Component {
         
         var refundLink = this.state.betPosted ? <button className="btn red white-text" style={{marginLeft: "5px"}} onClick={this.handleRefund}>refund</button> : null
         
+        // Delete link, only displayed when currentUser is seller
         var deleteLink = this.state.item.seller === this.state.currentUser.uid ? (
             <div className="row center">
                 <div className="col s6 m4 l2 offset-s3 offset-m4 offset-l5">
@@ -237,13 +255,14 @@ class Listing extends Component {
             </div>
         ) : null
 
+        // From for betting, only displayed if current user is not seller
         var betForm = this.state.item.seller != this.state.currentUser.uid ? (
             <div>
                 <div className="row center">
                     <div className="col s8 m6 l4 offset-s2 offset-m3 offset-l4">
                         <p>Chance to win: {this.state.betPercent * 100}%</p>
                         <p className="grey-text text-darken-1">Price: ${this.state.betPrice.toFixed(2)}</p>
-                        <p className="range-field"><input onChange={this.handleBetSlider} step="5" type="range" id="betPercent" min="0" max={this.state.maxPercent * 100}/></p>
+                        <p className="range-field"><input onChange={this.handleBetSlider} step="5" defaultValue={0} type="range" id="betPercent" min="0" max={this.state.maxPercent * 100}/></p>
                         <label>Max bet: {this.state.maxPercent * 100}%</label>
                     </div>
                 </div>

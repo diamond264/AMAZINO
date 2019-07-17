@@ -185,7 +185,7 @@ class CreateListing extends Component {
                             <div className="row">
                                 <div className="col s6 m5 l4">
                                     <label htmlFor="betPeriodLength">Bet period length: {this.state.betPeriodLength} day{this.state.pluralModifier}</label>
-                                    <p className="range-field"><input type="range" id="betPeriodLength" min="1" max="30" onChange={this.handleBetPeriod}/></p>
+                                    <p className="range-field"><input type="range" defaultValue={this.state.betPeriodLength} id="betPeriodLength" min="1" max="30" onChange={this.handleBetPeriod}/></p>
                                 </div>
                             </div>
 
