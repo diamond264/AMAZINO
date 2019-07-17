@@ -61,6 +61,7 @@
 .progressbar-element {
   display: inline-block;
   height: 30px;
+  transition: all 0.1s ease;
 }
 
 .progressbar-label {

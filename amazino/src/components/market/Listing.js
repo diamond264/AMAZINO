@@ -168,8 +168,13 @@ class Listing extends Component {
                         handleSuccess();
                         this.setState({
                             betPosted: true,
-                            payedThisSession: this.state.betPrice
+                            payedThisSession: this.state.betPrice,
+                            betPercent: 0,
+                            betPrice: 0
                         })
+
+                        // reset bet slider
+                        document.getElementById('betPercent').value = 0;
                     }
                 })
                 .catch((err) => {
@@ -260,9 +265,9 @@ class Listing extends Component {
             <div>
                 <div className="row center">
                     <div className="col s8 m6 l4 offset-s2 offset-m3 offset-l4">
-                        <p>Chance to win: {this.state.betPercent * 100}%</p>
+                        <p>Current bet: {this.state.betPercent * 100}%</p>
                         <p className="grey-text text-darken-1">Price: ${this.state.betPrice.toFixed(2)}</p>
-                        <p className="range-field"><input onChange={this.handleBetSlider} step="5" defaultValue={0} type="range" id="betPercent" min="0" max={this.state.maxPercent * 100}/></p>
+                        <p className="range-field"><input onChange={this.handleBetSlider} step="5" defaultValue={this.state.betPercent} type="range" id="betPercent" min="0" max={this.state.maxPercent * 100}/></p>
                         <label>Max bet: {this.state.maxPercent * 100}%</label>
                     </div>
                 </div>
@@ -293,7 +298,7 @@ class Listing extends Component {
                     <div className="section"></div>
 
                     <div className="row">
-                        <ProgressBar label={true} percentMap={[this.state.percentPurchased-this.state.percentUserPurchased, this.state.percentUserPurchased]}/>
+                        <ProgressBar label={true} percentMap={[this.state.percentPurchased-this.state.percentUserPurchased, this.state.percentUserPurchased, this.state.betPercent]}/>
                     </div>
 
                     {betForm}

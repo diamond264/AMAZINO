@@ -23,7 +23,7 @@ class CreateListing extends Component {
             itemSubmitted: false,
             betPeriodLength: 30,
             pluralModifier: "s",
-            categories: ["Animals","Cars", "Electronics", "Tools", "Sports", "Other"],
+            categories: ["Animals","Cars", "Clothing", "Electronics", "Tools", "Sports", "Other"],
             msPerDay: 86400000
         }
         M.AutoInit();
