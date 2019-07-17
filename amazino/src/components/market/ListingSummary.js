@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import '../../App.css';
 
-import {getUserDataFromID, getImageByID} from '../../shared/Firebase';
+import {getUserDataFromID, getImageByID, getPercentPurchased} from '../../shared/Firebase';
+import {handleError} from '../../shared/ErrorHandling';
+
+import ProgressBar from '../../shared/ProgressBar';
 
 //
 // Summarize a listing, to be viewed as a card within the Market
@@ -15,7 +18,8 @@ class ListingSummary extends Component {
             postDate: null,
             dueDate: null,
             displayName: null,
-            img_src: ""
+            img_src: "",
+            percentMap: [0,0]
         }
     }
 
@@ -32,6 +36,20 @@ class ListingSummary extends Component {
 
     componentDidMount = () => {
         this.loadImage();
+        this.getPercentPurchased();
+    }
+
+    async getPercentPurchased() {
+        try {
+            await getPercentPurchased(this.props.id).then(percentPurchased => {
+                this.setState({
+                    percentMap: [percentPurchased, 0]
+                })
+            })
+
+        } catch(err) {
+            handleError(err);
+        }
     }
 
     async getUserData() {
@@ -65,12 +83,21 @@ class ListingSummary extends Component {
                         <div className="card-content">
                             <h5 className="truncate">{this.props.name}</h5>
                             <div className="card-image" style={{height: "200px", overflow: "hidden"}}>
-                                {this.state.img_src==""? <p className="grey-text">No Image</p> :
+                                {this.state.img_src===""? <p className="grey-text">No Image</p> :
                                 <img id="item-image" className="item-image" alt="Image" src={this.state.img_src}
                                     />}
                             </div>
+
+                            <div className="row">
+                                <div className="col s12">
+                                    <label htmlFor="progress">Progress: {Math.round(this.state.percentMap[0]*100)}%</label>
+                                </div>
+                                <ProgressBar height={20} percentMap={this.state.percentMap} />
+                            </div>
+
                             <p className="grey-text text-darken-1">Price: ${this.props.price}</p>
                             <p className="truncate">{this.props.description}</p>
+                            
                             <div className="section">
                                 <div className="divider"></div>
                                 <p className="grey-text truncate">by {this.state.displayName} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>

@@ -8,6 +8,8 @@ import '../App.css';
 // Takes percentMap prop in form: [percentOthersBetted, percentUserBetted]
 //
 const ProgressBar = (props) => {
+    var height = props.height ? props.height : 30
+
     var percentLeft = 1-props.percentMap[0]-props.percentMap[1];
 
     // determine whether to show bet label for user
@@ -33,9 +35,9 @@ const ProgressBar = (props) => {
         <div>
             {betLabel}
             <div className="col s12">
-                <div className="green darken-3 progressbar-element" style={{width: (props.percentMap[0] * 100) + "%"}}></div>
-                <div className="orange darken-3 progressbar-element" style={{width: (props.percentMap[1] * 100) + "%"}}></div>
-                <div className="grey lighten-2 progressbar-element" style={{width: (percentLeft * 100) + "%"}}></div>
+                <div className="green darken-3 progressbar-element" style={{height: props.height + "px", width: (props.percentMap[0] * 100) + "%"}}></div>
+                <div className="orange darken-3 progressbar-element" style={{height: props.height + "px", width: (props.percentMap[1] * 100) + "%"}}></div>
+                <div className="grey lighten-2 progressbar-element" style={{height: props.height + "px", width: (percentLeft * 100) + "%"}}></div>
             </div>
         </div>
     )
