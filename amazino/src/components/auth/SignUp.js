@@ -17,8 +17,7 @@ class SignUp extends Component {
             displayName: '',
             email: '',
             password: '',
-            confirmPassword: '',
-            signupSuccess: false
+            confirmPassword: ''
         }
     }
 
@@ -31,9 +30,6 @@ class SignUp extends Component {
             await signUp(this.state.email, this.state.password, this.state.displayName)
                 .then( user => {
                     if(user){
-                        this.setState({
-                            signupSuccess: true
-                        })
                         handleSuccess();
                     }
                 });
@@ -60,7 +56,6 @@ class SignUp extends Component {
     }
 
     render() {
-        if (this.state.signupSuccess) return <Redirect to='/' />
         if(isSignIn()) return <Redirect to='/' />
 
         return(

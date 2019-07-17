@@ -39,7 +39,9 @@ class Listing extends Component {
     }
 
     componentDidMount = () => {
-        this.getData();
+        if(isSignIn()) {
+            this.getData();
+        }
     }
 
     handleBetSlider = (e) => {
@@ -117,7 +119,9 @@ class Listing extends Component {
                                 })
                             }
                         })
-                        this.getPercentPurchased();
+                        if(this.state.currentUser) {
+                            this.getPercentPurchased();
+                        }
                     }
                 });
             
