@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { fire } from './shared/Firebase';
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
 import Navbar from './components/navigation/Navbar';
@@ -20,7 +19,6 @@ class App extends Component {
   constructor() {
     super();
     
-    fire();
 
     firebase.auth().onAuthStateChanged(user => {
       if(user) {

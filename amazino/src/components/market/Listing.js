@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect, Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
 import {isSignIn, getItemFromID, getImageByID, getUserDataFromID, getPercentPurchased, createBet, 
     removeItem, getBetsOfItem} from '../../shared/Firebase';
@@ -265,7 +265,7 @@ class Listing extends Component {
         ) : null
 
         // From for betting, only displayed if current user is not seller
-        var betForm = this.state.item.seller != this.state.currentUser.uid ? (
+        var betForm = this.state.item.seller !== this.state.currentUser.uid ? (
             <div>
                 <div className="row center">
                     <div className="col s8 m6 l4 offset-s2 offset-m3 offset-l4">
@@ -293,7 +293,7 @@ class Listing extends Component {
                     <label>Category: {this.state.item.category}</label>
 
                     <div className="row center">
-                        <img id="item-image" className="item-image" alt="Image"/>
+                        <img id="item-image" className="item-image" alt="item" />
                     </div>
 
                     <p className="section">{this.state.item.description}</p>

@@ -84,7 +84,7 @@ class ListingSummary extends Component {
                             <h5 className="truncate">{this.props.name}</h5>
                             <div className="card-image" style={{height: "200px", overflow: "hidden"}}>
                                 {this.state.img_src===""? <p className="grey-text">No Image</p> :
-                                <img id="item-image" className="item-image" alt="Image" src={this.state.img_src}
+                                <img id="item-image" className="item-image" alt="item" src={this.state.img_src}
                                     />}
                             </div>
 

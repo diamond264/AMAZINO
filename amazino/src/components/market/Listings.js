@@ -9,7 +9,6 @@ class Listings extends Component {
     
     render() {
         const {data} = this.props;
-        let index = 0;
         return(
             <div className="row">
                 {

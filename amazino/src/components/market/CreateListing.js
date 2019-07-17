@@ -55,12 +55,14 @@ class CreateListing extends Component {
     }
 
     componentDidMount = () => {
-        getUserDataFromID(this.props.currentUser.uid).then(user => {
-            this.setState({
-                user
+        if(this.props.currentUser) {
+            getUserDataFromID(this.props.currentUser.uid).then(user => {
+                this.setState({
+                    user
+                })
             })
-        })
-        M.AutoInit();
+            M.AutoInit();
+        }
     }
 
     handleChange = (e) => {
@@ -167,7 +169,7 @@ class CreateListing extends Component {
                             </div>
                             <div className="row">
                                     <div className="col s8 m6 l4 dropdown-trigger" data-target="date-dropdown">
-                                        <a onClick={this.handleDropdown}  className="btn white grey-text z-depth-0 dropdown">{this.state.category}<i className="material-icons right">expand_more</i></a>
+                                        <button onClick={this.handleDropdown}  className="btn white grey-text z-depth-0 dropdown">{this.state.category}<i className="material-icons right">expand_more</i></button>
                                     </div>
                             </div>
                             <ul className="dropdown-content" id="date-dropdown">

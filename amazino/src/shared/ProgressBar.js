@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import '../App.css';
 
@@ -17,7 +17,7 @@ const ProgressBar = (props) => {
     }
     
     // label for my bet percent
-    var myBetsLabel = props.percentMap[1] != 0 ? (
+    var myBetsLabel = props.percentMap[1] !== 0 ? (
         <div className="right">
             <div className="progressbar-label green darken-3"></div>
             <label htmlFor="userBet">Your bets: {props.percentMap[1] * 100}%</label>
@@ -49,10 +49,10 @@ const ProgressBar = (props) => {
         <div>
             {betLabel}
             <div className="col s12">
-                <div className="orange darken-3 progressbar-element" style={{height: props.height + "px", width: (props.percentMap[0] * 100) + "%"}}></div>
-                <div className="green darken-3 progressbar-element" style={{height: props.height + "px", width: (props.percentMap[1] * 100) + "%"}}></div>
-                <div className="green lighten-3 progressbar-element" style={{height: props.height + "px", width: (props.percentMap[2] * 100) + "%"}}></div>
-                <div className="grey lighten-1 progressbar-element" style={{height: props.height + "px", width: (percentLeft * 100) + "%"}}></div>
+                <div className="orange darken-3 progressbar-element" style={{height: height + "px", width: (props.percentMap[0] * 100) + "%"}}></div>
+                <div className="green darken-3 progressbar-element" style={{height: height + "px", width: (props.percentMap[1] * 100) + "%"}}></div>
+                <div className="green lighten-3 progressbar-element" style={{height: height + "px", width: (props.percentMap[2] * 100) + "%"}}></div>
+                <div className="grey lighten-1 progressbar-element" style={{height: height + "px", width: (percentLeft * 100) + "%"}}></div>
             </div>
         </div>
     )

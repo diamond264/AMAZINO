@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import {updateUserBalance, getUserDataFromID, getItemsBySeller, getItemsByStatus} from '../../shared/Firebase';
+import {updateUserBalance, getUserDataFromID, getItemsBySeller} from '../../shared/Firebase';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 import Listings from '../market/Listings';
 
