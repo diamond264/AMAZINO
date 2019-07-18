@@ -1,5 +1,31 @@
 import * as firebase from 'firebase';
 
+var CronJob = require('cron').CronJob;
+new CronJob('0 0 0 * * *', () => {
+  console.log("Started to expire items on dueDate");
+  expireItems(new Date());
+}, null, true, 'America/Los_Angeles');
+
+const expireItems = (date) => {
+  getAllUnSoldItems().then((items) => {
+    for(var i=0; i<items.length; i++) {
+      var item = items[i];
+      var expireDate = new Date(item['dueDate']);
+
+      if(date.getDate() === expireDate.getDate()
+          && date.getMonth() === expireDate.getMonth()
+          && date.getFullYear() === expireDate.getFullYear()) {
+        removeItem(item['itemID']).then(() => {
+          console.log("Removed"+item['itemID']);
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
+    }
+  }).catch((err) => {
+    console.log(err);
+  });
+};
 
 let database;
 let storage;
@@ -447,6 +473,30 @@ export const getUnSoldItems = (limit, pageNum) => {
 
       returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
       return resolve(returnItems.slice((pageNum-1)*limit, pageNum*limit));
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+};
+
+export const getAllUnSoldItems = () => {
+  return new Promise((resolve, reject) => {
+    var returnItems = [];
+    return firebase.database().ref('items').once('value').then((itemVal) => {
+      var items = itemVal.val();
+      if(!items) return resolve(returnItems);
+
+      Object.keys(items).map(key => {
+        var item = items[key];
+        if(item['status'] !== "SoldOut") {
+          item['itemID'] = key;
+          returnItems.push(item);
+        }
+        return null;
+      });
+
+      return resolve(returnItems);
     }).catch((err) => {
       console.log(err);
       return reject(err);

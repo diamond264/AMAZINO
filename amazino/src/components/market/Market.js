@@ -7,6 +7,7 @@ import {getItemsByStatus, getUnSoldItems} from "../../shared/Firebase";
 //
 // Wrapper component for listings
 //
+
 class Market extends Component {
     constructor(props) {
         super(props);
