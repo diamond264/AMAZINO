@@ -421,7 +421,8 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
   });
 };
 
-export const getAllItems = (limit, pageNum) => {return new Promise((resolve, reject) => {
+export const getAllItems = (limit, pageNum) => {
+  return new Promise((resolve, reject) => {
     var returnItems = [];
     return firebase.database().ref('items').then((itemVal) => {
       var items = itemVal.val();
@@ -429,8 +430,10 @@ export const getAllItems = (limit, pageNum) => {return new Promise((resolve, rej
 
       Object.keys(items).map(key => {
         var item = items[key];
-        item['itemID'] = key;
-        returnItems.push(item);
+        if(item['status'] !== "SoldOut") {
+          item['itemID'] = key;
+          returnItems.push(item);
+        }
         return null;
       });
 
@@ -614,6 +617,30 @@ export const signOut = () => {
 export const isSignIn = () => {
   if(firebase.auth().currentUser) return true;
   else return false;
+};
+
+export const numOfItems = () => {
+  return new Promise((resolve, reject) => {
+    var returnItems = [];
+    return firebase.database().ref('items').then((itemVal) => {
+      var items = itemVal.val();
+      if(!items) return resolve(returnItems);
+
+      Object.keys(items).map(key => {
+        var item = items[key];
+        if(item['status'] !== "SoldOut") {
+          item['itemID'] = key;
+          returnItems.push(item);
+        }
+        return null;
+      });
+
+      return resolve(returnItems.length);
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    })
+  });
 };
 
 export const getBalance = async (uid) => {
