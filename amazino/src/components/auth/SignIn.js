@@ -15,7 +15,8 @@ class SignIn extends Component {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            signinSuccess: false
         }
     }
 
@@ -23,19 +24,29 @@ class SignIn extends Component {
     // Perform async authentication
     //
     async signInButton(e) {
-        try {
-            //await signIn('emaf123il@googl.com', 'passasef');
-            await signIn(this.state.email, this.state.password)
-                .then( user => {
-                    if(user){
-                        handleSuccess();
-                    }
-                });
-        }
-        catch (err) {
-            console.log(err);
-            handleError(err);
-            
+        if(isSignIn()) {
+            handleError({message: "Already signed in"});
+            this.setState({
+                signinSuccess: true
+            })
+        } else {
+            try {
+                //await signIn('emaf123il@googl.com', 'passasef');
+                await signIn(this.state.email, this.state.password)
+                    .then( user => {
+                        if(user){
+                            handleSuccess();
+                            this.setState({
+                                signinSuccess: true
+                            })
+                        }
+                    });
+            }
+            catch (err) {
+                console.log(err);
+                handleError(err);
+                
+            }
         }
     }
 
@@ -52,7 +63,7 @@ class SignIn extends Component {
     }
 
     render() {
-        if(isSignIn()) return <Redirect to='/' />
+        if(this.state.signinSuccess) return <Redirect to='/' />
 
         return(
             <div className="container section">

@@ -19,7 +19,8 @@ class ListingSummary extends Component {
             dueDate: null,
             displayName: null,
             img_src: "",
-            percentMap: [0,0]
+            percentMap: [0,0],
+            status: props.status
         }
     }
 
@@ -77,6 +78,12 @@ class ListingSummary extends Component {
 
     render() {
         // console.log(this.props);
+        var statusLabel = this.state.status === "waitForBet" ? (
+            <label htmlFor="status" className="status-label" style={{backgroundColor: "green"}}>Waiting for bets</label>
+        ) : (
+            <label htmlFor="status" className="status-label" style={{backgroundColor: "#ec7e00"}}>Betting complete</label>
+        )
+
         return (
             <div className="card col s12 m6 l4 xl3 market-fade z-depth-0">
                 <NavLink to={'/listing/' + this.props.id} className="black-text">
@@ -97,11 +104,14 @@ class ListingSummary extends Component {
 
                             <p className="grey-text text-darken-1">Price: ${this.props.price}</p>
                             <p className="truncate">{this.props.description}</p>
-                            
-                            <div className="section">
-                                <div className="divider"></div>
-                                <p className="grey-text truncate">by {this.state.displayName} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
+                            <div className="section" >
+                                
                             </div>
+                            
+                            <div className="divider"></div>
+                            
+                            <p className="grey-text truncate">by {this.state.displayName} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
+                            {statusLabel}
                         </div>
                 </NavLink>
             </div>

@@ -475,8 +475,12 @@ export const getAllItems = (limit, pageNum, search) => {
       returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
       Object.keys(returnItems).map(key => {
         var ritem = returnItems[key]
-        if (ritem.name.search(search) != -1)
-          filteredItems.push(ritem);
+        if (search && ritem.name.toLowerCase().search(search.toLowerCase()) !== -1)
+          return filteredItems.push(ritem);
+        else if(!search)
+          return filteredItems.push(ritem);
+        else
+          return null;
       })
       return resolve(filteredItems.slice((pageNum-1)*limit, pageNum*limit));
     }).catch((err) => {
@@ -651,12 +655,14 @@ export const signUp = (email, password, displayName) => {
       console.log('then');
       var user = firebase.auth().currentUser;
       var uid = user.uid;
-      database.ref("/").child("users/"+uid).set({
+      database.ref("users/"+uid).update({
         displayName,
         email: email,
         balance: 10
-      });
+      })
+        
       return resolve(user);
+     
     }).catch((err) => {
       console.log(err);
       return reject(err);

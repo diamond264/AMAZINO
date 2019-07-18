@@ -41,7 +41,7 @@
 
 .hamburger {
   color: white;
-  padding-top: 5%;
+  padding-top: 5px;
   padding-bottom: 20%;
 }
 
@@ -64,6 +64,12 @@
   transition: all 0.1s ease;
 }
 
+.status-label {
+  color: white;
+  border-radius: 10px;
+  padding: 2px 5px 2px 5px;
+}
+
 .progressbar-label {
   display: inline-block;
   width: 10px;
@@ -71,6 +77,30 @@
   margin-left: 20px;
   margin-right: 5px;
 }
+
+
+.search-icon {
+  display: inline-block;
+  margin-top: 6px;
+  padding-right: 5px;
+}
+
+.searchbar {
+  transform: translateY(-12px);
+}
+
+
+.searchbarContainer {
+  background-color: white;
+  border-radius: 45px;
+  margin-top: 15px;
+  padding-bottom: 40px;
+
+  overflow: hidden;
+
+  transition: all 0.3s ease;
+}
+
 
 #content {
   box-sizing: border-box;
@@ -82,3 +112,4 @@
   bottom: 20px; 
   transform: translateX(-50%) translateY(-50%);
 }
+

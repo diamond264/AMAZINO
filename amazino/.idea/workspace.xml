@@ -2,7 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5d5a421-d203-4ce3-92cf-4c62cda39c54" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/account/UserListings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" beforeDir="false" afterPath="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/SignIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/SignIn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/SignUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/market/CreateListing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/market/CreateListing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/market/Listing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/market/Listing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/market/ListingSummary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/market/ListingSummary.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/market/Market.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/market/Market.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/market/UserListings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/account/UserBets.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/navigation/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navigation/Navbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/navigation/SignedInLinks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navigation/SignedInLinks.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/Firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/Firebase.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -19,8 +32,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/market/Market.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
+            <state relative-caret-position="30">
+              <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -28,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="49" column="21" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="21" />
+            <state relative-caret-position="183">
+              <caret line="51" column="21" selection-start-line="51" selection-start-column="21" selection-end-line="51" selection-end-column="21" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -59,7 +72,7 @@
         <entry file="file://$PROJECT_DIR$/src/components/market/CreateListing.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="63">
-              <caret line="36" column="26" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="36" selection-end-column="26" />
+              <caret line="36" column="26" lean-forward="true" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -82,8 +95,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/market/ListingSummary.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="102" column="198" selection-start-line="102" selection-start-column="187" selection-end-line="102" selection-end-column="198" />
+            <state relative-caret-position="385">
+              <caret line="112" column="198" selection-start-line="112" selection-start-column="198" selection-end-line="112" selection-end-column="198" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -95,7 +108,7 @@
         <entry file="file://$PROJECT_DIR$/src/components/market/Listing.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2475">
-              <caret line="166" column="14" selection-start-line="166" selection-start-column="14" selection-end-line="166" selection-end-column="14" />
+              <caret line="167" column="14" selection-start-line="167" selection-start-column="14" selection-end-line="167" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -126,7 +139,6 @@
       <find>ends on</find>
       <find>uploaditem</find>
       <find>getfullyear</find>
-      <find>getallitems</find>
       <find>unsolditems</find>
       <find>getbetitems</find>
       <find>getuserdatafromid</find>
@@ -134,6 +146,7 @@
       <find>getallunsold</find>
       <find>getall</find>
       <find>getsolditems</find>
+      <find>getallitems</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -285,12 +298,12 @@
       <workItem from="1563213170803" duration="13643000" />
       <workItem from="1563293193165" duration="213000" />
       <workItem from="1563310334551" duration="345000" />
-      <workItem from="1563420589444" duration="7425000" />
+      <workItem from="1563420589444" duration="7508000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63934000" />
+    <option name="totallyTimeSpent" value="64017000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -378,7 +391,7 @@
     <entry file="file://$PROJECT_DIR$/src/components/market/Listing.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2475">
-          <caret line="166" column="14" selection-start-line="166" selection-start-column="14" selection-end-line="166" selection-end-column="14" />
+          <caret line="167" column="14" selection-start-line="167" selection-start-column="14" selection-end-line="167" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -392,7 +405,7 @@
     <entry file="file://$PROJECT_DIR$/src/components/market/CreateListing.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
-          <caret line="36" column="26" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="36" selection-end-column="26" />
+          <caret line="36" column="26" lean-forward="true" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -411,8 +424,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/market/ListingSummary.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="102" column="198" selection-start-line="102" selection-start-column="187" selection-end-line="102" selection-end-column="198" />
+        <state relative-caret-position="385">
+          <caret line="112" column="198" selection-start-line="112" selection-start-column="198" selection-end-line="112" selection-end-column="198" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -421,8 +434,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="49" column="21" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="21" />
+        <state relative-caret-position="183">
+          <caret line="51" column="21" selection-start-line="51" selection-start-column="21" selection-end-line="51" selection-end-column="21" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -438,8 +451,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/market/Market.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
+        <state relative-caret-position="30">
+          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
         </state>
       </provider>
     </entry>
