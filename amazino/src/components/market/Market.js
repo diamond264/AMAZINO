@@ -15,7 +15,7 @@ class Market extends Component {
         // this.getData = this.getData.bind(this);
         
         this.state = {
-            categories: ["Animals","Cars", "Clothing", "Electronics", "Tools", "Sports", "Other"]
+            categories: ["Animals","Cars", "Clothing", "Cooking", "Electronics", "Garden", "Tools", "Sports", "Other"]
         }
         // this.state={
         //     data: null
