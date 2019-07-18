@@ -46,13 +46,7 @@ class Navbar extends Component {
             height = "0px"
             paddingLeft = "0px";
             paddingRight = "0px";
-
-            if(this.state.query) {
-                this.props.updateSearch("");
-                this.setState({
-                    query: ""
-                })
-            }
+            this.props.updateSearch("");
 
         } else {
             height = "10px";
@@ -91,6 +85,7 @@ class Navbar extends Component {
     }
 
     updateSearchInput = (e) => {
+        this.props.updateSearch(e.target.value);
         this.setState({
             query: e.target.value
         })
@@ -111,7 +106,6 @@ class Navbar extends Component {
                                 <Link onClick={this.handleSearchbar}><i className="material-icons">search</i></Link>
                         </div>
                         <div className="col s6 bold middle right input-field">
-
                             <div className="right searchbarContainer" style={this.state.searchbarStyle}>
                                 <form className="searchbar" action="submit"  onSubmit={this.handleSearch}>
                                     <div>

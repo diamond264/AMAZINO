@@ -64,6 +64,12 @@
   transition: all 0.1s ease;
 }
 
+.status-label {
+  color: white;
+  border-radius: 10px;
+  padding: 2px 5px 2px 5px;
+}
+
 .progressbar-label {
   display: inline-block;
   width: 10px;
