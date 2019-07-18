@@ -44,11 +44,11 @@ class App extends Component {
     this.setState({
       search: str
     })
-    // this.getData(str)
+    this.getData(str);
   }
 
   async getData(str) {
-    console.log(this.state.search)
+    console.log(this.state.search);
     await getAllItems(20, 1, str)
         .then(items => {
             if(items) {

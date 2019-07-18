@@ -81,7 +81,7 @@ class Listing extends Component {
         e.preventDefault();
 
         doRaffle(this.state.itemID).then( winner => {
-            console.log("Raffle complete, winnder" + winner);
+            console.log("Raffle complete, winner:" + winner);
         }).catch(err => {
             handleError(err);
         })
