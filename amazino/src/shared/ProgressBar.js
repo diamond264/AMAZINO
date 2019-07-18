@@ -49,10 +49,12 @@ const ProgressBar = (props) => {
         <div>
             {betLabel}
             <div className="col s12">
-                <div className="orange darken-3 progressbar-element" style={{height: height + "px", width: (props.percentMap[0] * 100) + "%"}}></div>
-                <div className="green darken-3 progressbar-element" style={{height: height + "px", width: (props.percentMap[1] * 100) + "%"}}></div>
-                <div className="green lighten-3 progressbar-element" style={{height: height + "px", width: (props.percentMap[2] * 100) + "%"}}></div>
-                <div className="grey lighten-1 progressbar-element" style={{height: height + "px", width: (percentLeft * 100) + "%"}}></div>
+                <div style={{height: height+"px", borderRadius: height/2+"px", overflow: "hidden"}}>
+                    <div className="orange darken-3 progressbar-element" style={{height: height + "px", width: (props.percentMap[0] * 100) + "%"}}></div>
+                    <div className="green darken-3 progressbar-element" style={{height: height + "px", width: (props.percentMap[1] * 100) + "%"}}></div>
+                    <div className="green lighten-3 progressbar-element" style={{height: height + "px", width: (props.percentMap[2] * 100) + "%"}}></div>
+                    <div className="grey lighten-1 progressbar-element" style={{height: height + "px", width: (percentLeft * 100) + "%"}}></div>
+                </div>
             </div>
         </div>
     )
