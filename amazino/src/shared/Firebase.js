@@ -317,7 +317,15 @@ export const doRaffle = (itemID) => {
 
         var winnerId = chunkList[0];
         return blockBets(itemID, winnerId).then(() => {
-          return resolve(winnerId);
+          return getItemFromID(itemID).then(item => {
+            return updateUserBalance(item['seller'], item['price']).then(() => {
+              return resolve(winnerId);
+            }).catch((err) => {
+              reject(err);
+            });
+          }).catch((err) => {
+            return reject(err);
+          });
         }).catch((err) => {
           console.log(err);
           return reject(err);
@@ -421,7 +429,11 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
   });
 };
 
+<<<<<<< HEAD
 export const getAllItems = (limit, pageNum, search) => {
+=======
+export const getUnSoldItems = (limit, pageNum) => {
+>>>>>>> 8014cd2480a2a12dd295848c422f171ddced97dd
   return new Promise((resolve, reject) => {
     var returnItems = [];
     var filteredItems = [];
@@ -621,8 +633,7 @@ export const signOut = () => {
 };
 
 export const isSignIn = () => {
-  if(firebase.auth().currentUser) return true;
-  else return false;
+  return !!firebase.auth().currentUser;
 };
 
 export const numOfItems = () => {
