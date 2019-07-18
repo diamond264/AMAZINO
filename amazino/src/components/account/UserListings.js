@@ -14,41 +14,25 @@ class UserListings extends Component {
         this.state = {
             currentUser: this.props.currentUser,
             user: null,
-
         }
     }
 
     componentDidMount = () => {
         this.getUserData();
         this.getData();
-
     }
 
     async getUserData() {
         if(this.state.currentUser) {
             await getUserDataFromID(this.state.currentUser.uid).then(user => {
                 this.setState({
-                    user,
-                    balance: (Math.round(user.balance * 100) / 100),
-                    displayName: user.displayName
+                    user
                 })
             });
-
         }
-
-        //       if(this.state.currentUser) {
-        //    await getItemsBySeller(this.state.currentUser.uid)
-        //        .then( items => {
-        //            if(items) {
-        //                this.setState( {
-        //                    data: items
-        //                });
-        //            }
-        //        });
-        //}
     }
-    async getData() {
 
+    async getData() {
         if(this.state.currentUser) {
             await getItemsBySeller(this.state.currentUser.uid, 20, 1)
                 .then(items => {
@@ -63,10 +47,8 @@ class UserListings extends Component {
         }
     }
 
-
-        render() {
+    render() {
         return(
-
             <div className="container section">
                 <div className="card z-depth-1">
                     <div className="card-content">
