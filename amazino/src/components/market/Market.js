@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import Listings from './Listings';
 //import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
-import {getItemsByStatus, getAllItems} from "../../shared/Firebase";
+import {getItemsByStatus, getUnSoldItems} from "../../shared/Firebase";
 
 //
 // Wrapper component for listings
@@ -22,7 +22,7 @@ class Market extends Component {
     
 
     async getData() {
-        await getAllItems(20, 1)
+        await getUnSoldItems(20, 1)
             .then(items => {
                 if(items) {
                     this.setState({
