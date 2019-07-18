@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import {getAllItems} from "./shared/Firebase";
 
 import Navbar from './components/navigation/Navbar';
 import CreateListing from './components/market/CreateListing';
@@ -13,12 +14,15 @@ import * as firebase from 'firebase/app';
 
 class App extends Component {
   state = {
-    currentUser: null
+    currentUser: null,
+    search: "",
+    data: null,
   }
 
   constructor() {
     super();
     
+    this.getData = this.getData.bind(this);
 
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
@@ -34,19 +38,35 @@ class App extends Component {
     })
   }
 
-  
-  
+  updateSearch = (str) => {
+    this.setState({
+      search: str
+    })
+    // this.getData(str)
+  }
+
+  async getData(str) {
+    console.log(this.state.search)
+    await getAllItems(20, 1, str)
+        .then(items => {
+            if(items) {
+                this.setState({
+                    data: items
+                });
+            }
+        });
+  }
 
   render() {
     return (
       <BrowserRouter>
         <div className="App">
-          <Navbar {...this.state} />
+          <Navbar {...this.state} updateSearch={this.updateSearch} />
           {/*<Link to='/firebaseTest'>firebase</Link>*/}
           <Switch>
-            <Route exact path='/' component={Market}/>
+            <Route exact path='/' render={(props) => <Market {...props} {...this.state} getData={this.getData}/>}/>
             <Route path='/listing/:id'  render={(props) => <Listing {...props} {...this.state}/>} />
-            <Route path='/market' component={Market} />
+            <Route path='/market' component={Market} {...this.state}/>
             <Route path='/create' render={(props) => <CreateListing {...props} {...this.state} />} />
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />

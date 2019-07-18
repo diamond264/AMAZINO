@@ -455,9 +455,10 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
   });
 };
 
-export const getUnSoldItems = (limit, pageNum) => {
+export const getAllItems = (limit, pageNum, search) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
+    var filteredItems = [];
     return firebase.database().ref('items').once('value').then((itemVal) => {
       var items = itemVal.val();
       if(!items) return resolve(returnItems);
@@ -472,7 +473,12 @@ export const getUnSoldItems = (limit, pageNum) => {
       });
 
       returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
-      return resolve(returnItems.slice((pageNum-1)*limit, pageNum*limit));
+      Object.keys(returnItems).map(key => {
+        var ritem = returnItems[key]
+        if (ritem.name.search(search) != -1)
+          filteredItems.push(ritem);
+      })
+      return resolve(filteredItems.slice((pageNum-1)*limit, pageNum*limit));
     }).catch((err) => {
       console.log(err);
       return reject(err);

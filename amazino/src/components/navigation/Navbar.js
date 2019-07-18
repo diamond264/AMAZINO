@@ -33,13 +33,23 @@ class Navbar extends Component {
         })
     }
 
+    updateSearchInput = (e) => {
+        this.props.updateSearch(e.target.value)
+    }
+
     render() {
         const links = this.props.currentUser && this.state.user ? <SignedInLinks {...this.state} /> : <SignedOutLinks />;
         return(
             <div>
                 <nav className="nav-wrapper z-depth-1">
-                    <div className="container">
+                    <div className="container row">
                         <Link to="/" className="left brand-logo white-text">Amazino</Link>
+                        <div class="center col s6 offset-s3 bold">
+                            <input id="search bold" type="search" required  onChange={this.updateSearchInput}/>
+                            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                            <i class="material-icons search">close</i>
+                            <a class="waves-effect waves-light btn">button</a>
+                        </div>
                         {links}
                     </div>
                 </nav>

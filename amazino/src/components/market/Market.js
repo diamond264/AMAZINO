@@ -12,26 +12,28 @@ class Market extends Component {
     constructor(props) {
         super(props);
 
-        this.getData = this.getData.bind(this);
+        // this.getData = this.getData.bind(this);
         
-
-        this.state={
-            data: null
+        this.state = {
+            categories: ["Animals","Cars", "Clothing", "Electronics", "Tools", "Sports", "Other"]
         }
+        // this.state={
+        //     data: null
+        // }
     }
 
     
 
-    async getData() {
-        await getUnSoldItems(20, 1)
-            .then(items => {
-                if(items) {
-                    this.setState({
-                        data: items
-                    });
-                }
-            });
-    }
+    // async getData() {
+    //     await getAllItems(20, 1, this.props.search)
+    //         .then(items => {
+    //             if(items) {
+    //                 this.setState({
+    //                     data: items
+    //                 });
+    //             }
+    //         });
+    // }
 
     componentWillMount = () => {
         console.log("TEST IS AVAILABLE");
@@ -51,7 +53,7 @@ class Market extends Component {
         //     console.log(err);
         // });
 
-        this.getData();
+        this.props.getData();
     };
     
     render() {
@@ -59,12 +61,21 @@ class Market extends Component {
             <div className="container section">
                 <div className="card z-depth-1">
                     <div className="card-content">
-                        <div className="section">
-                            <h4 className="center">Market</h4>
+                        <div className="section row">
+                            {this.state.categories.map(c => {
+                                return (
+                                    <p className="col">
+                                        <label>
+                                            <input type="checkbox" />
+                                            <span>{c}</span>
+                                        </label>
+                                    </p>
+                                )
+                            })}
                         </div>
                         <div className="divider"></div>
                         <div className="section">
-                            <Listings {...this.state}/>
+                            <Listings {...this.state} data={this.props.data}/>
                         </div>
                     </div>
                 </div>
