@@ -9,6 +9,8 @@ import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import Listing from './components/market/Listing';
 import Profile from './components/account/Profile';
+import UserListings from './components/account/UserListings';
+import UserBets from './components/account/UserBets';
 
 import * as firebase from 'firebase/app';
 
@@ -71,6 +73,8 @@ class App extends Component {
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
             <Route path='/profile' render={(props) => <Profile {...props} {...this.state} />} />
+            <Route path='/listings' render={(props) => <UserListings {...props} {...this.state} />} />
+            <Route path='/bets' render={(props) => <UserBets {...props} {...this.state} />} />
             <Route path='/' component={Market} />
 
           </Switch>

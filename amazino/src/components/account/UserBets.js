@@ -1,12 +1,12 @@
 import React from 'react';
 
-const UserListings = () => {
-    
+const UserBets = () => {
+
     return(
         <div className="container">
-
+            <h4>TEST</h4>
         </div>
     )
 }
 
-export default UserListings;
+export default UserBets;
