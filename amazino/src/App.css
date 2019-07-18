@@ -82,10 +82,11 @@
 .search-icon {
   display: inline-block;
   margin-top: 6px;
+  padding-right: 5px;
 }
 
 .searchbar {
-  transform: translateY(-10px);
+  transform: translateY(-12px);
 }
 
 

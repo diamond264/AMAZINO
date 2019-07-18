@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {signUp, isSignIn} from '../../shared/Firebase';
+import {signUp} from '../../shared/Firebase';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 import {Redirect} from 'react-router-dom'
 import '../../App.css';
@@ -17,7 +17,8 @@ class SignUp extends Component {
             displayName: '',
             email: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            signupSuccess: false
         }
     }
 
@@ -30,6 +31,9 @@ class SignUp extends Component {
             await signUp(this.state.email, this.state.password, this.state.displayName)
                 .then( user => {
                     if(user){
+                        this.setState({
+                            signupSuccess: true
+                        })
                         handleSuccess();
                     }
                 });
@@ -56,7 +60,7 @@ class SignUp extends Component {
     }
 
     render() {
-        if(isSignIn()) return <Redirect to='/' />
+        if(this.state.signupSuccess) return <Redirect to='/' />
 
         return(
             <div className="container section">

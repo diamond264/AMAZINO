@@ -109,7 +109,7 @@ class Navbar extends Component {
                             <div className="right searchbarContainer" style={this.state.searchbarStyle}>
                                 <form className="searchbar" action="submit"  onSubmit={this.handleSearch}>
                                     <div>
-                                        <input id="search bold" type="text" required  onChange={this.updateSearchInput}/>
+                                        <input id="search bold" placeholder="search" type="text" required  onChange={this.updateSearchInput}/>
                                     </div>         
                                 </form>
                             </div>
