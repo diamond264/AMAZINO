@@ -475,7 +475,9 @@ export const getAllItems = (limit, pageNum, search) => {
       returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
       Object.keys(returnItems).map(key => {
         var ritem = returnItems[key]
-        if (ritem.name.search(search) != -1)
+        if (search && ritem.name.toLowerCase().search(search.toLowerCase()) != -1)
+          filteredItems.push(ritem);
+        else if(!search)
           filteredItems.push(ritem);
       })
       return resolve(filteredItems.slice((pageNum-1)*limit, pageNum*limit));

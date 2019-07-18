@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Link} from 'react-router-dom';
 import * as firebase from 'firebase/app';
 import M from 'materialize-css';
 
@@ -40,7 +40,7 @@ class SignedInLinks extends Component{
             <div>
                 <ul className="right sidenav-trigger" data-target="slide-out">
                     <li>
-                        <a className="hamburger"><i className="material-icons">menu</i></a>
+                        <Link className="hamburger"><i className="material-icons">menu</i></Link>
                     </li>
                 </ul>
                 <ul className="sidenav grey lighten-3" id="slide-out">

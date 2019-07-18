@@ -41,7 +41,7 @@
 
 .hamburger {
   color: white;
-  padding-top: 5%;
+  padding-top: 5px;
   padding-bottom: 20%;
 }
 
@@ -72,6 +72,29 @@
   margin-right: 5px;
 }
 
+
+.search-icon {
+  display: inline-block;
+  margin-top: 6px;
+}
+
+.searchbar {
+  transform: translateY(-10px);
+}
+
+
+.searchbarContainer {
+  background-color: white;
+  border-radius: 45px;
+  margin-top: 15px;
+  padding-bottom: 40px;
+
+  overflow: hidden;
+
+  transition: all 0.3s ease;
+}
+
+
 #content {
   box-sizing: border-box;
   height: 100%;
@@ -82,3 +105,4 @@
   bottom: 20px; 
   transform: translateX(-50%) translateY(-50%);
 }
+
