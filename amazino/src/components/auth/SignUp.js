@@ -30,13 +30,13 @@ class SignUp extends Component {
             //await signUp('mf1il@googl.com', 'passasef', 'name');
             await signUp(this.state.email, this.state.password, this.state.displayName)
                 .then( user => {
-                    if(user){
-                        this.setState({
-                            signupSuccess: true
-                        })
-                        handleSuccess();
-                    }
+                    
+                    handleSuccess();
+                    this.setState({
+                        signupSuccess: true
+                    })
                 });
+                
         }
         catch (err) {
             console.log(err);

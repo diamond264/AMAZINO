@@ -661,13 +661,13 @@ export const signUp = (email, password, displayName) => {
       console.log('then');
       var user = firebase.auth().currentUser;
       var uid = user.uid;
-      database.ref("users/"+uid).set({
+      database.ref("users/"+uid).update({
         displayName,
         email: email,
         balance: 10
-      }).then(() => {
-        return resolve(user);
-      });
+      })
+        
+      return resolve(user);
      
     }).catch((err) => {
       console.log(err);
