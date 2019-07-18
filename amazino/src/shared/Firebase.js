@@ -661,7 +661,7 @@ export const signUp = (email, password, displayName) => {
       console.log('then');
       var user = firebase.auth().currentUser;
       var uid = user.uid;
-      database.ref("users/uid").set({
+      database.ref("users/"+uid).set({
         displayName,
         email: email,
         balance: 10
