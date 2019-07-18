@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import Listings from './Listings';
-import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
+//import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
 import {getItemsByStatus} from "../../shared/Firebase";
 
 //
@@ -22,9 +22,6 @@ class Market extends Component {
     
 
     async getData() {
-        var tempItems;
-        var sortedItems = [];
-
         await getItemsByStatus("waitForBet", 20, 1)
             .then(items => {
                 if(items) {

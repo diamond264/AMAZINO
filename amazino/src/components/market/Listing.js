@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 
 import {isSignIn, getItemFromID, getImageByID, getUserDataFromID, getPercentPurchased, createBet, 
-    removeItem, getBetsOfItem} from '../../shared/Firebase';
+    removeItem, getBetsOfItem, doRaffle} from '../../shared/Firebase';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 
 import ProgressBar from '../../shared/ProgressBar';
@@ -75,6 +75,16 @@ class Listing extends Component {
         e.preventDefault();
 
         this.deleteItem();
+    }
+
+    handleRaffle = (e) => {
+        e.preventDefault();
+
+        doRaffle(this.state.itemID).then( winner => {
+            console.log("Raffle complete, winnder" + winner);
+        }).catch(err => {
+            handleError(err);
+        })
     }
 
     // Determine max percent user can bet based on items in state
@@ -256,10 +266,18 @@ class Listing extends Component {
         var refundLink = this.state.betPosted ? <button className="btn red white-text" style={{marginLeft: "5px"}} onClick={this.handleRefund}>refund</button> : null
         
         // Delete link, only displayed when currentUser is seller
-        var deleteLink = this.state.item.seller === this.state.currentUser.uid ? (
+        var raffleLink = this.state.item.status === "readyToRaffle" ? (
+            <div className="col s12">
+                <button className="btn green white-text" onClick={this.handleRaffle}>raffle</button>
+                <div className="section"></div> 
+            </div>
+        ) : null
+
+        var sellerLinks = this.state.item.seller === this.state.currentUser.uid ? (
             <div className="row center">
-                <div className="col s6 m4 l2 offset-s3 offset-m4 offset-l5">
-                    <button className="btn red white-text" onClick={this.handleDelete}>delete</button> 
+                {raffleLink}
+                <div className="col s12">
+                    <button className="btn red white-text" onClick={this.handleDelete}>delete</button>
                 </div>
             </div>
         ) : null
@@ -276,7 +294,7 @@ class Listing extends Component {
                     </div>
                 </div>
                 <div className="row center">
-                    <div className="col s6 offset-s3">
+                    <div className="col s12">
                         <button className="btn green white-text" onClick={this.handleBet}>bet</button>
                         {refundLink}    
                     </div>
@@ -307,7 +325,7 @@ class Listing extends Component {
 
                     {betForm}
 
-                    {deleteLink}
+                    {sellerLinks}
 
                     <div className="section row">
                         <div className="divider"></div>
