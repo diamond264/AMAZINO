@@ -13,7 +13,9 @@ class Market extends Component {
 
         // this.getData = this.getData.bind(this);
         
-
+        this.state = {
+            categories: ["Animals","Cars", "Clothing", "Electronics", "Tools", "Sports", "Other"]
+        }
         // this.state={
         //     data: null
         // }
@@ -58,8 +60,17 @@ class Market extends Component {
             <div className="container section">
                 <div className="card z-depth-1">
                     <div className="card-content">
-                        <div className="section">
-                            <h4 className="center">Market</h4>
+                        <div className="section row">
+                            {this.state.categories.map(c => {
+                                return (
+                                    <p className="col">
+                                        <label>
+                                            <input type="checkbox" />
+                                            <span>{c}</span>
+                                        </label>
+                                    </p>
+                                )
+                            })}
                         </div>
                         <div className="divider"></div>
                         <div className="section">
