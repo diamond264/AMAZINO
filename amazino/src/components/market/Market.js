@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import Listings from './Listings';
 //import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
-import {getItemsByStatus, getUnSoldItems} from "../../shared/Firebase";
+//import {getItemsByStatus, getUnSoldItems} from "../../shared/Firebase";
 
 //
 // Wrapper component for listings
@@ -64,7 +64,7 @@ class Market extends Component {
                         <div className="section row">
                             {this.state.categories.map(c => {
                                 return (
-                                    <p className="col">
+                                    <p className="col" key={c}>
                                         <label>
                                             <input type="checkbox" />
                                             <span>{c}</span>

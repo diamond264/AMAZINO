@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import M from 'materialize-css';
 
 import {uploadItem, isSignIn, getUserDataFromID} from '../../shared/Firebase';
@@ -179,7 +179,7 @@ class CreateListing extends Component {
                                     //
                                     this.state.categories && this.state.categories.map(category => {
                                         return(
-                                            <li key={category} onClick={() => this.updateCategory(category)}><a onClick={this.handleDropdown}>{category}</a></li>
+                                            <li key={category} onClick={() => this.updateCategory(category)}><Link onClick={this.handleDropdown}>{category}</Link></li>
                                         )
                                     })
                                 }

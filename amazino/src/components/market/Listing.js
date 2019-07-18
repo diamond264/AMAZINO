@@ -82,6 +82,7 @@ class Listing extends Component {
 
         doRaffle(this.state.itemID).then( winner => {
             console.log("Raffle complete, winner:" + winner);
+            handleSuccess();
         }).catch(err => {
             handleError(err);
         })

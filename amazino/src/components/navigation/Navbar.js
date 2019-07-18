@@ -103,7 +103,7 @@ class Navbar extends Component {
                         {links}
                         
                         <div className="left search-icon right">
-                                <Link onClick={this.handleSearchbar}><i className="material-icons">search</i></Link>
+                                <Link to="" onClick={this.handleSearchbar}><i className="material-icons">search</i></Link>
                         </div>
                         <div className="col s6 bold middle right input-field">
                             <div className="right searchbarContainer" style={this.state.searchbarStyle}>

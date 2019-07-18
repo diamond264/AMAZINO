@@ -79,9 +79,9 @@ class ListingSummary extends Component {
     render() {
         // console.log(this.props);
         var statusLabel = this.state.status === "waitForBet" ? (
-            <label for="status" className="status-label" style={{backgroundColor: "green"}}>Waiting for bets</label>
+            <label htmlFor="status" className="status-label" style={{backgroundColor: "green"}}>Waiting for bets</label>
         ) : (
-            <label for="status" className="status-label" style={{backgroundColor: "#ec7e00"}}>Betting complete</label>
+            <label htmlFor="status" className="status-label" style={{backgroundColor: "#ec7e00"}}>Betting complete</label>
         )
 
         return (
@@ -109,9 +109,9 @@ class ListingSummary extends Component {
                             </div>
                             
                             <div className="divider"></div>
-                            {statusLabel}
-                            <p className="grey-text truncate">by {this.state.displayName} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
                             
+                            <p className="grey-text truncate">by {this.state.displayName} on {this.state.postDate.getMonth() + 1}/{this.state.postDate.getDate()}/{this.state.postDate.getFullYear()}</p>
+                            {statusLabel}
                         </div>
                 </NavLink>
             </div>
