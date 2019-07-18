@@ -554,12 +554,6 @@ export const getUserDataFromID = (uid) => {
   })
 };
 
-export const getMyBettings = (userId) => {
-  return new Promise((resolve, reject) => {
-
-  });
-};
-
 export const getItemsByWinner = (winnerId, limit, pageNum) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
@@ -680,6 +674,58 @@ export const signOut = () => {
 
 export const isSignIn = () => {
   return !!firebase.auth().currentUser;
+};
+
+const getSoldItemsByWinner = (userID) => {
+  return new Promise((resolve, reject) => {
+    var returnItems = [];
+    return firebase.database().ref('items').once('value').then((itemVal) => {
+      var items = itemVal.val();
+      if(!items) return resolve(returnItems);
+
+      Object.keys(items).map(key => {
+        var item = items[key];
+        if(item['status'] === "SoldOut" && item['winner'] === userID) {
+          item['itemID'] = key;
+          returnItems.push(item);
+        }
+        return null;
+      });
+
+      return resolve(returnItems);
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+};
+
+export const getBetItemsByUser = (userID) => {
+  return new Promise((resolve, reject) => {
+    return getUserDataFromID(userID).then(async (user) => {
+      var items = [];
+      var itemIDs = Object.keys(user['betIDs']);
+      for(var i=0; i<itemIDs.length; i++) {
+        await firebase.database().ref('items/'+itemIDs[i]).once('value').then((itemVal) => {
+          var item = itemVal.val();
+          item['itemID'] = itemIDs[i];
+          items.push(item);
+        }).catch((err) => {
+          return reject(err);
+        });
+      }
+
+      return getSoldItemsByWinner(userID).then((soldItems) => {
+        return resolve(items.concat(soldItems));
+      }).catch((err) => {
+        console.log(err);
+        return reject(err);
+      })
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
 };
 
 export const numOfItems = () => {
