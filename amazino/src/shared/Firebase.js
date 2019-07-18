@@ -429,11 +429,7 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
   });
 };
 
-<<<<<<< HEAD
 export const getAllItems = (limit, pageNum, search) => {
-=======
-export const getUnSoldItems = (limit, pageNum) => {
->>>>>>> 8014cd2480a2a12dd295848c422f171ddced97dd
   return new Promise((resolve, reject) => {
     var returnItems = [];
     var filteredItems = [];
