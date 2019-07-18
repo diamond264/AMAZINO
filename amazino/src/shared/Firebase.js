@@ -424,7 +424,7 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
 export const getAllItems = (limit, pageNum) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
-    return firebase.database().ref('items').then((itemVal) => {
+    return firebase.database().ref('items').once('value').then((itemVal) => {
       var items = itemVal.val();
       if(!items) return resolve(returnItems);
 
@@ -442,7 +442,7 @@ export const getAllItems = (limit, pageNum) => {
     }).catch((err) => {
       console.log(err);
       return reject(err);
-    })
+    });
   });
 };
 
@@ -622,7 +622,7 @@ export const isSignIn = () => {
 export const numOfItems = () => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
-    return firebase.database().ref('items').then((itemVal) => {
+    return firebase.database().ref('items').once('value').then((itemVal) => {
       var items = itemVal.val();
       if(!items) return resolve(returnItems);
 

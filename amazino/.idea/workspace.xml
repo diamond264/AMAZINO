@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5d5a421-d203-4ce3-92cf-4c62cda39c54" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/market/Market.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/market/Market.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/Firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/Firebase.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -17,20 +15,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/market/Market.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
+            <state relative-caret-position="165">
               <caret line="17" column="22" lean-forward="true" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/shared/Firebase.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="621" column="24" selection-start-line="620" selection-end-line="621" selection-end-column="24" />
+            <state relative-caret-position="185">
+              <caret line="624" column="44" lean-forward="true" selection-start-line="624" selection-start-column="44" selection-end-line="624" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -81,7 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>juntest</find>
       <find>issignin</find>
       <find>.map</find>
       <find>createbet</find>
@@ -111,6 +108,7 @@
       <find>this.props</find>
       <find>SoldOut</find>
       <find>numof</find>
+      <find>fromkvpair</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -127,8 +125,8 @@
         <option value="$PROJECT_DIR$/src/components/market/CreateListing.js" />
         <option value="$PROJECT_DIR$/src/components/navigation/SignedOutLinks.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/shared/Firebase.js" />
         <option value="$PROJECT_DIR$/src/components/market/Market.js" />
+        <option value="$PROJECT_DIR$/src/shared/Firebase.js" />
       </list>
     </option>
   </component>
@@ -262,12 +260,12 @@
       <workItem from="1563213170803" duration="13643000" />
       <workItem from="1563293193165" duration="213000" />
       <workItem from="1563310334551" duration="345000" />
-      <workItem from="1563420589444" duration="434000" />
+      <workItem from="1563420589444" duration="859000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56943000" />
+    <option name="totallyTimeSpent" value="57368000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -406,17 +404,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/shared/Firebase.js">
+    <entry file="file://$PROJECT_DIR$/src/components/market/Market.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="621" column="24" selection-start-line="620" selection-end-line="621" selection-end-column="24" />
+        <state relative-caret-position="165">
+          <caret line="17" column="22" lean-forward="true" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/market/Market.js">
+    <entry file="file://$PROJECT_DIR$/src/shared/Firebase.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="17" column="22" lean-forward="true" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+        <state relative-caret-position="185">
+          <caret line="624" column="44" lean-forward="true" selection-start-line="624" selection-start-column="44" selection-end-line="624" selection-end-column="44" />
         </state>
       </provider>
     </entry>
