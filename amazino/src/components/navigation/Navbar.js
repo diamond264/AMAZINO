@@ -47,7 +47,13 @@ class Navbar extends Component {
             paddingLeft = "0px";
             paddingRight = "0px";
 
-            this.props.updateSearch("");
+            if(this.state.query) {
+                this.props.updateSearch("");
+                this.setState({
+                    query: ""
+                })
+            }
+
         } else {
             height = "10px";
             width = "100%";
@@ -85,8 +91,6 @@ class Navbar extends Component {
     }
 
     updateSearchInput = (e) => {
-        this.props.updateSearch(e.target.value)
-
         this.setState({
             query: e.target.value
         })
