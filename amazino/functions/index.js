@@ -28,8 +28,8 @@ exports.dailyCleanup = functions.pubsub.schedule('59 23 * * *').onRun(async (con
             dueDate = dueDate.getTime();
             var uid = items[item].seller;
 
-            // Delete items past due date
-            if(currentDate > dueDate) {
+            // Delete items past due date, except items that have been sold
+            if(currentDate > dueDate && items[item].status !== "SoldOut") {
                 console.log("found item");
                 admin.database().ref('bets/'+item).once('value').then((bets) => {
                     // Refund all bets
@@ -39,7 +39,7 @@ exports.dailyCleanup = functions.pubsub.schedule('59 23 * * *').onRun(async (con
                         //
                         // Loop through bets, bet is UID string
                         //
-                        for(var bet in bets) {
+                        Object.keys(bets).map(bet => {
                             admin.database().ref('users/'+ bet).once('value').then((user) => {
                                 // get user to refund payment
                                 if(user) {
@@ -61,7 +61,9 @@ exports.dailyCleanup = functions.pubsub.schedule('59 23 * * *').onRun(async (con
                             }).catch(err => {
                                 return err;
                             })
-                        }
+                        }).catch(err => {
+                            return err;
+                        })
                     }
                     return bets;
                 })
