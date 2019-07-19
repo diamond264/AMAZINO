@@ -43,6 +43,10 @@ class SignedInLinks extends Component{
                     <li className="">
                         <Link to="" className="hamburger navbar-link"><i className="material-icons">account_circle</i></Link>
                     </li>
+                    <li>
+                        {this.props.user.notiItem + this.props.user.notiBet == 0 ? null:
+                        <div className="noti"></div>}
+                    </li>
                 </ul>
                 
                 <ul className="right add-list">
@@ -50,10 +54,6 @@ class SignedInLinks extends Component{
                         <NavLink className="sidenav-close navbar-link" to="/create">
                             <i className="material-icons">add_to_photos</i>
                         </NavLink>
-                    </li>
-                    <li>
-                        {this.props.user.notiItem + this.props.user.notiBet == 0 ? null:
-                        <div className="noti"></div>}
                     </li>
                 </ul>
 
