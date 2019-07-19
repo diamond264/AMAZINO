@@ -4,6 +4,7 @@ import '../../App.css';
 
 import {getUserDataFromID, getImageByID, getPercentPurchased} from '../../shared/Firebase';
 import {handleError} from '../../shared/ErrorHandling';
+import {getLabel} from '../../shared/Helpers';
 
 import ProgressBar from '../../shared/ProgressBar';
 
@@ -78,11 +79,7 @@ class ListingSummary extends Component {
 
     render() {
         // console.log(this.props);
-        var statusLabel = this.state.status === "waitForBet" ? (
-            <label htmlFor="status" className="status-label" style={{backgroundColor: "green"}}>Waiting for bets</label>
-        ) : (
-            <label htmlFor="status" className="status-label" style={{backgroundColor: "#ec7e00"}}>Betting complete</label>
-        )
+        var statusLabel = getLabel(this.state.status);
 
         return (
             <div className="card col s12 m6 l4 xl3 market-fade z-depth-0">

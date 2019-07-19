@@ -4,6 +4,7 @@ import {Redirect} from 'react-router-dom';
 import {isSignIn, getItemFromID, getImageByID, getUserDataFromID, getPercentPurchased, createBet, 
     removeItem, getBetsOfItem, doRaffle, addNotification} from '../../shared/Firebase';
 import {handleError, handleSuccess, handleSuccessMessage} from '../../shared/ErrorHandling';
+import {getLabel} from '../../shared/Helpers';
 
 import ProgressBar from '../../shared/ProgressBar';
 
@@ -304,6 +305,8 @@ class Listing extends Component {
             </div>
         ) : null
 
+        var betLabel = getLabel(this.state.item.status);
+
         // From for betting, only displayed if current user is not seller
         var betForm = this.state.item.status === "waitForBet" && this.state.item.seller !== this.state.currentUser.uid ? (
             <div>
@@ -344,6 +347,7 @@ class Listing extends Component {
                     <div className="row">
                         <ProgressBar label={true} percentMap={[this.state.percentPurchased-this.state.percentUserPurchased, this.state.percentUserPurchased, this.state.betPercent]}/>
                     </div>
+                    {betLabel}
 
                     {betForm}
 
