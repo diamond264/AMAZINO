@@ -45,6 +45,12 @@
   padding-bottom: 20%;
 }
 
+.add-list {
+  color: white;
+  padding-top: 5px;
+  padding-left: 25px;
+}
+
 .nav-wrapper {
   overflow: hidden;
   background-color: #ec7e00;

@@ -40,11 +40,15 @@ class SignedInLinks extends Component{
             <div>
                 <ul className="right sidenav-trigger" data-target="slide-out">
                     <li>
-                        <Link to="" className="accou"><i className="material-icons">menu</i></Link>
+                        <Link to="" className="hamburger"><i className="material-icons">account_circle</i></Link>
                     </li>
                 </ul>
+                <div className="right add-list">
+                    <NavLink className="sidenav-close" className="" onClick={this.handleClick} to="/create">
+                        <i className="material-icons">add_to_photos</i>
+                    </NavLink>
+                </div>
                 <ul className="sidenav grey lighten-3" id="slide-out">
-                    
                     <li>
                         <div className="user-view">
                             <span><h5>{this.state.user.displayName}</h5></span>
@@ -54,7 +58,7 @@ class SignedInLinks extends Component{
 
                     <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/profile"><p>Profile</p></NavLink></li>
                     <li className="divider"></li>
-                    <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/create"><p>Create</p></NavLink></li>
+                    {/* <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/create"><p>Create</p></NavLink></li> */}
                     <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/listings"><p>My Listings</p></NavLink></li>
                     <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/bets"><p>My Bets</p></NavLink></li>
                     {/* <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/market"><p>Market</p></NavLink></li> */}
