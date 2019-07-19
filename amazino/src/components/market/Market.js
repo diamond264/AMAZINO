@@ -47,7 +47,7 @@ class Market extends Component {
         // });
         // getBetItemsByUser('tJjZ01wjFYaGdvwElEG1dzyMuga2').then(() => {}).catch((err) => {console.log(err)});
 
-        this.props.getData();
+        this.props.getData("", this.props.filter);
     };
     
     render() {
@@ -58,9 +58,10 @@ class Market extends Component {
                         <div className="section row">
                             {this.state.categories.map(c => {
                                 return (
-                                    <p className="col" key={c}>
+                                    <p className="col" style={{width: '130px'}} key={c}>
                                         <label>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" className="filled-in" checked={this.props.filter[c]} name={c} 
+                                                id={c} onClick={this.props.updateFilter}/>
                                             <span>{c}</span>
                                         </label>
                                     </p>

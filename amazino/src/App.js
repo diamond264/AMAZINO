@@ -19,6 +19,17 @@ class App extends Component {
     currentUser: null,
     search: "",
     data: null,
+    filter: {
+      Animals: false,
+      Cars: false,
+      Clothing: false,
+      Cooking: false,
+      Electronics: false,
+      Garden: false,
+      Tools: false,
+      Sports: false,
+      Other: false,
+    }
   }
 
   constructor() {
@@ -44,12 +55,20 @@ class App extends Component {
     this.setState({
       search: str
     })
-    this.getData(str);
+    this.getData(str, this.state.filter);
   }
 
-  async getData(str) {
-    console.log(this.state.search);
-    await getAllItems(20, 1, str)
+  updateFilter = (e) => {
+    var filter = this.state.filter;
+    filter[e.target.name] = !this.state.filter[e.target.name]
+    this.setState({
+      filter
+    })
+    this.getData(this.state.search, filter)
+  }
+
+  async getData(str, filter) {
+    await getAllItems(20, 1, str, filter)
         .then(items => {
             if(items) {
                 this.setState({
@@ -66,7 +85,9 @@ class App extends Component {
           <Navbar {...this.state} updateSearch={this.updateSearch} />
           {/*<Link to='/firebaseTest'>firebase</Link>*/}
           <Switch>
-            <Route exact path='/' render={(props) => <Market {...props} {...this.state} getData={this.getData}/>}/>
+            <Route exact path='/' render={(props) => 
+              <Market {...props} {...this.state} getData={this.getData} updateFilter={this.updateFilter}/>}
+              />
             <Route path='/listing/:id'  render={(props) => <Listing {...props} {...this.state}/>} />
             <Route path='/market' render={() => <Redirect to="/" />}/>
             <Route path='/create' render={(props) => <CreateListing {...props} {...this.state} />} />

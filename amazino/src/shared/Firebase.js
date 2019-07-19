@@ -455,10 +455,11 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
   });
 };
 
-export const getAllItems = (limit, pageNum, search) => {
+export const getAllItems = (limit, pageNum, search, filter) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
     var filteredItems = [];
+    var filterAll = true;
     return firebase.database().ref('items').once('value').then((itemVal) => {
       var items = itemVal.val();
       if(!items) return resolve(returnItems);
@@ -473,11 +474,16 @@ export const getAllItems = (limit, pageNum, search) => {
       });
 
       returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
+      Object.keys(filter).map(key => {
+        if (filter[key]) filterAll = false;
+      })
       Object.keys(returnItems).map(key => {
         var ritem = returnItems[key]
-        if (search && ritem.name.toLowerCase().search(search.toLowerCase()) !== -1)
+        var filterOne = filter[ritem.category] || filterAll;
+        if (search && ritem.name.toLowerCase().search(search.toLowerCase()) !== -1
+            && filterOne)
           return filteredItems.push(ritem);
-        else if(!search)
+        else if(!search && filterOne)
           return filteredItems.push(ritem);
         else
           return null;
