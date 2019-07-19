@@ -127,6 +127,20 @@
   opacity: .6;
 }
 
+.page-button {
+  background-color: white;
+  border-color: white;
+  border: 0 none;
+  border-radius: 5px;
+  padding: 5px 10px;
+
+  transition: ease 0.3s all;
+}
+
+.page-button:hover, .page-button:focus {
+  background-color: #a5a5a5;
+}
+
 #content {
   box-sizing: border-box;
   height: 100%;

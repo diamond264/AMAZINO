@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom'
-import {getAllItems} from "./shared/Firebase";
+import {getAllItems, numOfItems} from "./shared/Firebase";
 
 import Navbar from './components/navigation/Navbar';
 import CreateListing from './components/market/CreateListing';
@@ -20,6 +20,7 @@ class App extends Component {
     currentUser: null,
     search: "",
     data: null,
+    maxPages: 0,
     filter: {
       Animals: false,
       Cars: false,
@@ -56,7 +57,7 @@ class App extends Component {
     this.setState({
       search: str
     })
-    this.getData(str, this.state.filter);
+    this.getData(str, this.state.filter, 1);
   }
 
   updateFilter = (e) => {
@@ -65,16 +66,22 @@ class App extends Component {
     this.setState({
       filter
     })
-    this.getData(this.state.search, filter)
+    this.getData(this.state.search, filter, 1)
   }
 
-  async getData(str, filter) {
-    await getAllItems(20, 1, str, filter)
+  async getData(str, filter, page) {
+    var itemsPerPage = 20;
+    await getAllItems(itemsPerPage, page, str, filter)
         .then(items => {
             if(items) {
-                this.setState({
-                    data: items
-                });
+                
+                numOfItems().then(num => {
+                  var maxPages = Math.round((num / itemsPerPage) + 0.5);
+                  this.setState({
+                    data: items,
+                    maxPages
+                  });
+                })
             }
         });
   }

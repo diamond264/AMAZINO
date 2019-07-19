@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Listings from './Listings';
-import {getItemsByStatus, getBetItemsByUser} from "../../shared/Firebase";
+//import {getItemsByStatus, getBetItemsByUser} from "../../shared/Firebase";
 
 //
 // Wrapper component for listings
@@ -11,7 +11,6 @@ class Market extends Component {
         super(props);
 
         // this.getData = this.getData.bind(this);
-        
         this.state = {
             categories: ["Animals","Cars", "Clothing", "Cooking", "Electronics", "Garden", "Tools", "Sports", "Other"]
         }
@@ -33,7 +32,7 @@ class Market extends Component {
     //         });
     // }
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         console.log("TEST IS AVAILABLE");
         // createBet('-LjNqf3BHiWl2w4a4j_i','Ku6eNuqHcKSLyKFjPJjpGNNftib2',140).then(() => {
         //
@@ -47,8 +46,12 @@ class Market extends Component {
         // });
         // getBetItemsByUser('tJjZ01wjFYaGdvwElEG1dzyMuga2').then(() => {}).catch((err) => {console.log(err)});
 
-        this.props.getData("", this.props.filter);
-    };
+        this.props.getData("", this.props.filter, 1);
+    }
+
+    updatePage = (pageNumber) => {
+        this.props.getData("", this.props.filter, pageNumber);
+    }
     
     render() {
         return(
@@ -70,7 +73,7 @@ class Market extends Component {
                         </div>
                         <div className="divider"></div>
                         <div className="section">
-                            <Listings {...this.state} data={this.props.data}/>
+                            <Listings maxPages={this.props.maxPages} data={this.props.data} updatePage={this.updatePage} />
                         </div>
                     </div>
                 </div>
