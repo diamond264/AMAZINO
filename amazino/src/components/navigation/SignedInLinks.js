@@ -44,7 +44,7 @@ class SignedInLinks extends Component{
                         <Link to="" className="hamburger navbar-link"><i className="material-icons">account_circle</i></Link>
                     </li>
                     <li>
-                        {this.props.user.notiItem + this.props.user.notiBet == 0 ? null:
+                        {this.props.user.notiItem + this.props.user.notiBet === 0 ? null:
                         <div className="noti"></div>}
                     </li>
                 </ul>
@@ -68,6 +68,11 @@ class SignedInLinks extends Component{
                     <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/profile"><p>Profile</p></NavLink></li>
                     <li className="divider"></li>
                     {/* <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/create"><p>Create</p></NavLink></li> */}
+                    <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/notifications">
+                        {/*<span class="new badge red right">{this.props.user.notifications}</span>*/}
+                        <p>Notifications</p>
+                    </NavLink></li>
+                    
                     <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/listings">
                         <span class="new badge red right">{this.props.user.notiItem}</span>
                         <p>My Listings</p>

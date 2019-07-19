@@ -11,6 +11,7 @@ import Listing from './components/market/Listing';
 import Profile from './components/account/Profile';
 import UserListings from './components/account/UserListings';
 import UserBets from './components/account/UserBets';
+import Notifications from './components/account/Notifications';
 
 import * as firebase from 'firebase/app';
 
@@ -96,6 +97,7 @@ class App extends Component {
             <Route path='/profile' render={(props) => <Profile {...props} {...this.state} />} />
             <Route path='/listings' render={(props) => <UserListings {...props} {...this.state} />} />
             <Route path='/bets' render={(props) => <UserBets {...props} {...this.state} />} />
+            <Route path='/notifications' render={(props) => <Notifications {...props} {...this.state} />} />
             <Route path='/' component={Market} />
 
           </Switch>

@@ -799,3 +799,53 @@ export const getBalance = async (uid) => {
     })
   })
 };
+
+
+//
+// Adds notification to user on database
+// Expects path notification should link to when clicked
+//
+export const addNotification = (uid, title, message, path) => {
+  return new Promise((resolve, reject) => {
+    var key = database.ref('users/'+uid+'/notifications/').push().key;
+    var notif = {
+      title,
+      message,
+      path,
+      time: new Date()
+    };
+
+    return database.ref('users/'+uid+'/notifications/'+key).update(notif).then(() => {
+      return resolve();
+    }).catch(err => {
+      return reject(err);
+    })
+  });
+};
+
+//
+// Delete notification at given id
+//
+export const deleteNotification = (uid, notifId) => {
+  return new Promise((resolve, reject) => {
+    return database.ref('users/'+uid+'/notifications/'+notifId).remove().then(() => {
+      return resolve();
+    }).catch(err => {
+      return reject(err);
+    })
+  });
+};
+
+
+//
+// Get all notifications for user
+//
+export const getNotifications = (uid) => {
+  return new Promise((resolve, reject) => {
+    return database.ref('users/'+uid +'/notifications/').once('value').then(notifs => {
+      return resolve(notifs.val());
+    }).catch(err => {
+      return reject(err);
+    })
+  });
+};
