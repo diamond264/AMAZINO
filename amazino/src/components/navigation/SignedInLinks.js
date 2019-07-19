@@ -35,9 +35,6 @@ class SignedInLinks extends Component{
         })
     }
 
-    handleClick = (e) => {
-        e.preventDefault();
-    }
     
     render() {
         return(
@@ -50,7 +47,7 @@ class SignedInLinks extends Component{
                 
                 <ul className="right add-list">
                     <li>
-                        <NavLink to="" className="sidenav-close navbar-link" onClick={this.handleClick} to="/create">
+                        <NavLink className="sidenav-close navbar-link" to="/create">
                             <i className="material-icons">add_to_photos</i>
                         </NavLink>
                     </li>
