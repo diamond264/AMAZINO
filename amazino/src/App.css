@@ -51,8 +51,7 @@
 
 .hamburger {
   color: white;
-  padding-top: 5px;
-  padding-bottom: 20%;
+  margin-top: 5px;
 }
 
 .add-list {
@@ -95,9 +94,8 @@
 }
 
 .search-icon {
-  display: inline-block;
-  margin-top: 6px;
-  padding-right: 5px;
+  margin-top: 5px;
+  margin-right: 18px;
 }
 
 .searchbar {
@@ -108,7 +106,8 @@
 .searchbarContainer {
   background-color: white;
   border-radius: 45px;
-  margin-top: 15px;
+  margin-top: 13px;
+  margin-right: -8px;
   padding-bottom: 40px;
 
   overflow: hidden;
@@ -116,6 +115,17 @@
   transition: all 0.3s ease;
 }
 
+.navbar-link {
+  overflow: hidden;
+  margin-left: -12px;
+  border-radius: 100%;
+  transition: all 0.5s ease;
+}
+
+.navbar-link:hover {
+  background-color: #707070;
+  opacity: .6;
+}
 
 #content {
   box-sizing: border-box;

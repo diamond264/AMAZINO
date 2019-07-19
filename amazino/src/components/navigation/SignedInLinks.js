@@ -34,24 +34,29 @@ class SignedInLinks extends Component{
             console.log(err);
         })
     }
+
     
     render() {
         return(
             <div>
                 <ul className="right sidenav-trigger" data-target="slide-out">
+                    <li className="">
+                        <Link to="" className="hamburger navbar-link"><i className="material-icons">account_circle</i></Link>
+                    </li>
+                </ul>
+                
+                <ul className="right add-list">
                     <li>
-                        <Link to="" className="hamburger"><i className="material-icons">account_circle</i></Link>
+                        <NavLink className="sidenav-close navbar-link" to="/create">
+                            <i className="material-icons">add_to_photos</i>
+                        </NavLink>
                     </li>
                     <li>
                         {this.props.user.notiItem + this.props.user.notiBet == 0 ? null:
                         <div className="noti"></div>}
                     </li>
                 </ul>
-                <div className="right add-list">
-                    <NavLink className="sidenav-close" className="" onClick={this.handleClick} to="/create">
-                        <i className="material-icons">add_to_photos</i>
-                    </NavLink>
-                </div>
+
                 <ul className="sidenav grey lighten-3" id="slide-out">
                     <li>
                         <div className="user-view">
