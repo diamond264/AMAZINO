@@ -30,5 +30,11 @@ export const handleError = (err) => {
 export const handleSuccess = () => {
     M.AutoInit();
 
-    M.toast({html: "Success!", classes: "success-toast white-text"})
+    M.toast({html: "Success!", classes: "success-toast white-text"});
+}
+
+export const handleSuccessMessage = (message) => {
+    M.AutoInit();
+
+    M.toast({html: message, classes: "success-toast white-text"});
 }

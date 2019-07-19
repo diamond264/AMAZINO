@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 
 import {isSignIn, getItemFromID, getImageByID, getUserDataFromID, getPercentPurchased, createBet, 
-    removeItem, getBetsOfItem, doRaffle} from '../../shared/Firebase';
-import {handleError, handleSuccess} from '../../shared/ErrorHandling';
+    removeItem, getBetsOfItem, doRaffle, addNotification} from '../../shared/Firebase';
+import {handleError, handleSuccess, handleSuccessMessage} from '../../shared/ErrorHandling';
 
 import ProgressBar from '../../shared/ProgressBar';
 
@@ -80,12 +80,7 @@ class Listing extends Component {
     handleRaffle = (e) => {
         e.preventDefault();
 
-        doRaffle(this.state.itemID).then( winner => {
-            console.log("Raffle complete, winner:" + winner);
-            handleSuccess();
-        }).catch(err => {
-            handleError(err);
-        })
+        this.raffleItem();
     }
 
     // Determine max percent user can bet based on items in state
@@ -102,6 +97,32 @@ class Listing extends Component {
             maxPercent: Math.round(maxPercent * 100) / 100
         });
 
+    }
+
+    //
+    // Raffle item and notify winner
+    //
+    async raffleItem() {
+        await doRaffle(this.state.itemID).then( winner => {
+            console.log("Raffle complete, winner:" + winner);
+            getUserDataFromID(winner).then(user => {
+                addNotification(winner, "Congrats " + user.displayName + ", you won!", 
+                "Congratulations, you won the item: " + this.state.item.name + 
+                ". Click this notification to claim!", "/listing/"+this.state.itemID);
+
+                addNotification(this.props.currentUser.uid, "You sold an item!", 
+                "Great work, you sold the item: " + this.state.item.name + 
+                "! Your balance has been updated.", "/listing/"+this.state.itemID);
+                
+                this.getData();
+
+                handleSuccessMessage("Raffle winner: " + user.displayName);
+
+            })
+            
+        }).catch(err => {
+            handleError(err);
+        })
     }
 
     //
@@ -274,7 +295,7 @@ class Listing extends Component {
             </div>
         ) : null
 
-        var sellerLinks = this.state.item.seller === this.state.currentUser.uid ? (
+        var sellerLinks = this.state.item.status !== "SoldOut" && this.state.item.seller === this.state.currentUser.uid ? (
             <div className="row center">
                 {raffleLink}
                 <div className="col s12">
