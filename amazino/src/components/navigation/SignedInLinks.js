@@ -40,7 +40,7 @@ class SignedInLinks extends Component{
             <div>
                 <ul className="right sidenav-trigger" data-target="slide-out">
                     <li>
-                        <Link to="" className="hamburger"><i className="material-icons">menu</i></Link>
+                        <Link to="" className="accou"><i className="material-icons">menu</i></Link>
                     </li>
                 </ul>
                 <ul className="sidenav grey lighten-3" id="slide-out">

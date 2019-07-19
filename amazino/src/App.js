@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom'
 import {getAllItems} from "./shared/Firebase";
 
 import Navbar from './components/navigation/Navbar';
@@ -68,7 +68,7 @@ class App extends Component {
           <Switch>
             <Route exact path='/' render={(props) => <Market {...props} {...this.state} getData={this.getData}/>}/>
             <Route path='/listing/:id'  render={(props) => <Listing {...props} {...this.state}/>} />
-            <Route path='/market' component={Market} {...this.state}/>
+            <Route path='/market' render={() => <Redirect to="/" />}/>
             <Route path='/create' render={(props) => <CreateListing {...props} {...this.state} />} />
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />

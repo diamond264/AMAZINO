@@ -23,7 +23,7 @@ class CreateListing extends Component {
             itemSubmitted: false,
             betPeriodLength: 30,
             pluralModifier: "s",
-            categories: ["Animals","Cars", "Clothing", "Electronics", "Tools", "Sports", "Other"],
+            categories: ["Animals","Cars", "Clothing", "Cooking", "Electronics", "Garden", "Tools", "Sports", "Other"],
             msPerDay: 86400000
         }
         M.AutoInit();
@@ -130,7 +130,7 @@ class CreateListing extends Component {
     render() {
 
         if(!isSignIn()) return <Redirect to='/signin' />
-        if(this.state.itemSubmitted) return <Redirect to='/market' />
+        if(this.state.itemSubmitted) return <Redirect to='/' />
         return(
             <div className="container section">
                 <div className="card row">

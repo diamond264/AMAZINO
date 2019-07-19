@@ -284,7 +284,7 @@ class Listing extends Component {
         ) : null
 
         // From for betting, only displayed if current user is not seller
-        var betForm = this.state.item.seller !== this.state.currentUser.uid ? (
+        var betForm = this.state.item.status === "waitForBet" && this.state.item.seller !== this.state.currentUser.uid ? (
             <div>
                 <div className="row center">
                     <div className="col s8 m6 l4 offset-s2 offset-m3 offset-l4">

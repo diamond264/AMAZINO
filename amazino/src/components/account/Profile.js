@@ -52,7 +52,6 @@ class Profile extends Component {
         //}
     }
     async getData() {
-
         if(this.state.currentUser) {
             await getItemsBySeller(this.state.currentUser.uid, 20, 1)
                 .then(items => {
