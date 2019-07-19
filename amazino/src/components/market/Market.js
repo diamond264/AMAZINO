@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-
 import Listings from './Listings';
-//import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
 import {getItemsByStatus, getBetItemsByUser} from "../../shared/Firebase";
 
 //

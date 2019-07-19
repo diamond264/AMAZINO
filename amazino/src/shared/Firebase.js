@@ -1,12 +1,12 @@
 import * as firebase from 'firebase';
 
-var CronJob = require('cron').CronJob;
-new CronJob('0 0 0 * * *', () => {
-  console.log("Started to expire items on dueDate");
-  expireItems(new Date());
-}, null, true, 'America/Los_Angeles');
+// var CronJob = require('cron').CronJob;
+// new CronJob('0 0 0 * * *', () => {
+//   console.log("Started to expire items on dueDate");
+//   expireItems(new Date());
+// }, null, true, 'America/Los_Angeles');
 
-const expireItems = (date) => {
+export const expireItems = (date) => {
   getAllUnSoldItems().then((items) => {
     for(var i=0; i<items.length; i++) {
       var item = items[i];
