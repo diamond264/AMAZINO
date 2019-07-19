@@ -285,6 +285,13 @@ class Listing extends Component {
         if(!isSignIn()) return <Redirect to="/signin" />
         if(this.state.itemDeleted) return <Redirect to="/" />
         if(!this.state.item) return <div></div>
+
+        // adjust percentage map for progress bar
+        var percentMap = this.state.item.status !== "SoldOut" ? (
+            [this.state.percentPurchased-this.state.percentUserPurchased, this.state.percentUserPurchased, this.state.betPercent]
+        ) : (
+            [1, 0]
+        )
         
         var refundLink = this.state.betPosted ? <button className="btn red white-text" style={{marginLeft: "5px"}} onClick={this.handleRefund}>refund</button> : null
         
@@ -345,7 +352,7 @@ class Listing extends Component {
                     <div className="section"></div>
 
                     <div className="row">
-                        <ProgressBar label={true} percentMap={[this.state.percentPurchased-this.state.percentUserPurchased, this.state.percentUserPurchased, this.state.betPercent]}/>
+                        <ProgressBar label={true} percentMap={percentMap} />
                     </div>
                     {betLabel}
 
