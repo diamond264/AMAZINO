@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink, Link} from 'react-router-dom';
 
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
@@ -21,7 +21,8 @@ class Navbar extends Component {
                 width: "0%",
                 height: "0px",
                 paddingLeft: "0px",
-                paddingRight: "0px"
+                paddingRight: "0px",
+                opacity: 0
                 
             }
         }
@@ -39,6 +40,8 @@ class Navbar extends Component {
         var height;
         var paddingLeft;
         var paddingRight;
+        var opacity;
+
         var searchbarStyle;
 
         if(this.state.searchExpanded) {
@@ -46,6 +49,7 @@ class Navbar extends Component {
             height = "0px"
             paddingLeft = "0px";
             paddingRight = "0px";
+            opacity = 0;
             this.props.updateSearch("");
 
         } else {
@@ -53,13 +57,15 @@ class Navbar extends Component {
             width = "100%";
             paddingLeft = "20px";
             paddingRight = "20px";
+            opacity = 1;
         }
 
         searchbarStyle = {
             width,
             height,
             paddingLeft,
-            paddingRight
+            paddingRight,
+            opacity
         }
 
         this.setState({
@@ -102,18 +108,22 @@ class Navbar extends Component {
 
                         {links}
                         
-                        <div className="left search-icon right">
-                                <Link to="" onClick={this.handleSearchbar}><i className="material-icons">search</i></Link>
-                        </div>
-                        <div className="col s6 bold middle right input-field">
-                            <div className="right searchbarContainer" style={this.state.searchbarStyle}>
+                        <ul className="right">
+                            <NavLink to="" className="navbar-link search-icon" onClick={this.handleSearchbar}>
+                                <li>
+                                    <i className="material-icons">search</i>
+                                </li>
+                            </NavLink>
+                        </ul>
+                        <ul className="col s6 bold middle right input-field">
+                            <li className="right searchbarContainer" style={this.state.searchbarStyle}>
                                 <form className="searchbar" action="submit"  onSubmit={this.handleSearch}>
                                     <div>
                                         <input id="search bold" placeholder="search" type="text" required  onChange={this.updateSearchInput}/>
                                     </div>         
                                 </form>
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
                         
                     </div>
                 </nav>
