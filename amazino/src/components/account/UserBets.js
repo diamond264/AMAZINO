@@ -7,7 +7,8 @@ import {
     getItemsBySeller,
     getItemsByStatus,
     getUnSoldItems,
-    getUserDataFromID
+    getUserDataFromID,
+    updateUserNotiBet
 } from "../../shared/Firebase";
 
 //
@@ -26,6 +27,7 @@ class UserBets extends Component {
     componentDidMount = () => {
         this.getUserData();
         this.getData();
+        updateUserNotiBet(this.props.currentUser.uid);
     }
 
     async getUserData() {

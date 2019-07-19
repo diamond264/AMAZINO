@@ -42,6 +42,10 @@ class SignedInLinks extends Component{
                     <li>
                         <Link to="" className="hamburger"><i className="material-icons">account_circle</i></Link>
                     </li>
+                    <li>
+                        {this.props.user.notiItem + this.props.user.notiBet == 0 ? null:
+                        <div className="noti"></div>}
+                    </li>
                 </ul>
                 <div className="right add-list">
                     <NavLink className="sidenav-close" className="" onClick={this.handleClick} to="/create">
@@ -59,8 +63,14 @@ class SignedInLinks extends Component{
                     <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/profile"><p>Profile</p></NavLink></li>
                     <li className="divider"></li>
                     {/* <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/create"><p>Create</p></NavLink></li> */}
-                    <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/listings"><p>My Listings</p></NavLink></li>
-                    <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/bets"><p>My Bets</p></NavLink></li>
+                    <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/listings">
+                        <span class="new badge red right">{this.props.user.notiItem}</span>
+                        <p>My Listings</p>
+                    </NavLink></li>
+                    <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/bets">
+                        <span class="new badge red right">{this.props.user.notiBet}</span>
+                        <p>My Bets</p>
+                    </NavLink></li>
                     {/* <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/market"><p>Market</p></NavLink></li> */}
                     <li><NavLink className="sidenav-close" to="/signin" onClick={this.handleSignOut}><p>Logout</p></NavLink></li>
                 </ul>

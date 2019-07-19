@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import Listings from '../market/Listings';
 //import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
-import {getItemsBySeller, getItemsByStatus, getUnSoldItems, getUserDataFromID} from "../../shared/Firebase";
+import {getItemsBySeller, getItemsByStatus, getUnSoldItems, getUserDataFromID, updateUserNotiItem} from "../../shared/Firebase";
 
 //
 // Wrapper component for listings
@@ -20,6 +20,7 @@ class UserListings extends Component {
     componentDidMount = () => {
         this.getUserData();
         this.getData();
+        updateUserNotiItem(this.props.currentUser.uid);
     }
 
     async getUserData() {

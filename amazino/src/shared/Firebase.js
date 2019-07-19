@@ -45,6 +45,30 @@ export const fire = () => {
   storage = firebase.storage();
 };
 
+export const updateUserNotiBet = (uid) => {
+  console.log(uid)
+  return new Promise((resolve, reject) => {
+    return database.ref('users/'+uid).update({notiBet: 0}).then(() => {
+      return resolve(0);
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+}
+
+export const updateUserNotiItem = (uid) => {
+  return new Promise((resolve, reject) => {
+    return database.ref('users/'+uid).update({notiItem: 0}).then(() => {
+      return resolve(0);
+    }).catch((err) => {
+      console.log(err);
+      return reject(err);
+    });
+  });
+}
+
+
 const updateUserItems = (uid, item) => {
   return new Promise((resolve, reject) => {
     var newItemKey = database.ref('users/'+uid+'/itemIDs').push().key;
@@ -775,10 +799,3 @@ export const getBalance = async (uid) => {
     })
   })
 };
-
-export const updateBalance = (bal) => {
-  return database.ref('users/332kxRhgNodHzIzdMNhhsScGIpG2').update({
-    balance: bal
-  })
-};
-
