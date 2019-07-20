@@ -823,7 +823,8 @@ export const addNotification = (uid, title, message, path) => {
       title,
       message,
       path,
-      time: new Date()
+      time: new Date(),
+      read: false
     };
 
     return database.ref('users/'+uid+'/notifications/'+key).update(notif).then(() => {
@@ -860,3 +861,37 @@ export const getNotifications = (uid) => {
     })
   });
 };
+
+
+//
+// Read notification with given notification id for user at uid
+//
+export const readNotification = (uid, notifId) => {
+  return new Promise((resolve, reject) => {
+    return database.ref('users/'+uid+'/notifications/'+notifId+'/read').update(true).then(() => {
+      return resolve();
+    }).catch(err => {
+      return reject(err);
+    })
+  })
+}
+
+//
+// Get number of new notifications
+//
+export const getNumNewNotifications = (uid) => {
+  return new Promise((resolve, reject) => {
+    return database.ref('users/'+uid+'/notifications').once('value').then(notifs => {
+      notifs = notifs.val();
+      var numNewNotifs = 0;
+      for(var notif in notifs) {
+        if(!notifs[notif].read) {
+          numNewNotifs++;
+        }
+      }
+      return resolve(numNewNotifs);
+    }).catch(err => {
+      return reject(err);
+    })
+  })
+}

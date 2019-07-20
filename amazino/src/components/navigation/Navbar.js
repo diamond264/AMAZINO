@@ -4,8 +4,6 @@ import {NavLink, Link} from 'react-router-dom';
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
 
-import {getUserDataFromID} from '../../shared/Firebase';
-
 import '../../App.css';
 
 

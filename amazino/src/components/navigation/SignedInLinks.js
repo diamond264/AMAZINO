@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {NavLink, Link} from 'react-router-dom';
 import * as firebase from 'firebase/app';
-import {getUserDataFromID} from '../../shared/Firebase';
+import {getUserDataFromID, getNumNewNotifications} from '../../shared/Firebase';
 import {handleError} from '../../shared/ErrorHandling';
 import M from 'materialize-css';
 
@@ -14,7 +14,8 @@ class SignedInLinks extends Component{
 
         this.state = {
             sidebarInstance: null,
-            user: null
+            user: null,
+            numNewNotifs: 0
         }
     }
 
@@ -36,24 +37,34 @@ class SignedInLinks extends Component{
     }
 
     handleClick = (e) => {
-        this.getUserData(this.props.currentUser.uid);
+        if(this.props.currentUser) {
+            this.getUserData(this.props.currentUser.uid);
+        }
     }
 
     async getUserData(uid) {
         // get user data from database, update
         await getUserDataFromID(uid).then(user => {
-            this.setState({
-                user
-            });
+            getNumNewNotifications(uid).then(numNewNotifs => {
+                this.setState({
+                    user,
+                    numNewNotifs
+                });
+            }).catch(err => {
+                handleError(err);
+            })
+            
         }).catch(err => {
             handleError(err);
         })
+
     }
 
     render() {
-        if(this.props.currentUser) {
-            this.getUserData(this.props.currentUser.uid);
-        }
+        var notifBadge = this.state.numNewNotifs ? (
+            <span class="new badge red right">{this.state.numNewNotifs}</span>
+        ) : null
+
         var slideoutContent = this.state.user ? (
             <div>
                 <li>
@@ -64,13 +75,16 @@ class SignedInLinks extends Component{
                 </li>
 
                 <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/profile"><p>Profile</p></NavLink></li>
-                <li className="divider"></li>
+                
                 {/* <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/create"><p>Create</p></NavLink></li> */}
+                
                 <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/notifications">
-                    {/*<span class="new badge red right">{this.state.user.notifications}</span>*/}
+                    {notifBadge}
                     <p>Notifications</p>
                 </NavLink></li>
                 
+                <li className="divider"></li>
+
                 <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/listings">
                     <span class="new badge red right">{this.state.user.notiItem}</span>
                     <p>My Listings</p>
@@ -93,7 +107,7 @@ class SignedInLinks extends Component{
             <div>
                 <ul className="right sidenav-trigger" data-target="slide-out">
                     <li className="">
-                        <Link to="" className="hamburger navbar-link"><i className="material-icons">account_circle</i></Link>
+                        <Link to="" onClick={this.handleClick} className="hamburger navbar-link"><i className="material-icons">account_circle</i></Link>
                     </li>
                     <li>
                         {this.state.user && this.state.user.notiItem + this.state.user.notiBet === 0 ? null:
