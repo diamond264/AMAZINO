@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 
 import Listings from '../market/Listings';
 //import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
@@ -20,7 +21,9 @@ class UserListings extends Component {
     componentDidMount = () => {
         this.getUserData();
         this.getData();
-        updateUserNotiItem(this.props.currentUser.uid);
+        if(this.props.currentUser) {
+            updateUserNotiItem(this.props.currentUser.uid);
+        }
     }
 
     async getUserData() {
@@ -49,6 +52,7 @@ class UserListings extends Component {
     }
 
     render() {
+        if(!this.props.currentUser) return <Redirect to="/"/>
         return(
             <div className="container section">
                 <div className="card z-depth-1">

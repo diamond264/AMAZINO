@@ -42,15 +42,18 @@ class ListingSummary extends Component {
     }
 
     async getPercentPurchased() {
-        try {
+        if(this.state.status === "SoldOut") {
+            this.setState({
+                percentMap: [1,0]
+            })
+        } else {
             await getPercentPurchased(this.props.id).then(percentPurchased => {
                 this.setState({
                     percentMap: [percentPurchased, 0]
                 })
+            }).catch(err => {
+                handleError(err);
             })
-
-        } catch(err) {
-            handleError(err);
         }
     }
 
