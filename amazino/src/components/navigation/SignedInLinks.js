@@ -3,8 +3,6 @@ import {NavLink, Link} from 'react-router-dom';
 import * as firebase from 'firebase/app';
 import M from 'materialize-css';
 
-
-
 //
 // Links a user sees on the navbar when signed in
 // 
@@ -35,7 +33,6 @@ class SignedInLinks extends Component{
         })
     }
 
-    
     render() {
         return(
             <div>
@@ -77,10 +74,15 @@ class SignedInLinks extends Component{
                         <span class="new badge red right">{this.props.user.notiItem}</span>
                         <p>My Listings</p>
                     </NavLink></li>
+
                     <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/bets">
                         <span class="new badge red right">{this.props.user.notiBet}</span>
                         <p>My Bets</p>
                     </NavLink></li>
+
+                    <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/rules"><p>Rules</p></NavLink></li>
+                    <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/aboutus"><p>About Us</p></NavLink></li>
+
                     {/* <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/market"><p>Market</p></NavLink></li> */}
                     <li><NavLink className="sidenav-close" to="/signin" onClick={this.handleSignOut}><p>Logout</p></NavLink></li>
                 </ul>

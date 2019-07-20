@@ -11,6 +11,8 @@ import Listing from './components/market/Listing';
 import Profile from './components/account/Profile';
 import UserListings from './components/account/UserListings';
 import UserBets from './components/account/UserBets';
+import AboutUs from './components/account/AboutUs';
+import Rules from './components/account/Rules';
 import Notifications from './components/account/Notifications';
 
 import * as firebase from 'firebase/app';
@@ -102,6 +104,8 @@ class App extends Component {
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
             <Route path='/profile' render={(props) => <Profile {...props} {...this.state} />} />
+            <Route path='/aboutus' render={(props) => <AboutUs {...props} {...this.state} />} />
+            <Route path='/rules' render={(props) => <Rules {...props} {...this.state} />} />
             <Route path='/listings' render={(props) => <UserListings {...props} {...this.state} />} />
             <Route path='/bets' render={(props) => <UserBets {...props} {...this.state} />} />
             <Route path='/notifications' render={(props) => <Notifications {...props} {...this.state} />} />
