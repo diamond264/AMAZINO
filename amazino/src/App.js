@@ -14,6 +14,7 @@ import UserBets from './components/account/UserBets';
 import AboutUs from './components/account/AboutUs';
 import Rules from './components/account/Rules';
 import Notifications from './components/account/Notifications';
+import './App.css';
 
 import * as firebase from 'firebase/app';
 

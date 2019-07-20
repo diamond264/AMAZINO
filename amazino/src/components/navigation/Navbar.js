@@ -14,7 +14,6 @@ class Navbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: null,
             searchExpanded: false,
             query: "",
             searchbarStyle: {
@@ -75,21 +74,6 @@ class Navbar extends Component {
 
     }
 
-    componentDidUpdate = () => {
-        if(this.props.currentUser) {
-            this.getUserData(this.props.currentUser.uid);
-        }
-    }
-
-    async getUserData(uid) {
-        // get user data from database, update
-        await getUserDataFromID(uid).then(user => {
-            this.setState({
-                user
-            });
-        })
-    }
-
     updateSearchInput = (e) => {
         this.props.updateSearch(e.target.value);
         this.setState({
@@ -98,9 +82,8 @@ class Navbar extends Component {
     }
 
     render() {
-
-        const links = this.props.currentUser && this.state.user ? 
-            <SignedInLinks currentUser={this.props.currentUser} {...this.state} /> : <SignedOutLinks />;
+        const links = this.props.currentUser ? 
+            <SignedInLinks currentUser={this.props.currentUser} /> : <SignedOutLinks />;
         return(
             <div>
                 <nav className="nav-wrapper z-depth-1">
