@@ -39,6 +39,9 @@ const firebaseConfig = {
   appId: "1:628330225290:web:47cbe90f36f59743"
 };
 
+/**
+ * Initialize firebase
+ */
 export const fire = () => {
   firebase.initializeApp(firebaseConfig);
   database = firebase.database();
@@ -57,6 +60,7 @@ export const updateUserNotiBet = (uid) => {
   });
 };
 
+
 export const updateUserNotiItem = (uid) => {
   return new Promise((resolve, reject) => {
     return database.ref('users/'+uid).update({notiItem: 0}).then(() => {
@@ -68,7 +72,11 @@ export const updateUserNotiItem = (uid) => {
   });
 };
 
-
+/**
+ * Associate item with user's account
+ * @param {string} uid - User's user id
+ * @param {string} item - The item's id
+ */
 const updateUserItems = (uid, item) => {
   return new Promise((resolve, reject) => {
     var newItemKey = database.ref('users/'+uid+'/itemIDs').push().key;
@@ -84,6 +92,11 @@ const updateUserItems = (uid, item) => {
   });
 };
 
+/**
+ * Subtract charge from user's balance
+ * @param {string} user - User's user id
+ * @param {double} charge - Charge in dollars
+ */
 export const updateUserBalance = (user, charge) => {
   return new Promise((resolve, reject) => {
     return getUserBalance(user).then((balance) => {
@@ -102,6 +115,11 @@ export const updateUserBalance = (user, charge) => {
   });
 };
 
+/**
+ * Get payment of user in bets on given item
+ * @param {string} item - The item's id
+ * @param {string} user - User's user id
+ */
 const getPayment = (item, user) => {
   return new Promise((resolve, reject) => {
     return firebase.database().ref('bets/'+item+'/'+user+'/payment').once('value').then(prevPay => {
@@ -113,6 +131,12 @@ const getPayment = (item, user) => {
   });
 };
 
+/**
+ * Cancel bet of given price for user
+ * @param {string} item - The item's id
+ * @param {string} user - User's user id
+ * @param {double} payment - Price in dollars to refund
+ */
 const cancelBet = (item, user, payment) => {
   return new Promise((resolve, reject) => {
     return getPayment(item, user).then((prevPayment) => {
@@ -150,6 +174,10 @@ const cancelBet = (item, user, payment) => {
   })
 };
 
+/**
+ * Get all bets for given item
+ * @param {string} itemId - The item's id
+ */
 export const getBetsOfItem = (itemId) => {
   return new Promise((resolve, reject) => {
     return firebase.database().ref('bets/'+itemId).once('value').then(bets => {
@@ -161,9 +189,10 @@ export const getBetsOfItem = (itemId) => {
   });
 };
 
-//
-// Returns percentage of listing already bought
-//
+/**
+ * Returns percentage of listing already bought
+ * @param {string} itemId - The item's id
+ */
 export const getPercentPurchased = (itemId) => {
   return new Promise((resolve, reject) => {
     return getBetsOfItem(itemId).then(bets => {
@@ -187,6 +216,11 @@ export const getPercentPurchased = (itemId) => {
   });
 };
 
+/**
+ * Updates item given new bet payment
+ * @param {string} item - The item's ID
+ * @param {double} price - The payment of the new bet
+ */
 const processBet = (item, price) => {
   return new Promise((resolve, reject) => {
     return getBetsOfItem(item).then((bets) => {
@@ -220,9 +254,12 @@ const processBet = (item, price) => {
   });
 };
 
-//
-// Expects itemID
-//
+/**
+ * Creates bet of given payment size for user
+ * @param {string} item - The item's ID to bet on
+ * @param {string} user - User's user id
+ * @param {double} payment - Payment associated with bet in dollars
+ */
 export const createBet = (item, user, payment) => {
   return new Promise((resolve, reject) => {
     return getPayment(item, user).then((prevPayment) => {
@@ -304,6 +341,10 @@ export const createBet = (item, user, payment) => {
   });
 };
 
+/**
+ * Randomly shuffle given array
+ * @param {array} - Array to shuffle
+ */
 const shuffle = (array) => {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -351,6 +392,10 @@ const blockBets = (itemId, winnerId) => {
   });
 };
 
+/**
+ * Execute raffle and choose winner for given item, expect "SoldOut" status
+ * @param {string} itemID - The item's id
+ */
 export const doRaffle = (itemID) => {
   return new Promise((resolve, reject) => {
     return getItemFromID(itemID).then((item) => {
@@ -392,6 +437,10 @@ export const doRaffle = (itemID) => {
   });
 };
 
+/**
+ * Get image by given ID
+ * @param {string} itemId - The item's id
+ */
 export const getImageByID = (itemId) => {
   return new Promise((resolve, reject) => {
     return firebase.storage().ref().child('images/'+itemId).getDownloadURL().then(url => {
@@ -402,6 +451,10 @@ export const getImageByID = (itemId) => {
   })
 };
 
+/**
+ * Remove item with given item id
+ * @param {string} itemId - The item's id
+ */
 export const removeItem = (itemId) => {
   return new Promise((resolve, reject) => {
     return getItemFromID(itemId).then((item) => {
@@ -450,6 +503,16 @@ export const removeItem = (itemId) => {
   });
 };
 
+/**
+ * Upload item with given information
+ * @param {string} uid - Seller's user id
+ * @param {string} name - Name/title of the item
+ * @param {double} price - Price of the item
+ * @param {string} category - Item's category
+ * @param {Date} duedate - Item's duedate
+ * @param {string} description - Description of the item
+ * @param {Image} images - images to add to storage for item
+ */
 export const uploadItem = async (uid, name, price, category, duedate, description, images) => {
   return new Promise((resolve, reject) => {
     var itemData = {
@@ -489,6 +552,13 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
   });
 };
 
+/**
+ * Gets all market items, with page limit and page number
+ * @param {int} limit - Limit number of items per page
+ * @param {int} pageNum - Page from which to return items
+ * @param {string} search - Search string to factor in
+ * @param {Object} filter - Object containing boolean values of all category filters
+ */
 export const getAllItems = (limit, pageNum, search, filter) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
@@ -530,6 +600,9 @@ export const getAllItems = (limit, pageNum, search, filter) => {
   });
 };
 
+/**
+ * Returns all items without "SoldOut" status
+ */
 export const getAllUnSoldItems = () => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
@@ -554,6 +627,10 @@ export const getAllUnSoldItems = () => {
   });
 };
 
+/**
+ * Gets item object from its id
+ * @param {string} itemID - The item's ID
+ */
 export const getItemFromID = (itemID) => {
   return new Promise((resolve, reject) => {
     return firebase.database().ref('items').child(itemID).once('value').then(items => {
@@ -565,9 +642,13 @@ export const getItemFromID = (itemID) => {
   });
 };
 
-export const getItemPrice = (item) => {
+/**
+ * Get price of given item
+ * @param {string} item - The item's ID
+ */
+export const getItemPrice = (itemID) => {
   return new Promise((resolve, reject) => {
-    return firebase.database().ref('items/'+item+'/price').once('value').then(user => {
+    return firebase.database().ref('items/'+itemID+'/price').once('value').then(user => {
       return resolve(user.val());
     }).catch((err) => {
       console.log(err);
@@ -576,6 +657,10 @@ export const getItemPrice = (item) => {
   });
 };
 
+/**
+ * Get user's balance
+ * @param {string} uid - User's user id
+ */
 export const getUserBalance = (uid) => {
   return new Promise((resolve, reject) => {
     return firebase.database().ref('users/'+uid+'/balance').once('value').then(user => {
@@ -587,6 +672,10 @@ export const getUserBalance = (uid) => {
   });
 };
 
+/**
+ * Get user data associated with user id
+ * @param {string} uid - User's user id
+ */
 export const getUserDataFromID = (uid) => {
   return new Promise((resolve, reject) => {
     return firebase.database().ref('users').child(uid).once('value').then(user => {
@@ -598,6 +687,12 @@ export const getUserDataFromID = (uid) => {
   })
 };
 
+/**
+ * Get all items a user has won
+ * @param {string} winnerId - User's user id
+ * @param {int} limit - Limit number of items per page
+ * @param {int} pageNum - Page from which to return items
+ */
 export const getItemsByWinner = (winnerId, limit, pageNum) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
@@ -620,6 +715,12 @@ export const getItemsByWinner = (winnerId, limit, pageNum) => {
   });
 };
 
+/**
+ * Get all items a user has posted
+ * @param {string} sellerId - User's user id
+ * @param {int} limit - Limit number of items per page
+ * @param {int} pageNum - Page from which to return items
+ */
 export const getItemsBySeller = (sellerId, limit, pageNum) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
@@ -642,6 +743,12 @@ export const getItemsBySeller = (sellerId, limit, pageNum) => {
   });
 };
 
+/**
+ * Returns all items with given status
+ * @param {string} status - Status of items the function should return
+ * @param {int} limit - Limit number of items per page
+ * @param {int} pageNum - Page from which to return items
+ */
 export const getItemsByStatus = (status, limit, pageNum) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
@@ -664,6 +771,7 @@ export const getItemsByStatus = (status, limit, pageNum) => {
   });
 };
 
+
 export const getItemFromKVPair = (key, value) => {
   var itemRef = database.ref('items/');
   var itemQuery = itemRef.orderByChild(key).equalTo(value);
@@ -678,6 +786,11 @@ export const getItemFromKVPair = (key, value) => {
   })
 };
 
+/**
+ * Sign user in with email and password
+ * @param {string} email - Email to sign in with
+ * @param {string} password - Password to sign in with
+ */
 export const signIn = (email, password) => {
   return new Promise((resolve, reject) => {
     return firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
@@ -689,6 +802,12 @@ export const signIn = (email, password) => {
   })
 };
 
+/**
+ * Signs up new user with email and password
+ * @param {string} email - Email address to associate with this account
+ * @param {string} password - Password for this account
+ * @param {string} displayName - New display name to associate with this account 
+ */
 export const signUp = (email, password, displayName) => {
   return new Promise((resolve, reject) => {
     return firebase.auth().createUserWithEmailAndPassword(email, password).then(()=> {
@@ -710,6 +829,9 @@ export const signUp = (email, password, displayName) => {
   })
 };
 
+/**
+ * Signs out current user
+ */
 export const signOut = () => {
   return firebase.auth.signOut().then(function() {
     console.log("signed out");
@@ -718,10 +840,17 @@ export const signOut = () => {
   })
 };
 
+/**
+ * Returns true if user is currently signed in
+ */
 export const isSignIn = () => {
   return !!firebase.auth().currentUser;
 };
 
+/**
+ * Get all items won by given user
+ * @param {string} userID - User's user id
+ */
 const getSoldItemsByWinner = (userID) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
@@ -746,6 +875,10 @@ const getSoldItemsByWinner = (userID) => {
   });
 };
 
+/**
+ * Get all items a user has bet on
+ * @param {string} userID - User's user id
+ */
 export const getBetItemsByUser = (userID) => {
   return new Promise((resolve, reject) => {
     return getUserDataFromID(userID).then(async (user) => {
@@ -775,6 +908,9 @@ export const getBetItemsByUser = (userID) => {
   });
 };
 
+/**
+ * Get number of items visible in market
+ */
 export const numOfItems = () => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
@@ -799,6 +935,10 @@ export const numOfItems = () => {
   });
 };
 
+/**
+ * Get's balance for user
+ * @param {string} uid - User's user id
+ */
 export const getBalance = async (uid) => {
   return new Promise((resolve, reject) => {
     return database.ref('users/'+uid).once('value', (snap) => {
@@ -812,10 +952,13 @@ export const getBalance = async (uid) => {
 };
 
 
-//
-// Adds notification to user on database
-// Expects path notification should link to when clicked
-//
+/**
+ * Adds notification to user on database
+ * @param {string} uid - User's user id
+ * @param {string} title - Title of notification
+ * @param {string} message - Notification's message
+ * @param {string} path - Path this notification will redirect to when clicked
+ */
 export const addNotification = (uid, title, message, path) => {
   return new Promise((resolve, reject) => {
     var key = database.ref('users/'+uid+'/notifications/').push().key;
@@ -835,9 +978,11 @@ export const addNotification = (uid, title, message, path) => {
   });
 };
 
-//
-// Delete notification at given id
-//
+/**
+ * Delete notification at given id
+ * @param {string} uid - User's user id
+ * @param {string} notifId - ID of the user's notification
+ */
 export const deleteNotification = (uid, notifId) => {
   return new Promise((resolve, reject) => {
     return database.ref('users/'+uid+'/notifications/'+notifId).remove().then(() => {
@@ -849,9 +994,10 @@ export const deleteNotification = (uid, notifId) => {
 };
 
 
-//
-// Get all notifications for user
-//
+/**
+ * Get all notifications for user
+ * @param {string} uid - User's user id
+ */
 export const getNotifications = (uid) => {
   return new Promise((resolve, reject) => {
     return database.ref('users/'+uid +'/notifications/').once('value').then(notifs => {
@@ -863,9 +1009,11 @@ export const getNotifications = (uid) => {
 };
 
 
-//
-// Read notification with given notification id for user at uid
-//
+/**
+ * Read notification with given notification id for user at uid
+ * @param {string} uid - User's user id
+ * @param {string} notifId - ID of user's notification
+ */
 export const readNotification = (uid, notifId) => {
   return new Promise((resolve, reject) => {
     return database.ref('users/'+uid+'/notifications/'+notifId).update({read: true}).then(() => {
@@ -876,9 +1024,10 @@ export const readNotification = (uid, notifId) => {
   })
 }
 
-//
-// Get number of new notifications
-//
+/**
+ * Get number of new notifications
+ * @param {string} uid - User's user id
+ */
 export const getNumNewNotifications = (uid) => {
   return new Promise((resolve, reject) => {
     return database.ref('users/'+uid+'/notifications').once('value').then(notifs => {
