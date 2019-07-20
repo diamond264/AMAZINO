@@ -868,7 +868,7 @@ export const getNotifications = (uid) => {
 //
 export const readNotification = (uid, notifId) => {
   return new Promise((resolve, reject) => {
-    return database.ref('users/'+uid+'/notifications/'+notifId+'/read').update(true).then(() => {
+    return database.ref('users/'+uid+'/notifications/'+notifId).update({read: true}).then(() => {
       return resolve();
     }).catch(err => {
       return reject(err);
@@ -891,7 +891,7 @@ export const getNumNewNotifications = (uid) => {
       }
       return resolve(numNewNotifs);
     }).catch(err => {
-      return reject(err);
+      return reject(err)
     })
   })
 }
