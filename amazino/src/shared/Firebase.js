@@ -46,7 +46,7 @@ export const fire = () => {
 };
 
 export const updateUserNotiBet = (uid) => {
-  console.log(uid)
+  console.log(uid);
   return new Promise((resolve, reject) => {
     return database.ref('users/'+uid).update({notiBet: 0}).then(() => {
       return resolve(0);
@@ -55,7 +55,7 @@ export const updateUserNotiBet = (uid) => {
       return reject(err);
     });
   });
-}
+};
 
 export const updateUserNotiItem = (uid) => {
   return new Promise((resolve, reject) => {
@@ -66,7 +66,7 @@ export const updateUserNotiItem = (uid) => {
       return reject(err);
     });
   });
-}
+};
 
 
 const updateUserItems = (uid, item) => {
@@ -119,7 +119,9 @@ const cancelBet = (item, user, payment) => {
       if(prevPayment === payment) {
         return firebase.database().ref('bets/'+item+'/'+user).remove().then(()=>{
           return firebase.database().ref('users/'+user+'/betIDs/'+item).remove().then(()=>{
-            return database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {}).catch((err) => {
+            return database.ref('/items/'+item).update({status: "waitForBet"}).then(() => {
+              return resolve();
+            }).catch((err) => {
               console.log(err);
               return reject(err);
             });
@@ -352,7 +354,7 @@ const blockBets = (itemId, winnerId) => {
 export const doRaffle = (itemID) => {
   return new Promise((resolve, reject) => {
     return getItemFromID(itemID).then((item) => {
-      if(item.status !== "readyToRaffle") throw new Error("Item not ready to start raffle");
+      if(item.status !== "readyToRaffle") return reject({message: "Item not ready to start raffle"});
 
       return getBetsOfItem(itemID).then((bets) => {
         var chunkList = [];
@@ -366,7 +368,8 @@ export const doRaffle = (itemID) => {
         shuffle(chunkList);
 
         var winnerId = chunkList[0];
-        return blockBets(itemID, winnerId).then(() => {
+        return database.ref('/items/'+itemID).update({status: "SoldOut", winner: winnerId}).then(() => {
+        // return blockBets(itemID, winnerId).then(() => {
           return getItemFromID(itemID).then(item => {
             return updateUserBalance(item['seller'], item['price']).then(() => {
               return resolve(winnerId);
@@ -401,40 +404,46 @@ export const getImageByID = (itemId) => {
 
 export const removeItem = (itemId) => {
   return new Promise((resolve, reject) => {
-    return getBetsOfItem(itemId).then(async (bets) => {
-      if(bets) {
-        var betRemoved = Object.keys(bets).map(async (userId) => {
-          var bet = bets[userId];
-          await createBet(itemId, userId, -bet['payment']).then(() => {}).catch((err) => {
-            return reject(err);
-          });
-          return null;
-        });
+    return getItemFromID(itemId).then((item) => {
+      if(item["status"] !== "SoldOut") return reject({message: 'Item is SoldOut'});
 
-        return await Promise.all(betRemoved).then(() => {
-          return firebase.database().ref('items/'+itemId).remove().then(() => {
-            console.log("item deleted");
-            firebase.database().ref('bets/'+itemId).remove().then(() => {
-              console.log("bet deleted");
-              return resolve();
+      return getBetsOfItem(itemId).then(async (bets) => {
+        if(bets) {
+          var betRemoved = Object.keys(bets).map(async (userId) => {
+            var bet = bets[userId];
+            await createBet(itemId, userId, -bet['payment']).then(() => {}).catch((err) => {
+              return reject(err);
+            });
+            return null;
+          });
+
+          return await Promise.all(betRemoved).then(() => {
+            return firebase.database().ref('items/'+itemId).remove().then(() => {
+              console.log("item deleted");
+              firebase.database().ref('bets/'+itemId).remove().then(() => {
+                console.log("bet deleted");
+                return resolve();
+              }).catch((err) => {
+                return reject(err);
+              });
             }).catch((err) => {
               return reject(err);
             });
           }).catch((err) => {
             return reject(err);
           });
-        }).catch((err) => {
-          return reject(err);
-        });
-      } else {
-        return firebase.database().ref('items/'+itemId).remove().then(() => {
-          console.log("item deleted");
-          return resolve();
-        }).catch((err) => {
-          console.log(err);
-          return reject(err);
-        });
-      }
+        } else {
+          return firebase.database().ref('items/'+itemId).remove().then(() => {
+            console.log("item deleted");
+            return resolve();
+          }).catch((err) => {
+            console.log(err);
+            return reject(err);
+          });
+        }
+      }).catch((err) => {
+        return reject(err);
+      });
     }).catch((err) => {
       return reject(err);
     });
@@ -454,6 +463,7 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
       description: description,
       itemImg: "",
       status: "waitForBet",
+      winner: "",
     };
     console.log(duedate);
 
@@ -500,9 +510,9 @@ export const getAllItems = (limit, pageNum, search, filter) => {
       returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
       Object.keys(filter).map(key => {
         if (filter[key]) filterAll = false;
-      })
+      });
       Object.keys(returnItems).map(key => {
-        var ritem = returnItems[key]
+        var ritem = returnItems[key];
         var filterOne = filter[ritem.category] || filterAll;
         if (search && ritem.name.toLowerCase().search(search.toLowerCase()) !== -1
             && filterOne)
@@ -511,7 +521,7 @@ export const getAllItems = (limit, pageNum, search, filter) => {
           return filteredItems.push(ritem);
         else
           return null;
-      })
+      });
       return resolve(filteredItems.slice((pageNum-1)*limit, pageNum*limit));
     }).catch((err) => {
       console.log(err);
@@ -751,12 +761,13 @@ export const getBetItemsByUser = (userID) => {
         });
       }
 
-      return getSoldItemsByWinner(userID).then((soldItems) => {
-        return resolve(items.concat(soldItems));
-      }).catch((err) => {
-        console.log(err);
-        return reject(err);
-      })
+      return resolve(items);
+      // return getSoldItemsByWinner(userID).then((soldItems) => {
+      //   return resolve(items.concat(soldItems));
+      // }).catch((err) => {
+      //   console.log(err);
+      //   return reject(err);
+      // });
     }).catch((err) => {
       console.log(err);
       return reject(err);
