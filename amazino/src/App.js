@@ -13,6 +13,7 @@ import UserListings from './components/account/UserListings';
 import UserBets from './components/account/UserBets';
 import AboutUs from './components/account/AboutUs';
 import Rules from './components/account/Rules';
+import FrequentlyAskedQuestions from './components/account/FrequentlyAskedQuestions';
 import Notifications from './components/account/Notifications';
 import './App.css';
 
@@ -110,6 +111,7 @@ class App extends Component {
             <Route path='/rules' render={(props) => <Rules {...props} {...this.state} />} />
             <Route path='/listings' render={(props) => <UserListings {...props} {...this.state} />} />
             <Route path='/bets' render={(props) => <UserBets {...props} {...this.state} />} />
+            <Route path='/faq' render={(props) => <FrequentlyAskedQuestions {...props} {...this.state} />} />
             <Route path='/notifications' render={(props) => <Notifications {...props} {...this.state} />} />
             <Route path='/' component={Market} />
 
