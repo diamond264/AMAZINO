@@ -80,7 +80,7 @@ class App extends Component {
         .then(items => {
             if(items) {  
                 numOfItems().then(num => {
-                  var maxPages = Math.round((num / itemsPerPage) + 0.5);
+                  var maxPages = Math.ceil(num / itemsPerPage);
                   this.setState({
                     data: items,
                     maxPages
