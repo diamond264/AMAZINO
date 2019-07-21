@@ -31,7 +31,6 @@ class Notifications extends Component {
 
     handleDelete = (e) => {
         e.preventDefault();
-
         deleteNotification(this.props.currentUser.uid, e.target.value).then(() => {
             this.getNotifs(this.props.currentUser.uid);
             handleSuccess();

@@ -1016,7 +1016,13 @@ export const getNotifications = (uid) => {
  */
 export const readNotification = (uid, notifId) => {
   return new Promise((resolve, reject) => {
-    return database.ref('users/'+uid+'/notifications/'+notifId).update({read: true}).then(() => {
+    var notifReference = database.ref('users/'+uid+'/notifications/'+notifId);
+    return notifReference.once('value').then((notif) => {
+      if(notif.val()) {
+        return notifReference.update({read: true}).then(() => {
+          return resolve();
+        })
+      }
       return resolve();
     }).catch(err => {
       return reject(err);
