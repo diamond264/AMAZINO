@@ -78,8 +78,7 @@ class App extends Component {
     var itemsPerPage = 20;
     await getAllItems(itemsPerPage, page, str, filter)
         .then(items => {
-            if(items) {
-                
+            if(items) {  
                 numOfItems().then(num => {
                   var maxPages = Math.round((num / itemsPerPage) + 0.5);
                   this.setState({
