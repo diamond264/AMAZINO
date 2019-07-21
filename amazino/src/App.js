@@ -16,6 +16,7 @@ import Rules from './components/account/Rules';
 import Notifications from './components/account/Notifications';
 import './App.css';
 
+
 import * as firebase from 'firebase/app';
 
 class App extends Component {

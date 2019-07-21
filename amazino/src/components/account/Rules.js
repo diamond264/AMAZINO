@@ -13,12 +13,10 @@ class Rules extends Component {
                         </div>
                         <div className="divider"></div>
                         <div className="row">
-                            <h5>What is Amazino?</h5>
+                            <h5>DISCLAIMER</h5>
                             <p>
-                                Amazino is an e-commerce site with a twist. It is like any online market but the twist
-                                is the betting. On this site you can bet from 0% to 50% of an items price (in increments
-                                of 5%) and when that item reaches the asking price, a raffle will begin. Your chance to
-                                win the item directly correlates to the percentage you paid.
+                                This site is suited for ages 18+. This is because this is a gambling game.
+                                If you are having trouble with gambling please call 1-800-Gambler (426-2537)
                             </p>
                         </div>
 
@@ -40,16 +38,6 @@ class Rules extends Component {
                                 bet. (If you bet less than 50% you can come back and increase by coming back to this page)
                             </p>
                             <p> Step 3: Wait for the item to reach 100% for the raffle to begin</p>
-                        </div>
-                        <div className="row">
-                            <h5>How is the Winner Determined</h5>
-                            <p>
-                                Each item is separated in 20 parts because you bet in increments of 5%.
-                                When 100% of the items price is reached, a raffle is done 1 out of the 20 pieces
-                                is chosen.
-                                The owner of said part is listed as the winner. Winners, losers, and the seller are all
-                                notified.
-                            </p>
                         </div>
                     </div>
                 </div>
