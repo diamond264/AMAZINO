@@ -3,6 +3,8 @@ import {Redirect} from 'react-router-dom';
 import {updateUserBalance, getUserDataFromID} from '../../shared/Firebase';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 
+import ProfileUpdateForm from './ProfileUpdateForm';
+
 class Profile extends Component {
     constructor(props) {
         super (props);
@@ -12,7 +14,8 @@ class Profile extends Component {
             user: null,
             displayName: null,
             balanceToAdd: 0,
-            data: null
+            data: null,
+            editFormVisible: false
         }
         this.updateBalance = this.updateBalance.bind(this);
     }
@@ -63,6 +66,19 @@ class Profile extends Component {
         this.updateBalance();
     }
 
+    showProfileUpdateForm = () => {
+        this.setState({
+            editFormVisible: true
+        });
+    }
+
+    hideProfileUpdateForm = () => {
+        this.setState({
+            editFormVisible: false
+        });
+        this.getUserData();
+    }
+
     async updateBalance() {
         try {
             updateUserBalance(this.state.currentUser.uid, this.state.balanceToAdd).then(balance => {
@@ -82,6 +98,54 @@ class Profile extends Component {
 
     render() {
         if(!this.props.currentUser) return <Redirect to="/"/>
+
+        // choose bio text to display
+        var bio = this.state.user && this.state.user.bio ? (
+            <div className="col s12">
+                <p>{this.state.user.bio}</p>
+            </div>
+        ) : (
+            <div className="col s12">
+                <p>User has no bio.</p>
+            </div>
+        )
+
+        // Info to be displayed only for the user currenty logged in
+        var loggedInInfo = this.props.currentUser && this.state.user ? (
+            <div className="row">
+                <div className="col s12">
+                    <p>Email: {this.state.user.email}</p>
+                </div>
+                <div className="col s12">
+                    <h6>Balance: ${this.state.balance.toFixed(2)}</h6>
+                </div>
+                <form onSubmit={this.handleBalanceUpdate}>
+                    <div className="col s6 m5 l4 input-field">
+                        <input type="number" id="balanceToAdd" value={this.state.balanceToAdd}
+                                onChange={this.handleBalanceToAddChange}/>
+                    </div>
+                    <div className="col s6 input-field">
+                        <button style={{bottom: 0}} className="btn green" onClick={this.handleBalanceUpdate}>Add Balance</button>
+                    </div>
+                </form>
+                <div className="col s12 section">
+                    <div className="divider"></div>
+                    <div className="section"></div>
+                </div>
+                
+                {
+                    // Display edit profile form conditionally
+                    this.state.editFormVisible ? (
+                        <ProfileUpdateForm uid={this.props.currentUser.uid} user={this.state.user} hideProfileUpdateForm={this.hideProfileUpdateForm}/>
+                    ) : (
+                        <div className="col s12 section">
+                            <button className="btn green darken-3" onClick={this.showProfileUpdateForm}>Update profile info</button>
+                        </div>
+                    )
+                }
+            </div>
+        ) : null
+
         return(
             <div className="container section">
                 <div className="card z-depth-1">
@@ -94,19 +158,14 @@ class Profile extends Component {
                         <div className="divider"></div>
                         <div className="row">
                             <div className="col s12">
-                                <h5>Display Name: {this.state.displayName}</h5>
-                                <h5>Balance: ${this.state.balance.toFixed(2)}</h5>
+                                <h5>Username: {this.state.displayName}</h5>
                             </div>
+                            
+                            {bio}
                         </div>
-                        <div className="row">
-                            <form onSubmit={this.handleBalanceUpdate}>
-                                <div className="col s6 m5 l4 input-field">
-                                    <input type="number" id="balanceToAdd" value={this.state.balanceToAdd}
-                                           onChange={this.handleBalanceToAddChange}/>
-                                    <button className="btn" onClick={this.handleBalanceUpdate}>Add Balance</button>
-                                </div>
-                            </form>
-                        </div>
+                        
+                        {loggedInInfo}
+
                     </div>
                 </div>
             </div>

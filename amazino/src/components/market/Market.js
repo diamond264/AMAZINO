@@ -35,7 +35,7 @@ class Market extends Component {
                                     <p className="col" style={{width: '130px'}} key={c}>
                                         <label>
                                             <input type="checkbox" className="filled-in" checked={this.props.filter[c]} name={c} 
-                                                id={c} onClick={this.props.updateFilter}/>
+                                                id={c} onChange={this.props.updateFilter}/>
                                             <span>{c}</span>
                                         </label>
                                     </p>

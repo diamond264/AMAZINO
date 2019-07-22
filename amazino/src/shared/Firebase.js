@@ -989,7 +989,7 @@ export const deleteNotification = (uid, notifId) => {
       return resolve();
     }).catch(err => {
       return reject(err);
-    })
+    });
   });
 };
 
@@ -1004,7 +1004,7 @@ export const getNotifications = (uid) => {
       return resolve(notifs.val());
     }).catch(err => {
       return reject(err);
-    })
+    });
   });
 };
 
@@ -1026,8 +1026,8 @@ export const readNotification = (uid, notifId) => {
       return resolve();
     }).catch(err => {
       return reject(err);
-    })
-  })
+    });
+  });
 }
 
 /**
@@ -1047,6 +1047,21 @@ export const getNumNewNotifications = (uid) => {
       return resolve(numNewNotifs);
     }).catch(err => {
       return reject(err)
-    })
-  })
+    });
+  });
 }
+
+/**
+ * Update user's biography to new string, can be used to create new bio. For now, bio is only field
+ * @param {string} uid - User's user id
+ * @param {string} bio - Bio string to associate with user
+ */
+export const updateProfileInfo = (uid, bio) => {
+  return new Promise((resolve, reject) => {
+    return database.ref('users/'+uid).update({bio}).then(() => {
+      return resolve();
+    }).catch(err => {
+      return reject(err);
+    });
+  });
+} 

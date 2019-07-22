@@ -34,7 +34,7 @@ class Listings extends Component {
         pageArray.push()
         
         for(var i = 1; i < this.props.maxPages+1; i++) {
-            pageArray.push(<li><button value={i} class="page-button" onClick={this.handlePage}>{i}</button></li>);
+            pageArray.push(<li key={i}><button value={i} className="page-button" onClick={this.handlePage}>{i}</button></li>);
         }
         return pageArray;
     }
