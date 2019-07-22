@@ -234,7 +234,17 @@ const processBet = (item, price) => {
         return reject({message: 'Payment over total price'});
       } else if(totalPayment === price) {
         return database.ref('/items/'+item).update({status: "readyToRaffle"}).then(() => {
-          return resolve();
+          // Notify seller when item ready to raffle
+          return database.ref('/items/'+item).once('value').then((fullItem) => {
+            fullItem = fullItem.val();
+            addNotification(fullItem.seller, "An item you're selling is ready to raffle!", 
+            "Your item, " + fullItem.name + ", is now ready to raffle. Click this notifcation to view.", 
+            "/listings/" + item).then(() => {
+              return resolve();
+            }).catch(err => {
+              return reject(err);
+            })
+          })
         }).catch((err) => {
           console.log(err);
           return reject(err);

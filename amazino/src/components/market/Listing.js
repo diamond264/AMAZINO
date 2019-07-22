@@ -19,7 +19,7 @@ class Listing extends Component {
         //
 
         var {currentUser} = this.props;
-        console.log(props);
+        
         this.state = {
             itemID: this.props.match.params.id,
             currentUser,
@@ -109,11 +109,11 @@ class Listing extends Component {
             getUserDataFromID(winner).then(user => {
                 addNotification(winner, "Congrats " + user.displayName + ", you won!", 
                 "Congratulations, you won the item: " + this.state.item.name + 
-                ". Click this notification to claim!", "/listing/"+this.state.itemID);
+                ". The seller should be in contact with you shortly. Click this notification to view!", "/listing/"+this.state.itemID);
 
                 addNotification(this.props.currentUser.uid, "You sold an item!", 
                 "Great work, you sold the item: " + this.state.item.name + 
-                "! Your balance has been updated.", "/listing/"+this.state.itemID);
+                "! Your balance has been updated. Click this notifications to view.", "/listing/"+this.state.itemID);
                 
                 this.getData();
 
@@ -201,6 +201,7 @@ class Listing extends Component {
             await createBet(this.state.itemID, this.state.currentUser.uid, this.state.betPrice)
                 .then((betData) => {
                     if(betData){
+                        console.log(betData);
                         this.getPercentPurchased();
                         handleSuccess();
                         this.setState({
@@ -209,7 +210,7 @@ class Listing extends Component {
                             betPercent: 0,
                             betPrice: 0
                         })
-
+                        this.getData();
                         // reset bet slider
                         document.getElementById('betPercent').value = 0;
                     }
