@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 import {updateUserBalance, getUserDataFromID} from '../../shared/Firebase';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 
@@ -9,6 +8,7 @@ class Profile extends Component {
     constructor(props) {
         super (props);
         this.state = {
+            profileuid: this.props.match.params.id,
             balance: 0,
             currentUser: this.props.currentUser,
             user: null,
@@ -25,16 +25,15 @@ class Profile extends Component {
     }
 
     async getUserData() {
-        if(this.state.currentUser) {
-            await getUserDataFromID(this.state.currentUser.uid).then(user => {
-                this.setState({
-                    user,
-                    balance: (Math.round(user.balance * 100) / 100),
-                    displayName: user.displayName
-                })
-            });
-
-        }
+        await getUserDataFromID(this.state.profileuid).then(user => {
+            this.setState({
+                user,
+                balance: (Math.round(user.balance * 100) / 100),
+                displayName: user.displayName
+            })
+        }).catch(err => {
+            handleError(err);
+        });
 
         //       if(this.state.currentUser) {
         //    await getItemsBySeller(this.state.currentUser.uid)
@@ -97,7 +96,6 @@ class Profile extends Component {
     }
 
     render() {
-        if(!this.props.currentUser) return <Redirect to="/"/>
 
         // choose bio text to display
         var bio = this.state.user && this.state.user.bio ? (
@@ -111,7 +109,7 @@ class Profile extends Component {
         )
 
         // Info to be displayed only for the user currenty logged in
-        var loggedInInfo = this.props.currentUser && this.state.user ? (
+        var loggedInInfo = this.props.currentUser && this.props.currentUser.uid === this.state.profileuid && this.state.user ? (
             <div className="row">
                 <div className="col s12">
                     <p>Email: {this.state.user.email}</p>

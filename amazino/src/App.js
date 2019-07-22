@@ -101,18 +101,19 @@ class App extends Component {
               <Market {...props} {...this.state} getData={this.getData} updateFilter={this.updateFilter}/>}
               />
             <Route path='/listing/:id'  render={(props) => <Listing {...props} {...this.state}/>} />
+            <Route path='/user/:id' render={(props) => <Profile {...props} {...this.state} />} />
+            <Route path='/profile' render={() => <Redirect to={"/user/" + this.state.currentUser.uid} />} />
             <Route path='/market' render={() => <Redirect to="/" />}/>
             <Route path='/create' render={(props) => <CreateListing {...props} {...this.state} />} />
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
-            <Route path='/profile' render={(props) => <Profile {...props} {...this.state} />} />
             <Route path='/aboutus' render={(props) => <AboutUs {...props} {...this.state} />} />
             <Route path='/rules' render={(props) => <Rules {...props} {...this.state} />} />
             <Route path='/listings' render={(props) => <UserListings {...props} {...this.state} />} />
             <Route path='/bets' render={(props) => <UserBets {...props} {...this.state} />} />
             <Route path='/faq' render={(props) => <FrequentlyAskedQuestions {...props} {...this.state} />} />
             <Route path='/notifications' render={(props) => <Notifications {...props} {...this.state} />} />
-            <Route path='/' component={Market} />
+            <Route path='/' render={() => <Redirect to="/" />} />
 
           </Switch>
         </div>
