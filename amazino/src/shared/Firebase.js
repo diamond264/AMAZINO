@@ -1,11 +1,13 @@
 import * as firebase from 'firebase';
 
+/* Code for expiring items on time (Now diabled, use cronjob.js in shared folder */
 // var CronJob = require('cron').CronJob;
 // new CronJob('0 0 0 * * *', () => {
 //   console.log("Started to expire items on dueDate");
 //   expireItems(new Date());
 // }, null, true, 'America/Los_Angeles');
 
+/* Expire item in the database on 'date' */
 export const expireItems = (date) => {
   getAllUnSoldItems().then((items) => {
     for(var i=0; i<items.length; i++) {
@@ -48,6 +50,7 @@ export const fire = () => {
   storage = firebase.storage();
 };
 
+/* Functions for user notification */
 export const updateUserNotiBet = (uid) => {
   console.log(uid);
   return new Promise((resolve, reject) => {
