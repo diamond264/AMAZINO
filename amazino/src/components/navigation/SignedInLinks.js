@@ -100,10 +100,10 @@ class SignedInLinks extends Component{
                     <p>My Bets</p>
                 </NavLink></li>
 
-                <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/rules"><p>Rules</p></NavLink></li>
+                <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/rules"><p>Rules and FAQ</p></NavLink></li>
                 <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/aboutus"><p>About Us</p></NavLink></li>
 
-                <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/faq"><p>FAQ</p></NavLink></li>
+                {/* <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/faq"><p>FAQ</p></NavLink></li> */}
 
                 {/* <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/market"><p>Market</p></NavLink></li> */}
                 <li><NavLink className="sidenav-close" to="/signin" onClick={this.handleSignOut}><p>Logout</p></NavLink></li>
