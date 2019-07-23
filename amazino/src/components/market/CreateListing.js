@@ -179,7 +179,7 @@ class CreateListing extends Component {
                                     //
                                     this.state.categories && this.state.categories.map(category => {
                                         return(
-                                            <li key={category} onClick={() => this.updateCategory(category)}><Link onClick={this.handleDropdown}>{category}</Link></li>
+                                            <li key={category} onClick={() => this.updateCategory(category)}><Link to="" onClick={this.handleDropdown}>{category}</Link></li>
                                         )
                                     })
                                 }

@@ -114,7 +114,9 @@ class Profile extends Component {
                 <div className="col s12">
                     <p>Email: {this.state.user.email}</p>
                 </div>
+                
                 <div className="col s12">
+                    <div className="section"></div>
                     <h6>Balance: ${this.state.balance.toFixed(2)}</h6>
                 </div>
                 <form onSubmit={this.handleBalanceUpdate}>

@@ -23,9 +23,14 @@ class SignedInLinks extends Component{
         var elem = document.querySelector(".sidenav");
         var sidebarInstance = M.Sidenav.init(elem, {edge: 'left', inDuration: 200, outDuration: 150});
 
+        if(this.props.currentUser) {
+            this.getUserData(this.props.currentUser.uid);
+        }
+
         this.setState({
             sidebarInstance
         });
+
     }    
 
     handleSignOut = () => {
