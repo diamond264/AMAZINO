@@ -13,16 +13,11 @@ import '../../App.css';
 class Listing extends Component {
     constructor(props) {
         super(props);
-
-        //
-        // TODO: Set maxPercent from database
-        //
-
-        var {currentUser} = this.props;
         
         this.state = {
             itemID: this.props.match.params.id,
-            currentUser,
+            winner: null,
+            seller: null,
             item: null,
             createdOn: null,
             dueDate: null,
@@ -37,6 +32,7 @@ class Listing extends Component {
             itemDeleted: false,
             payedThisSession: 0
         }
+
     }
 
     componentDidMount = () => {
@@ -145,14 +141,25 @@ class Listing extends Component {
                     // Get seller's username data
                     //
                     if(item) {
-                        getUserDataFromID(item.seller).then(user => {
-                            if(user) {
-                                this.setState({
-                                    displayName: user.displayName
+                        getUserDataFromID(item.seller).then(seller => {
+                            this.setState({
+                                seller
+                            })
+                        }).then(() => {
+                            if(item.winner) {
+                                getUserDataFromID(item.winner).then(winner => {
+                                    this.setState({
+                                        winner
+                                    })
+                                }).catch(err => {
+                                    handleError(err);
                                 })
                             }
+                        }).catch(err => {
+                            handleError(err);
                         })
-                        if(this.state.currentUser) {
+
+                        if(this.props.currentUser) {
                             this.getPercentPurchased();
                         }
                     }
@@ -170,9 +177,9 @@ class Listing extends Component {
 
                 getBetsOfItem(this.state.itemID).then(bets => {
                     if(bets) {
-                        if(bets[this.state.currentUser.uid]) {
+                        if(bets[this.props.currentUser.uid]) {
                             // do calculation for percent of total price user purchased
-                            percentUserPurchased = Math.round(100 * (bets[this.state.currentUser.uid].payment / this.state.item.price)) / 100;
+                            percentUserPurchased = Math.round(100 * (bets[this.props.currentUser.uid].payment / this.state.item.price)) / 100;
                         }
                     }
                 }).then(() => {
@@ -198,7 +205,7 @@ class Listing extends Component {
     //
     async postBet() {
         try {
-            await createBet(this.state.itemID, this.state.currentUser.uid, this.state.betPrice)
+            await createBet(this.state.itemID, this.props.currentUser.uid, this.state.betPrice)
                 .then((betData) => {
                     if(betData){
                         console.log(betData);
@@ -243,7 +250,7 @@ class Listing extends Component {
     // Refund bet to this user
     async refundBet(amount) {
         try {
-            await createBet(this.state.itemID, this.state.currentUser.uid, -amount)
+            await createBet(this.state.itemID, this.props.currentUser.uid, -amount)
                 .then((betData) => {
                     handleSuccess();
                     this.getPercentPurchased();
@@ -283,7 +290,7 @@ class Listing extends Component {
     }
 
     render() {
-        if(!isSignIn()) return <Redirect to="/signin" />
+        if(!this.props.currentUser) return <Redirect to="/signin" />
         if(this.state.itemDeleted) return <Redirect to="/" />
         if(!this.state.item) return <div></div>
 
@@ -304,7 +311,7 @@ class Listing extends Component {
             </div>
         ) : null
 
-        var sellerLinks = this.state.item.status !== "SoldOut" && this.state.item.seller === this.state.currentUser.uid ? (
+        var sellerLinks = this.state.item.status !== "SoldOut" && this.state.item.seller === this.props.currentUser.uid ? (
             <div className="row center">
                 {raffleLink}
                 <div className="col s12">
@@ -316,7 +323,7 @@ class Listing extends Component {
         var betLabel = getLabel(this.state.item.status);
 
         // From for betting, only displayed if current user is not seller
-        var betForm = this.state.item.status === "waitForBet" && this.state.item.seller !== this.state.currentUser.uid ? (
+        var betForm = this.state.item.status === "waitForBet" && this.state.item.seller !== this.props.currentUser.uid ? (
             <div>
                 <div className="row center">
                     <div className="col s8 m6 l4 offset-s2 offset-m3 offset-l4">
@@ -331,6 +338,42 @@ class Listing extends Component {
                         <button className="btn green white-text" onClick={this.handleBet}>bet</button>
                         {refundLink}    
                     </div>
+                </div>
+            </div>
+        ) : null
+
+        //var sellerDisplayName = this.getSellerInfo().displayName;
+
+        /**
+         * Information to be displayed to the winner of the item
+         */
+        var winnerInfo = this.state.seller && this.props.currentUser.uid === this.state.item.winner ? (
+            <div className="row center">
+                <div className="col s12">
+                    <h4>Congratulations!</h4>
+                    <p>You've won this item from {this.state.seller.displayName}, and you should be contacted by them shortly.</p>
+                </div>
+                <div className="col s12">
+                    <div className="section"></div>
+                    <h6>Seller's contact info</h6>
+                    <p>Email: {this.state.seller.email}</p>
+                </div>
+            </div>
+        ) : null
+
+        /**
+         * Info to be displayed to the seller after item has been won
+         */
+        var sellerInfo = this.state.winner && this.props.currentUser.uid === this.state.item.seller ? (
+            <div className="row center">
+                <div className="col s12">
+                    <h4>You sold your item!</h4>
+                    <p>Congratulations! Please contact the winner, {this.state.winner.displayName}, to arrange shipping of your item.</p>
+                </div>
+                <div className="col s12">
+                    <div className="section"></div>
+                    <h6>Winner's contact info</h6>
+                    <p>Email: {this.state.winner.email}</p>
                 </div>
             </div>
         ) : null
@@ -355,11 +398,16 @@ class Listing extends Component {
                     <div className="row">
                         <ProgressBar label={true} percentMap={percentMap} />
                     </div>
+
                     {betLabel}
 
                     {betForm}
 
                     {sellerLinks}
+
+                    {winnerInfo}
+
+                    {sellerInfo}
 
                     <div className="section row">
                         <div className="divider"></div>
