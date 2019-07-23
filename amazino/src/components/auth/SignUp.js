@@ -55,7 +55,7 @@ class SignUp extends Component {
         e.preventDefault();
 
         if(this.state.password !== this.state.confirmPassword) handleError({message: "Passwords do not match"});
-        if(this.state.displayName.length <= 5) handleError({message: "Display name too short"});
+        else if(this.state.displayName.length <= 5) handleError({message: "Display name too short"});
         else this.signUpButton(e);
     }
 

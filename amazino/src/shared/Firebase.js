@@ -471,7 +471,7 @@ export const getImageByID = (itemId) => {
 export const removeItem = (itemId) => {
   return new Promise((resolve, reject) => {
     return getItemFromID(itemId).then((item) => {
-      if(item["status"] !== "SoldOut") return reject({message: 'Item is SoldOut'});
+      if(item["status"] === "SoldOut") return reject({message: 'Item is SoldOut'});
 
       return getBetsOfItem(itemId).then(async (bets) => {
         if(bets) {
