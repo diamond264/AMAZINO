@@ -112,8 +112,8 @@ class SignedInLinks extends Component{
                         <Link to="" onClick={this.handleClick} className="hamburger navbar-link"><i className="material-icons">account_circle</i></Link>
                     </li>
                     <li>
-                        {this.state.user && this.state.user.notiItem + this.state.user.notiBet !== 0 ?
-                        <div className="noti"></div> : null}
+                        {this.state.user && this.state.numNewNotifs !== 0 ?
+                        <div className="noti"><p>{this.state.numNewNotifs}</p></div> : null}
                     </li>
                 </ul>
                 

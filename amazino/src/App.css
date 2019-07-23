@@ -40,13 +40,20 @@
 }
 
 .noti {
-  width: 10px;
-  height: 10px;
+  z-index: 100 !important;
+  width: 15px;
+  height: 15px;
   background-color: red;
   border-radius: 50%;
-  margin-left: -20px;
-  margin-top: 18px;
+  margin-left: -25px;
+  margin-top: 16px;
   margin-right: 0px;
+}
+
+.noti p {
+  color: white;
+  font-size: 11px;
+  transform: translateY(-25px) translateX(5px);
 }
 
 .hamburger {
@@ -123,8 +130,7 @@
 }
 
 .navbar-link:hover {
-  background-color: #707070;
-  opacity: .6;
+  background-color: #868686;
 }
 
 .page-button {
