@@ -25,7 +25,6 @@ class Listing extends Component {
             maxPercent: 0.5,
             betPercent: 0,
             betPrice: 0,
-            displayName: null,
             percentPurchased: null,
             percentUserPurchased: null,
             betPosted: false,
@@ -378,6 +377,8 @@ class Listing extends Component {
             </div>
         ) : null
 
+        var displayName = this.state.seller ? this.state.seller.displayName : null
+
         return(
             <div className="container section">
             <div className="card col s8 m4">
@@ -412,7 +413,7 @@ class Listing extends Component {
                     <div className="section row">
                         <div className="divider"></div>
                         <div className="col s6 left">
-                            <p className="grey-text">by {this.state.displayName} on {this.state.createdOn.getMonth()+1}/{this.state.createdOn.getDate()}/{this.state.createdOn.getFullYear()}</p>
+                            <p className="grey-text">by {displayName} on {this.state.createdOn.getMonth()+1}/{this.state.createdOn.getDate()}/{this.state.createdOn.getFullYear()}</p>
                         </div>
                         <div className="col s6 right">
                             <p className="right grey-text">ends on {this.state.dueDate.getMonth()+1}/{this.state.dueDate.getDate()}/{this.state.dueDate.getFullYear()}</p>
