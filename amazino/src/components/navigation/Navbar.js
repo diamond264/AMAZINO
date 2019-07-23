@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {NavLink, Link} from 'react-router-dom';
+import {NavLink, Link, Redirect} from 'react-router-dom';
 
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
@@ -19,7 +19,8 @@ class Navbar extends Component {
                 height: "0px",
                 paddingLeft: "0px",
                 paddingRight: "0px",
-                opacity: 0
+                opacity: 0,
+                searchbarRedirect: false
                 
             }
         }
@@ -67,7 +68,8 @@ class Navbar extends Component {
 
         this.setState({
             searchbarStyle,
-            searchExpanded: !this.state.searchExpanded
+            searchExpanded: !this.state.searchExpanded,
+            searchbarRedirect: true
         })
 
     }
@@ -82,6 +84,17 @@ class Navbar extends Component {
     render() {
         const links = this.props.currentUser ? 
             <SignedInLinks currentUser={this.props.currentUser} /> : <SignedOutLinks />;
+
+        var redirect = this.state.searchbarRedirect ? (
+            <Redirect to="/" />
+        ) : null
+
+        if(this.state.searchbarRedirect) {
+            this.setState({
+                searchbarRedirect: false
+            })
+        }
+
         return(
             <div>
                 <nav className="nav-wrapper z-depth-1">
@@ -109,6 +122,7 @@ class Navbar extends Component {
                         
                     </div>
                 </nav>
+                {redirect}
             </div>
         )
     }

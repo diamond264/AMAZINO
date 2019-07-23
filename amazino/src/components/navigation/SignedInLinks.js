@@ -86,12 +86,12 @@ class SignedInLinks extends Component{
                 <li className="divider"></li>
 
                 <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/listings">
-                    <span className="new badge red right">{this.state.user.notiItem}</span>
+                    {/*<span className="new badge red right">{this.state.user.notiItem}</span>*/}
                     <p>My Listings</p>
                 </NavLink></li>
 
                 <li><NavLink className="sidenav-close" onClick={this.handleClick} to="/bets">
-                    <span className="new badge red right">{this.state.user.notiBet}</span>
+                    {/*<span className="new badge red right">{this.state.user.notiBet}</span>*/}
                     <p>My Bets</p>
                 </NavLink></li>
 
