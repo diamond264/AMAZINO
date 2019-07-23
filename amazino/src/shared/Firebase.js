@@ -239,7 +239,7 @@ const processBet = (item, price) => {
             fullItem = fullItem.val();
             addNotification(fullItem.seller, "An item you're selling is ready to raffle!", 
             "Your item, " + fullItem.name + ", is now ready to raffle. Click this notifcation to view.", 
-            "/listings/" + item).then(() => {
+            "/listing/" + item).then(() => {
               return resolve();
             }).catch(err => {
               return reject(err);
