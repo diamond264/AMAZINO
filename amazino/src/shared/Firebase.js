@@ -1011,7 +1011,17 @@ export const deleteNotification = (uid, notifId) => {
 export const getNotifications = (uid) => {
   return new Promise((resolve, reject) => {
     return database.ref('users/'+uid +'/notifications/').once('value').then(notifs => {
-      return resolve(notifs.val());
+      notifs = notifs.val();
+      
+      var timeOrderedNotifs = [];
+
+      // order notifications in descending time order
+      Object.keys(notifs).map(notifID => {
+        timeOrderedNotifs.push(notifs[notifID]);
+      })
+
+      return resolve(timeOrderedNotifs);
+
     }).catch(err => {
       return reject(err);
     });

@@ -48,6 +48,7 @@ class Notifications extends Component {
 
     render() {
         if(!this.props.currentUser) return <Redirect to="/" />
+        var notifsArray = [];
 
         var notifs = this.state.notifs ? (
             <div className="section">
@@ -58,8 +59,8 @@ class Notifications extends Component {
                             <span style={{marginLeft: "-5px", marginRight: "5px"}} className="new badge red left"></span>
                         )
                         notif.time = new Date(notif.time);
-                        return (
-                            <NavLink to={notif.path} onClick={()=>{this.handleClick(keyName)}}>
+                        notifsArray.unshift(
+                            <NavLink key={keyName} to={notif.path} onClick={()=>{this.handleClick(keyName)}}>
                                 <div className="card-panel">
                                     <div className="row">
                                         <div className="col s12">
@@ -95,7 +96,7 @@ class Notifications extends Component {
                             <h4 className="center">Notifications</h4>
                             <div className="divider"></div>
                                 
-                            {notifs}
+                            {notifsArray}
 
                         </div>
                     </div>
