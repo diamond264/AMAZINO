@@ -61,6 +61,7 @@ class SignUp extends Component {
 
     render() {
         if(this.state.signupSuccess) return <Redirect to='/' />
+        if(this.props.currentUser) return <Redirect to='/' />
 
         return(
             <div className="container section">

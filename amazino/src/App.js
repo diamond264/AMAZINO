@@ -126,8 +126,8 @@ class App extends Component {
             <Route path='/profile' render={() => <Redirect to={"/user/" + this.state.currentUser.uid} />} />
             <Route path='/market' render={() => <Redirect to="/" />}/>
             <Route path='/create' render={(props) => <CreateListing {...props} {...this.state} />} />
-            <Route path='/signin' component={SignIn} />
-            <Route path='/signup' component={SignUp} />
+            <Route path='/signin' component={() => <SignIn {...this.state} />} />
+            <Route path='/signup' component={() => <SignUp {...this.state} />} />
             <Route path='/aboutus' component={AboutUs} />
             <Route path='/rules' component={Rules} />
             <Route path='/listings' render={(props) => <UserListings {...props} {...this.state} />} />
