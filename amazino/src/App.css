@@ -52,8 +52,8 @@
 
 .noti p {
   color: white;
-  font-size: 11px;
-  transform: translateY(-25px) translateX(5px);
+  font-size: 10px;
+  transform: translateY(-40%) translateX(5px);
 }
 
 .hamburger {
