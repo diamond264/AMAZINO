@@ -6,6 +6,7 @@ import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 import ProfileUpdateForm from './ProfileUpdateForm';
 
 class Profile extends Component {
+    /*Constructor for the data used by the Profile Page */
     constructor(props) {
         super (props);
         this.state = {
@@ -26,6 +27,9 @@ class Profile extends Component {
         this.getUserData();
     }
 
+    /*Gets User Data from the UID*/
+    //Sets the Display Name to the UID display name
+    //Grabs the balance from the database
     async getUserData() {
         await getUserDataFromID(this.state.profileuid).then(user => {
             this.setState({
@@ -39,17 +43,6 @@ class Profile extends Component {
             })
             handleError({message: "User not found"});
         });
-
-        //       if(this.state.currentUser) {
-        //    await getItemsBySeller(this.state.currentUser.uid)
-        //        .then( items => {
-        //            if(items) {
-        //                this.setState( {
-        //                    data: items
-        //                });
-        //            }
-        //        });
-        //}
     }
 
     handleChange = (e) => {
@@ -83,6 +76,7 @@ class Profile extends Component {
         this.getUserData();
     }
 
+    //Function for updating from the database
     async updateBalance() {
         try {
             updateUserBalance(this.state.currentUser.uid, this.state.balanceToAdd).then(balance => {

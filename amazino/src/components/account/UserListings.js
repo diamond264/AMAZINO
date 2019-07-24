@@ -18,6 +18,7 @@ class UserListings extends Component {
         }
     }
 
+    //Grabs data on start up to get the summary of an item
     componentDidMount = () => {
         this.getUserData();
         this.getData();
@@ -26,6 +27,7 @@ class UserListings extends Component {
         }
     }
 
+    //Sets the currently logged in user as "User"
     async getUserData() {
         if(this.state.currentUser) {
             await getUserDataFromID(this.state.currentUser.uid).then(user => {
@@ -36,6 +38,7 @@ class UserListings extends Component {
         }
     }
 
+    //Grabs "User's" items based on unique UserID
     async getData() {
         if(this.state.currentUser) {
             await getItemsBySeller(this.state.currentUser.uid, 100, 1)
@@ -51,6 +54,7 @@ class UserListings extends Component {
         }
     }
 
+    //Renders the listing summaries
     render() {
         if(!this.props.currentUser) return <Redirect to="/"/>
         return(

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+//Mainly just a Text Page, Does not use functions from other files
 
 class Rules extends Component {
     render() {

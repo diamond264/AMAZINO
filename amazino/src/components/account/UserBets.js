@@ -14,6 +14,7 @@ import {
 //
 
 class UserBets extends Component {
+    //Constructor for the "My Bets Page"
     constructor(props) {
         super(props);
         this.state = {
@@ -22,6 +23,7 @@ class UserBets extends Component {
         }
     }
 
+    //Grabs bets on start up with the two functions below
     componentDidMount = () => {
         this.getUserData();
         this.getData();
@@ -30,6 +32,7 @@ class UserBets extends Component {
         }
     }
 
+    //Sets the currently logged in user as "user"
     async getUserData() {
         if(this.state.currentUser) {
             await getUserDataFromID(this.state.currentUser.uid).then(user => {
@@ -40,6 +43,7 @@ class UserBets extends Component {
         }
     }
 
+    //Grabs the bets that the "user" has made based on unique UserID
     async getData() {
         if(this.state.currentUser) {
             await getBetItemsByUser(this.state.currentUser.uid)
@@ -55,6 +59,7 @@ class UserBets extends Component {
         }
     }
 
+    //Renders the "My Bets" page to display bets
     render() {
         if(!this.props.currentUser) return <Redirect to="/"/>
         return(
