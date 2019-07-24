@@ -64,7 +64,15 @@ class Listing extends Component {
     handleRefund = (e) => {
         e.preventDefault();
 
-        this.refundBet(this.state.payedThisSession);
+        this.getData().then(() => {
+            if(this.state.item.status === "waitForBet") {
+                this.refundBet(this.state.payedThisSession);
+            } else {
+                handleError({message: "Item not waiting for bets"});
+            }
+        })
+
+        
     }
 
     handleDelete = (e) => {
