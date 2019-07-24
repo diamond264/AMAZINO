@@ -16,6 +16,7 @@ class ProfileUpdateForm extends Component {
     handleProfileUpdate = (e) => {
         e.preventDefault();
 
+        // Update profile info with state information
         updateProfileInfo(this.state.uid, this.state.bio).then(() => {
             this.props.hideProfileUpdateForm();
             handleSuccess();

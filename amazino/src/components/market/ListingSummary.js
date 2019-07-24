@@ -41,6 +41,9 @@ class ListingSummary extends Component {
         this.getPercentPurchased();
     }
 
+    /**
+     * Get percent of total item already purchased
+     */
     async getPercentPurchased() {
         if(this.state.status === "SoldOut") {
             this.setState({
@@ -57,6 +60,9 @@ class ListingSummary extends Component {
         }
     }
 
+    /**
+     * Get user data of seller for displaying username
+     */
     async getUserData() {
         await getUserDataFromID(this.props.seller).then(user => {
             this.setState({
@@ -67,6 +73,9 @@ class ListingSummary extends Component {
         })
     }
 
+    /**
+     * Load image associated with this item's id from database
+     */
     async loadImage() {
         await getImageByID(this.props.id)
             .then(url => {

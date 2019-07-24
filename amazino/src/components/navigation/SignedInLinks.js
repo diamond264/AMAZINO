@@ -48,6 +48,7 @@ class SignedInLinks extends Component{
     }
 
     componentDidUpdate = () => {
+        // get number of notifications for current user
         if(this.props.currentUser) {
             getNumNewNotifications(this.props.currentUser.uid).then(numNewNotifs => {
                 this.setState({
@@ -59,6 +60,11 @@ class SignedInLinks extends Component{
         }
     }
 
+    /**
+     * Gets user data to be display in side navbar
+     * 
+     * @param {string} uid - User's user id 
+     */
     async getUserData(uid) {
         // get user data from database, update
         await getUserDataFromID(uid).then(user => {

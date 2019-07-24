@@ -43,6 +43,7 @@ class App extends Component {
     
     this.getData = this.getData.bind(this);
 
+    // auth state listener
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
         this.setState({
@@ -57,6 +58,11 @@ class App extends Component {
     })
   }
 
+  /**
+   * Update search query for the market
+   * 
+   * @param {string} str - Search query string
+   */
   updateSearch = (str) => {
     this.setState({
       search: str
@@ -73,10 +79,22 @@ class App extends Component {
     this.getData(this.state.search, filter, 1)
   }
 
+  /**
+   * Calls getData with pageNumber provided
+   * 
+   * @param {int} pageNumber
+   */
   updatePage = (pageNumber) => {
     this.getData("", this.state.filter, pageNumber);
   }
 
+  /**
+   * Gets item data from database, stores in state
+   * 
+   * @param {string} str - String to search for, empty if no query
+   * @param {Object} filter - Object containing categories to filter
+   * @param {int} page - Page of items to return
+   */
   async getData(str, filter, page) {
     var itemsPerPage = 20;
     await getAllItems(itemsPerPage, page, str, filter)

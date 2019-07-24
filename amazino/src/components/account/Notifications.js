@@ -19,6 +19,11 @@ class Notifications extends Component {
         }
     }
 
+    /**
+     * Get notifications for a user with given uid
+     * 
+     * @param {string} uid 
+     */
     async getNotifs(uid) {
         await getNotifications(uid).then(notifs => {
             this.setState({
