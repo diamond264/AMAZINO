@@ -14,7 +14,7 @@ class UserListings extends Component {
         super(props);
         this.state = {
             currentUser: this.props.currentUser,
-            user: null,
+            user: null
         }
     }
 
@@ -38,7 +38,7 @@ class UserListings extends Component {
 
     async getData() {
         if(this.state.currentUser) {
-            await getItemsBySeller(this.state.currentUser.uid, 20, 1)
+            await getItemsBySeller(this.state.currentUser.uid, 100, 1)
                 .then(items => {
                     if(items) {
                         this.setState({
