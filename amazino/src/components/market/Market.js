@@ -19,10 +19,6 @@ class Market extends Component {
         console.log("TEST IS AVAILABLE");
         this.props.getData("", this.props.filter, 1);
     }
-
-    updatePage = (pageNumber) => {
-        this.props.getData("", this.props.filter, pageNumber);
-    }
     
     render() {
         return(
@@ -44,7 +40,7 @@ class Market extends Component {
                         </div>
                         <div className="divider"></div>
                         <div className="section">
-                            <Listings maxPages={this.props.maxPages} data={this.props.data} updatePage={this.updatePage} />
+                            <Listings maxPages={this.props.maxPages} data={this.props.data} updatePage={this.props.updatePage} />
                         </div>
                     </div>
                 </div>

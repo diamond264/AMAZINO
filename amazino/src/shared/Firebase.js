@@ -544,16 +544,17 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
     console.log(duedate);
 
     var newItemKey = database.ref().child('items').push().key;
-    storage.ref().child('images/'+newItemKey).put(images).catch((err) => {
-      console.log(err);
-      return reject(err);
-    });
-    var updates = {};
-    updates['/items/'+newItemKey] = itemData;
+    storage.ref().child('images/'+newItemKey).put(images).then(() => {
+      var updates = {};
+      updates['/items/'+newItemKey] = itemData;
 
-    return database.ref().update(updates).then(() => {
-      return updateUserItems(uid, newItemKey).then(() => {
-        return resolve();
+      return database.ref().update(updates).then(() => {
+        return updateUserItems(uid, newItemKey).then(() => {
+          return resolve(newItemKey);
+        }).catch((err) => {
+          console.log(err);
+          return reject(err);
+        });
       }).catch((err) => {
         console.log(err);
         return reject(err);
@@ -562,6 +563,7 @@ export const uploadItem = async (uid, name, price, category, duedate, descriptio
       console.log(err);
       return reject(err);
     });
+    
   });
 };
 

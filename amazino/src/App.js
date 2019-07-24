@@ -73,6 +73,10 @@ class App extends Component {
     this.getData(this.state.search, filter, 1)
   }
 
+  updatePage = (pageNumber) => {
+    this.getData("", this.state.filter, pageNumber);
+  }
+
   async getData(str, filter, page) {
     var itemsPerPage = 20;
     await getAllItems(itemsPerPage, page, str, filter)
@@ -97,7 +101,7 @@ class App extends Component {
           {/*<Link to='/firebaseTest'>firebase</Link>*/}
           <Switch>
             <Route exact path='/' render={(props) => 
-              <Market {...props} {...this.state} getData={this.getData} updateFilter={this.updateFilter}/>}
+              <Market {...props} {...this.state} getData={this.getData} updatePage={this.updatePage} updateFilter={this.updateFilter}/>}
               />
             <Route path='/listing/:id'  render={(props) => <Listing {...props} {...this.state}/>} />
             <Route path='/user/:id' render={(props) => <Profile {...props} {...this.state} />} />

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect, Link} from 'react-router-dom';
 import M from 'materialize-css';
 
-import {uploadItem, isSignIn, getUserDataFromID} from '../../shared/Firebase';
+import {uploadItem, getUserDataFromID} from '../../shared/Firebase';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 import '../../App.css';
 
@@ -42,7 +42,7 @@ class CreateListing extends Component {
 
             await uploadItem(uid, this.state.title, this.state.price, this.state.category, 
                 dueDate, this.state.content, this.state.images)
-                .then(() => {
+                .then((itemID) => {
                     this.setState({
                         itemSubmitted: true
                     })
@@ -129,7 +129,7 @@ class CreateListing extends Component {
 
     render() {
 
-        if(!isSignIn()) return <Redirect to='/signin' />
+        if(!this.props.currentUser) return <Redirect to='/signin' />
         if(this.state.itemSubmitted) return <Redirect to='/' />
         return(
             <div className="container section">
