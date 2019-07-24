@@ -47,6 +47,18 @@ class SignedInLinks extends Component{
         }
     }
 
+    componentDidUpdate = () => {
+        if(this.props.currentUser) {
+            getNumNewNotifications(this.props.currentUser.uid).then(numNewNotifs => {
+                this.setState({
+                    numNewNotifs
+                });
+            }).catch(err => {
+                handleError(err);
+            });
+        }
+    }
+
     async getUserData(uid) {
         // get user data from database, update
         await getUserDataFromID(uid).then(user => {
