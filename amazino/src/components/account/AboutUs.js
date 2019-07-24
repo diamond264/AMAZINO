@@ -16,10 +16,10 @@ class AboutUs extends Component {
                             <h5>The Team Behind Amazino</h5>
                             <p>
                                 We are UCSC students who created this project for our Intro to Software Engineering
-                                Course. This idea stemmed from an idea that people want expensive items for cheap.
+                                Course. This project stemmed from an idea that people want expensive items for cheap.
                                 We decided to make this idea into a game of chance in which everybody is satisfied.
                                 Sellers can sell items just like any other e-commerce site but buyers can save money
-                                by.
+                                by gambling.
                             </p>
                         </div>
                         <div className="row">
