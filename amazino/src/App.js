@@ -78,7 +78,7 @@ class App extends Component {
     await getAllItems(itemsPerPage, page, str, filter)
         .then(items => {
             if(items) {  
-                numOfItems().then(num => {
+                numOfItems(str, filter).then(num => {
                   var maxPages = Math.ceil(num / itemsPerPage);
                   this.setState({
                     data: items,

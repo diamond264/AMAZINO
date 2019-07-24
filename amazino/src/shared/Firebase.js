@@ -923,10 +923,15 @@ export const getBetItemsByUser = (userID) => {
 
 /**
  * Get number of items visible in market
+ * 
+ * @param {string} search - Specified search query
+ * @param {Object} filter - Object containing state of filters
  */
-export const numOfItems = () => {
+export const numOfItems = (search, filter) => {
   return new Promise((resolve, reject) => {
     var returnItems = [];
+    var filterAll = true;
+    var filteredItems = [];
     return firebase.database().ref('items').once('value').then((itemVal) => {
       var items = itemVal.val();
       if(!items) return resolve(returnItems);
@@ -940,7 +945,23 @@ export const numOfItems = () => {
         return null;
       });
 
-      return resolve(returnItems.length);
+      returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
+      Object.keys(filter).map(key => {
+        if (filter[key]) filterAll = false;
+      });
+      Object.keys(returnItems).map(key => {
+        var ritem = returnItems[key];
+        var filterOne = filter[ritem.category] || filterAll;
+        if (search && ritem.name.toLowerCase().search(search.toLowerCase()) !== -1
+            && filterOne)
+          return filteredItems.push(ritem);
+        else if(!search && filterOne)
+          return filteredItems.push(ritem);
+        else
+          return null;
+      });
+
+      return resolve(filteredItems.length);
     }).catch((err) => {
       console.log(err);
       return reject(err);
