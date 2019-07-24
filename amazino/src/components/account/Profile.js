@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import {updateUserBalance, getUserDataFromID} from '../../shared/Firebase';
 import {handleError, handleSuccess} from '../../shared/ErrorHandling';
 
@@ -15,7 +16,8 @@ class Profile extends Component {
             displayName: null,
             balanceToAdd: 0,
             data: null,
-            editFormVisible: false
+            editFormVisible: false,
+            invalidUser: false
         }
         this.updateBalance = this.updateBalance.bind(this);
     }
@@ -32,7 +34,10 @@ class Profile extends Component {
                 displayName: user.displayName
             })
         }).catch(err => {
-            handleError(err);
+            this.setState({
+                invalidUser: true
+            })
+            handleError({message: "User not found"});
         });
 
         //       if(this.state.currentUser) {
@@ -146,27 +151,47 @@ class Profile extends Component {
             </div>
         ) : null
 
+        // display profile only if valid uid
+        var profileDisplay = !this.state.invalidUser ? (
+            <div className="card-content">
+                <div className="row">
+                    <div className="col s12 center">
+                        <h4>Profile</h4>
+                    </div>
+                </div>
+                <div className="divider"></div>
+                <div className="row">
+                    <div className="col s12">
+                        <h5>Username: {this.state.displayName}</h5>
+                    </div>
+                            
+                    {bio}
+                </div>
+                        
+                {loggedInInfo}
+
+            </div>
+        ) : (
+            <div className="card-content">
+                <div className="row">
+                    <div className="col s12 center">
+                        <h5>Oops! This is not a valid profile.</h5>
+                        <div className="section"></div>
+                    </div>
+                    <div className="col s12 divider"></div>
+                    <div className="col s12 center">
+                        <div className="section"></div>
+                        <Link to="/" className="btn green">Return to market</Link>
+                    </div>
+                </div>
+            </div>
+        )
+
+
         return(
             <div className="container section">
                 <div className="card z-depth-1">
-                    <div className="card-content">
-                        <div className="row">
-                            <div className="col s12 center">
-                                <h4>Profile</h4>
-                            </div>
-                        </div>
-                        <div className="divider"></div>
-                        <div className="row">
-                            <div className="col s12">
-                                <h5>Username: {this.state.displayName}</h5>
-                            </div>
-                            
-                            {bio}
-                        </div>
-                        
-                        {loggedInInfo}
-
-                    </div>
+                    {profileDisplay}
                 </div>
             </div>
         )

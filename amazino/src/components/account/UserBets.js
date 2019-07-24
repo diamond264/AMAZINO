@@ -72,7 +72,7 @@ class UserBets extends Component {
                             <div className="col s12 card z-depth-0">
                                 <div className="section"></div>
                                 <div className="card-content">
-                                    <Listings data={this.state.data}/>
+                                    <Listings data={this.props.data}/>
                                 </div>
                             </div>
                         </div>
