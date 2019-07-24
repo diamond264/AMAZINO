@@ -79,6 +79,7 @@ class Notifications extends Component {
                                 </div>
                             </NavLink>
                         )
+                        return null;
                     })
                 }
             </div>
@@ -96,6 +97,7 @@ class Notifications extends Component {
                             <h4 className="center">Notifications</h4>
                             <div className="divider"></div>
                                 
+                            {notifs}
                             {notifsArray}
 
                         </div>

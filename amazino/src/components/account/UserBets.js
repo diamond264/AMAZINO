@@ -5,9 +5,6 @@ import Listings from '../market/Listings';
 //import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
 import {
     getBetItemsByUser,
-    getItemsBySeller,
-    getItemsByStatus,
-    getUnSoldItems,
     getUserDataFromID,
     updateUserNotiBet
 } from "../../shared/Firebase";

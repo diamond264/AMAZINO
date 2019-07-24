@@ -595,6 +595,7 @@ export const getAllItems = (limit, pageNum, search, filter) => {
       returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
       Object.keys(filter).map(key => {
         if (filter[key]) filterAll = false;
+        return null;
       });
       Object.keys(returnItems).map(key => {
         var ritem = returnItems[key];
@@ -950,6 +951,7 @@ export const numOfItems = (search, filter) => {
       returnItems.sort((a, b) => new Date(b['postDate']) - new Date(a['postDate']));
       Object.keys(filter).map(key => {
         if (filter[key]) filterAll = false;
+        return null;
       });
       Object.keys(returnItems).map(key => {
         var ritem = returnItems[key];

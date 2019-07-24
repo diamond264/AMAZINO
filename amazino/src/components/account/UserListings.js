@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom';
 
 import Listings from '../market/Listings';
 //import {getAllItems, createBet, removeItem, doRaffle} from '../../shared/Firebase.js';
-import {getItemsBySeller, getItemsByStatus, getUnSoldItems, getUserDataFromID, updateUserNotiItem} from "../../shared/Firebase";
+import {getItemsBySeller, getUserDataFromID, updateUserNotiItem} from "../../shared/Firebase";
 
 //
 // Wrapper component for listings
